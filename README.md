@@ -78,13 +78,6 @@ npm install
 
 ---
 
-✅ This version has:  
-- **Shields.io badges** (repo size, stars, forks, license, issues).  
-- **Icons/emojis for each section**.  
-- **Tables** for tech stack and screenshots.  
-- A **Support section** with GitHub stars badge.  
-
-👉 Do you also want me to add a **Recent Donors API + MongoDB schema example** right inside the README (so future devs can easily understand)?
 
 
 
