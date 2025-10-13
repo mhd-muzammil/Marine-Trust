@@ -5,9 +5,11 @@ import Footer from "./components/Footer";
 import Body from "./Body";
 import About from "./pages/About";
 import Blog from "./pages/Blog";
+// import BlogP1 from "./pages/Blog-p1"
 import Contact from "./pages/Contact";
 import Donation from "./pages/Donate";
 import Project from "./pages/Project";
+
 
 export default function App() {
   return (
@@ -16,6 +18,7 @@ export default function App() {
         <Navbar />
         <div className="flex-1">
           <Routes>
+            {/* <Route path="/" element={<Body />} /> */}
             <Route path="/" element={<Body />} />
             <Route path="/about" element={<About />} />
             <Route path="/blog" element={<Blog />} />

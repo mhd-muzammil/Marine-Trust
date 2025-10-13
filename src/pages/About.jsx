@@ -4,34 +4,40 @@ import { FaLeaf, FaMicroscope, FaBookOpen, FaHandshake } from "react-icons/fa";
 import StoryBg from "../assets/UW-C BG.jpg";
 import ValuesCards from "../components/ValuesCards";
 import CTA from "../components/CTA";
+import WhoWeAreCarousel from "../components/WhoWeAre";
+import UnderwaterScene from "../components/UnderwaterScene";
 
 
 export default function About() {
-    return (
+  return (<>
+      <UnderwaterScene />
       <div>
         {/* Who We Are */}
         <section
-          className="relative h-[500px] flex items-center justify-center text-center text-white"
-          style={{
-            backgroundImage: `url(${StoryBg})`,
-            backgroundSize: "cover",
-            backgroundPosition: "center",
-          }}
-        >
-          <div className="absolute inset-0 bg-black/50"></div>
-          <div className="relative max-w-3xl px-6">
-            <h2 className="text-violet-400 text-4xl font-bold mb-4">
-              Who We Are
-            </h2>
-            <p className="text-lime-200 font-semibold ">
-              We are a collective of ocean advocates, scientists, and community
-              members working to conserve marine biodiversity. Our focus is on
-              protecting endangered species, restoring coral reefs and
-              mangroves, promoting sustainable practices, and empowering people
-              with education and awareness.
-            </p>
-          </div>
-        </section>
+        //   className="relative h-[500px] flex items-center justify-center text-center text-white"
+        //   style={{
+        //     backgroundImage: `url(${StoryBg})`,
+        //     backgroundSize: "cover",
+        //     backgroundPosition: "center",
+        //   }}
+        // >
+        //   <div className="absolute inset-0 bg-black/50"></div>
+        //   <div className="relative max-w-3xl px-6">
+        //     <h2 className="text-violet-400 text-4xl font-bold mb-4">
+        //       Who We Are
+        //     </h2>
+        //     <p className="text-lime-200 font-semibold ">
+        //       We are a collective of ocean advocates, scientists, and community
+        //       members working to conserve marine biodiversity. Our focus is on
+        //       protecting endangered species, restoring coral reefs and
+        //       mangroves, promoting sustainable practices, and empowering people
+        //       with education and awareness.
+        //     </p>
+        //   </div>
+        
+        
+        ><WhoWeAreCarousel/></section>
+        
 
         {/* Mission & Vision */}
         <section className="bg-lime-100 max-w-8xl mx-auto px-6 py-16 grid md:grid-cols-3 gap-10">
@@ -179,6 +185,7 @@ export default function About() {
 
         {/* Call to Action */}
         <CTA />
-      </div>
+    </div>
+    </>
     );
 }

@@ -1,6 +1,9 @@
 import React from "react";
+import { useState } from "react";
+import VolunteerList from "./VolunteerList";
 
 export default function CTA() {
+   const [showVolunteers, setShowVolunteers] = useState(false);
   return (
     <section
       id="get-involved"
@@ -17,20 +20,26 @@ export default function CTA() {
           Volunteer, donate or spread awareness — every action counts. Help us
           preserve oceans for future generations.
         </p>
-        <div className="mt-6 flex justify-center gap-4">
-          <a
-            href="/volunteer"
-            className="transform transition duration-200 hover:scale-110 btn btn-neutral"
+        <div>
+          <button
+            onClick={() => setShowVolunteers(true)}
+            className="px-6 py-3 bg-gradient-to-r from-[#00b4d8] to-[#58f946] rounded-lg text-neutral font-semibold shadow hover:scale-105 transition"
           >
-            Volunteer
-          </a>
-          <a
-            href="/donate"
-            className="transform transition duration-200 hover:scale-110 btn btn-accent"
-          >
-            Donate
-          </a>
+            See Our Volunteers
+          </button>
         </div>
+
+        <VolunteerList
+          open={showVolunteers}
+          onClose={() => setShowVolunteers(false)}
+        />
+
+        <a
+          href="/donate"
+          className="font-bold px-6 py-3 bg-gradient-to-r from-[#00b4d8] to-[#58f946] my-4 transform transition duration-200 hover:scale-110 btn btn-accent"
+        >
+          Donate
+        </a>
       </div>
     </section>
   );

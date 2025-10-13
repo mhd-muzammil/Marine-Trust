@@ -26,7 +26,7 @@ export default function Navbar() {
             <Link to="/about">About</Link>
           </li>
           <li>
-            <Link to="/blog">Blog</Link>
+            <Link to="/blog">Volunteer</Link>
           </li>
           <li>
             <Link to="/projects">Projects</Link>

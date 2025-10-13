@@ -76,15 +76,15 @@ app.post("/create-order", async (req, res) => {
       payment_capture: 1,
     };
 
-    console.log("Creating order with options:", options);
-    console.log("Using KEY_ID length:", KEY_ID.length);
+    // console.log("Creating order with options:", options);
+    // console.log("Using KEY_ID length:", KEY_ID.length);
 
     const order = await razorpay.orders.create(options);
-    console.log("Order created:", {
-      id: order.id,
-      amount: order.amount,
-      status: order.status,
-    });
+    // console.log("Order created:", {
+    //   id: order.id,
+    //   amount: order.amount,
+    //   status: order.status,
+    // });
     return res.json(order);
   } catch (err) {
     // improved error output

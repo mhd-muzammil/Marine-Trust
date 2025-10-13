@@ -246,8 +246,8 @@ export default function Contact() {
                         Reach Out — Dive In
                     </h1>
                     <p className="mt-3 text-sky-100 max-w-2xl mx-auto">
-                        We’re here to collaborate, answer questions, and get things done for
-                        the ocean. Send a message or find us on the map.
+                        We’re here to collaborate, answer questions, and get things done
+                        for the ocean. Send a message or find us on the map.
                     </p>
                 </div>
 
@@ -262,8 +262,8 @@ export default function Contact() {
                                     <h3 className="text-lg font-semibold text-sky-100">
                                         Our Location
                                     </h3>
-                                    <p className="text-sm text-sky-200/80">
-                                        Marine Biodiversity Trust — Chennai Office
+                                    <p className="text-lg text-sky-200/80">
+                                        81/5, Sixth Street, Shanthi Nagar, Chengalpattu - 603003, TamilNadu - India
                                     </p>
                                 </div>
                                 <div className="text-sm text-sky-200/80">
@@ -282,7 +282,7 @@ export default function Contact() {
                                     title="Marine Biodiversity Trust Location"
                                     className="w-full h-full border-0"
                                     loading="lazy"
-                                    src={`https://www.google.com/maps?q=13.0827,80.2707&z=13&output=embed`}
+                                    src={`https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3892.580558173247!2d80.00479207602058!3d12.675483921299342!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3a52fdc460b7e4cd%3A0x229159a581c1cb0d!2sSkiez%20Digital%20Marketing%20Agency!5e0!3m2!1sen!2sin!4v1759831118272!5m2!1sen!2sin`}
                                     allowFullScreen
                                 />
                             </div>

@@ -2,3 +2,25 @@
 @tailwind components;
 @tailwind utilities;
 
+@keyframes heartbeat {
+  0%, 100% {
+    transform: scale(1);
+  }
+  14% {
+    transform: scale(1.15);
+  }
+  28% {
+    transform: scale(0.95);
+  }
+  42% {
+    transform: scale(1.1);
+  }
+  70% {
+    transform: scale(0.98);
+  }
+}
+
+.hover\:animate-heartbeat:hover {
+  animation: heartbeat 1.2s ease-in-out infinite;
+}
+
