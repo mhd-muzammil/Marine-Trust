@@ -1,5 +1,6 @@
 import React from "react";
 import UnderwaterScene from "../components/UnderwaterScene";
+// import ThreeScene from "../3d/ThreeScene"
 import ObjectivesZigzag from "../components/ObjectivesZigzag";
 import Threats from "../components/Threats";
 import CTA from "../components/CTA";
@@ -9,6 +10,7 @@ export default function Home() {
     <>
       {/* 👇 full-page animated background */}
       <UnderwaterScene />
+      {/* <ThreeScene/> */}
 
       {/* 👇 page content (above background) */}
       <main className="relative z-10 text-white">

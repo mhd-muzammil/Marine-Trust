@@ -3,15 +3,10 @@ import React, { useRef, useEffect } from "react";
 
 /**
  * UnderwaterScene.jsx — 3D organic coral clusters + bubbles + fish + caustics
+ * Updated: loads public/assets/fish.glb and uses AnimationMixers when available.
  *
- * - Coral clusters are built procedurally from primitives and vertex-perturbed
- *   to give a natural, non-tent look.
- * - Coral clusters gently "breathe" and sway.
- * - Bubbles are Points, particles are dust, fish are sprites (cheap).
- * - Auto light / low-quality mode for small screens.
- *
- * Usage: drop into src/components and import <UnderwaterScene /> once.
- * Requirements: npm install three
+ * Drop into src/components and import <UnderwaterScene />.
+ * Requires `three` installed. For Draco-compressed GLBs, uncomment DRACOLoader setup.
  */
 
 export default function UnderwaterScene({
@@ -32,12 +27,12 @@ export default function UnderwaterScene({
     let bubbleGeo, bubbleMat, bubblePoints;
     let fishGroup, coralGroup, grassGroup, jellyGroup;
     let causticTexture;
+    let mixersToDispose = [];
 
     // pointer state
     let mouseX = 0,
       mouseY = 0;
 
-    // handlers declared once
     function onResize() {
       if (!camera || !renderer) return;
       const w = window.innerWidth;
@@ -142,7 +137,7 @@ export default function UnderwaterScene({
         }
       }
 
-      // light shaft
+      // light shafts
       const shaftMat = new THREE.MeshBasicMaterial({
         color: 0xcff2ff,
         transparent: true,
@@ -220,21 +215,15 @@ export default function UnderwaterScene({
       // ---------- CORAL (procedural organic clusters) ----------
       coralGroup = new THREE.Group();
 
-      // helper: merge geometries and perturb vertices
       const mergeAndPerturb = (geos, matColorHSL) => {
         const merged = THREE.BufferGeometryUtils
           ? THREE.BufferGeometryUtils.mergeBufferGeometries(geos, false)
           : (function fallbackMerge() {
-              // fallback naive merge if BufferGeometryUtils missing
-              const out = new THREE.BufferGeometry();
-              // just return first geometry to avoid runtime error — not ideal but safe
               return geos[0].clone();
             })();
 
-        // perturb vertices to look organic
         const posAttr = merged.getAttribute("position");
         const len = posAttr.count;
-        // per-vertex random seed (stable)
         for (let i = 0; i < len; i++) {
           const ix = i * 3;
           const rx = (Math.random() - 0.5) * 0.08;
@@ -257,21 +246,15 @@ export default function UnderwaterScene({
         return new THREE.Mesh(merged, mat);
       };
 
-      // If BufferGeometryUtils is available, load it for merging (three includes it in examples; but we may not have it)
-      // We'll try to use it — otherwise fallbackMerge above will use the first geometry.
       try {
-        // dynamic import of BufferGeometryUtils from three/examples (works in many setups)
-       // // eslint-disable-next-line no-unused-vars
         const { BufferGeometryUtils } = await import(
           "three/examples/jsm/utils/BufferGeometryUtils.js"
         );
-        // attach to THREE for merge usage above
         THREE.BufferGeometryUtils = BufferGeometryUtils;
       } catch (err) {
-        // not fatal; we will fallback to simpler behavior if unavailable
-          console.info("BufferGeometryUtils not available; using fallback merge.");
-          console.error(err);
-          
+        console.info(
+          "BufferGeometryUtils not available; using fallback merge."
+        );
       }
 
       for (let i = 0; i < C_COUNT; i++) {
@@ -279,10 +262,8 @@ export default function UnderwaterScene({
         const baseZ = -24 + Math.random() * 45;
         const baseY = -36 + Math.random() * 6;
 
-        // create multiple primitives for a cluster
         const pieces = [];
 
-        // central trunk (short cylinders stacked)
         const trunkSegments = 2 + Math.floor(Math.random() * 3);
         let trunkRadius = 0.6 + Math.random() * 1.2;
         for (let s = 0; s < trunkSegments; s++) {
@@ -302,7 +283,6 @@ export default function UnderwaterScene({
           pieces.push(cyl);
         }
 
-        // bulbous knobs (small spheres) for variety
         const knobCount = 1 + Math.floor(Math.random() * 3);
         for (let k = 0; k < knobCount; k++) {
           const r = 0.7 + Math.random() * 1.4;
@@ -315,7 +295,6 @@ export default function UnderwaterScene({
           pieces.push(sph);
         }
 
-        // branching thin cylinders
         const branchCount = 2 + Math.floor(Math.random() * 4);
         for (let b = 0; b < branchCount; b++) {
           const len = 0.9 + Math.random() * 2.2;
@@ -326,7 +305,6 @@ export default function UnderwaterScene({
             len,
             8
           );
-          // rotate branch to be angled
           const angle = Math.random() * Math.PI * 2;
           branch.translate(
             baseX + Math.cos(angle) * (0.6 + Math.random() * 1.4),
@@ -338,7 +316,6 @@ export default function UnderwaterScene({
           pieces.push(branch);
         }
 
-        // decorative rings/plates (torus or flat discs)
         const plateCount = 1 + Math.floor(Math.random() * 2);
         for (let p = 0; p < plateCount; p++) {
           const tor = new THREE.TorusGeometry(
@@ -356,11 +333,9 @@ export default function UnderwaterScene({
           pieces.push(tor);
         }
 
-        // merge and perturb pieces -> mesh
-        const hue = 0.02 + Math.random() * 0.12; // coral-ish hues
+        const hue = 0.02 + Math.random() * 0.12;
         const mesh = mergeAndPerturb(pieces, { h: hue, s: 0.6, l: 0.42 });
 
-        // give slight random rotation & scale and position
         mesh.position.set(0, 0, 0);
         mesh.rotation.y = Math.random() * Math.PI * 2;
         mesh.scale.setScalar(0.85 + Math.random() * 1.4);
@@ -428,41 +403,158 @@ export default function UnderwaterScene({
       }
       scene.add(jellyGroup);
 
-      // FISH — cheap sprites
+      // ------- FISH: load GLB school (replaces sprite-based school) -------
       fishGroup = new THREE.Group();
-      const textureLoader = new THREE.TextureLoader();
-      const fallbackFishSVG = encodeURIComponent(
-        `<svg xmlns='http://www.w3.org/2000/svg' width='140' height='56' viewBox='0 0 140 56'><defs><linearGradient id='g' x1='0' x2='1'><stop offset='0' stop-color='#ffd36b'/><stop offset='1' stop-color='#ff6b9a'/></linearGradient></defs><ellipse cx='70' cy='28' rx='40' ry='18' fill='url(#g)'/><polygon points='110,28 134,18 134,38' fill='#ff9a6b'/><circle cx='58' cy='22' r='3' fill='#111'/></svg>`
-      );
-      const fishTex = textureLoader.load(
-        `data:image/svg+xml;utf8,${fallbackFishSVG}`
-      );
-      fishTex.minFilter = THREE.LinearFilter;
-      const fishMat = new THREE.SpriteMaterial({
-        map: fishTex,
-        transparent: true,
-        depthWrite: false,
-      });
-
-      const fishes = [];
-      for (let i = 0; i < F_COUNT; i++) {
-        const sp = new THREE.Sprite(fishMat);
-        sp.scale.set(4 + Math.random() * 4, 2 + Math.random() * 1.5, 1);
-        sp.position.set(
-          (Math.random() - 0.5) * 220,
-          -6 + Math.random() * 40,
-          (Math.random() - 0.5) * 220
-        );
-        sp.userData = {
-          speed: 0.2 + Math.random() * 0.6,
-          dir: Math.random() > 0.5 ? 1 : -1,
-          offset: Math.random() * 10,
-        };
-        sp.scale.x = Math.abs(sp.scale.x);
-        fishGroup.add(sp);
-        fishes.push(sp);
-      }
       scene.add(fishGroup);
+
+      const fishMixers = [];
+
+      function cloneGltfSimple(gltf) {
+        return {
+          scene: gltf.scene.clone(true),
+          animations: gltf.animations ? gltf.animations.slice(0) : [],
+        };
+      }
+
+      try {
+        const { GLTFLoader } = await import(
+          "three/examples/jsm/loaders/GLTFLoader.js"
+        );
+        // If your GLB is Draco-compressed, uncomment and configure DRACOLoader:
+        // const { DRACOLoader } = await import('three/examples/jsm/loaders/DRACOLoader.js');
+        // const draco = new DRACOLoader(); draco.setDecoderPath('/draco/'); loader.setDRACOLoader(draco);
+
+        const loader = new GLTFLoader();
+        loader.load(
+          "/assets/fish.glb",
+          (gltf) => {
+            const animations = gltf.animations || [];
+            const spawnCount = Math.min(F_COUNT, 18); // safe cap
+
+            for (let i = 0; i < spawnCount; i++) {
+              const cloned = cloneGltfSimple(gltf);
+              const instance = cloned.scene;
+
+              instance.scale.setScalar(0.45 + Math.random() * 0.9);
+              instance.position.set(
+                (Math.random() - 0.5) * 220,
+                -6 + Math.random() * 40,
+                (Math.random() - 0.5) * 220
+              );
+
+              instance.userData = {
+                speed: 0.18 + Math.random() * 0.6,
+                dir: Math.random() > 0.5 ? 1 : -1,
+                offset: Math.random() * 10,
+              };
+
+              instance.traverse((n) => {
+                if (n.isMesh) {
+                  n.castShadow = true;
+                  n.receiveShadow = true;
+                  if (n.material && n.material.map)
+                    n.material.map.encoding = THREE.sRGBEncoding;
+                }
+              });
+
+              if (animations && animations.length > 0) {
+                const mixer = new THREE.AnimationMixer(instance);
+                const clip = animations[0];
+                try {
+                  mixer.clipAction(clip).play();
+                } catch (e) {}
+                fishMixers.push(mixer);
+              }
+
+              fishGroup.add(instance);
+            }
+
+            fishGroup.userData.mixers = fishMixers;
+            mixersToDispose.push(...fishMixers);
+            console.log(
+              "Loaded fish.glb — spawned",
+              fishGroup.children.length,
+              "instances"
+            );
+          },
+          undefined,
+          (err) => {
+            console.warn(
+              "fish.glb failed to load — falling back to sprites:",
+              err
+            );
+            // fallback sprite school (kept small)
+            const textureLoader = new THREE.TextureLoader();
+            const fallbackFishSVG = encodeURIComponent(
+              `<svg xmlns='http://www.w3.org/2000/svg' width='140' height='56' viewBox='0 0 140 56'><defs><linearGradient id='g' x1='0' x2='1'><stop offset='0' stop-color='#ffd36b'/><stop offset='1' stop-color='#ff6b9a'/></linearGradient></defs><ellipse cx='70' cy='28' rx='40' ry='18' fill='url(#g)'/><polygon points='110,28 134,18 134,38' fill='#ff9a6b'/><circle cx='58' cy='22' r='3' fill='#111'/></svg>`
+            );
+            const fishTex = textureLoader.load(
+              `data:image/svg+xml;utf8,${fallbackFishSVG}`
+            );
+            fishTex.minFilter = THREE.LinearFilter;
+            const fishMat = new THREE.SpriteMaterial({
+              map: fishTex,
+              transparent: true,
+              depthWrite: false,
+            });
+
+            const sprites = [];
+            for (let i = 0; i < F_COUNT; i++) {
+              const sp = new THREE.Sprite(fishMat);
+              sp.scale.set(4 + Math.random() * 4, 2 + Math.random() * 1.5, 1);
+              sp.position.set(
+                (Math.random() - 0.5) * 220,
+                -6 + Math.random() * 40,
+                (Math.random() - 0.5) * 220
+              );
+              sp.userData = {
+                speed: 0.2 + Math.random() * 0.6,
+                dir: Math.random() > 0.5 ? 1 : -1,
+                offset: Math.random() * 10,
+              };
+              sp.scale.x = Math.abs(sp.scale.x);
+              fishGroup.add(sp);
+              sprites.push(sp);
+            }
+            fishGroup.userData.fallbackSprites = sprites;
+          }
+        );
+      } catch (err) {
+        console.warn("GLTFLoader import failed — using sprite fallback", err);
+        // fallback sprite creation if dynamic import failed
+        const textureLoader = new THREE.TextureLoader();
+        const fallbackFishSVG = encodeURIComponent(
+          `<svg xmlns='http://www.w3.org/2000/svg' width='140' height='56' viewBox='0 0 140 56'><defs><linearGradient id='g' x1='0' x2='1'><stop offset='0' stop-color='#ffd36b'/><stop offset='1' stop-color='#ff6b9a'/></linearGradient></defs><ellipse cx='70' cy='28' rx='40' ry='18' fill='url(#g)'/><polygon points='110,28 134,18 134,38' fill='#ff9a6b'/><circle cx='58' cy='22' r='3' fill='#111'/></svg>`
+        );
+        const fishTex = textureLoader.load(
+          `data:image/svg+xml;utf8,${fallbackFishSVG}`
+        );
+        fishTex.minFilter = THREE.LinearFilter;
+        const fishMat = new THREE.SpriteMaterial({
+          map: fishTex,
+          transparent: true,
+          depthWrite: false,
+        });
+        const sprites = [];
+        for (let i = 0; i < F_COUNT; i++) {
+          const sp = new THREE.Sprite(fishMat);
+          sp.scale.set(4 + Math.random() * 4, 2 + Math.random() * 1.5, 1);
+          sp.position.set(
+            (Math.random() - 0.5) * 220,
+            -6 + Math.random() * 40,
+            (Math.random() - 0.5) * 220
+          );
+          sp.userData = {
+            speed: 0.2 + Math.random() * 0.6,
+            dir: Math.random() > 0.5 ? 1 : -1,
+            offset: Math.random() * 10,
+          };
+          sp.scale.x = Math.abs(sp.scale.x);
+          fishGroup.add(sp);
+          sprites.push(sp);
+        }
+        fishGroup.userData.fallbackSprites = sprites;
+      }
 
       // attach event listeners AFTER handlers defined
       window.addEventListener("resize", onResize);
@@ -512,32 +604,68 @@ export default function UnderwaterScene({
           j.rotation.y += 0.002 * (idx % 2 ? 1 : -1);
         });
 
-        // coral "breathe" and sway (animated vertex-level or object-level)
+        // coral "breathe" and sway
         coralGroup.children.forEach((c, idx) => {
-          // gentle bob + small rotation
           const ud = c.userData;
           const bob = Math.sin(t * 0.6 + ud.bobOffset) * (0.08 + ud.sway * 0.6);
           c.position.y = ud.baseY + bob;
           c.rotation.y += Math.sin(t * 0.15 + idx) * 0.0008;
-          // subtle scale pulsing
           const s = 1 + Math.sin(t * 0.6 + ud.bobOffset) * 0.007;
-          c.scale.setScalar(c.scale.x * (1 + (s - 1) * 0.06)); // very slight
+          c.scale.setScalar(c.scale.x * (1 + (s - 1) * 0.06));
         });
 
-        // fish swim + flip
-        fishes.forEach((sp, i) => {
-          const d = sp.userData;
-          sp.position.x += d.dir * d.speed;
-          sp.position.y += Math.sin(t * (0.4 + d.offset * 0.03)) * 0.02;
-          if (sp.position.x > 140) sp.position.x = -140;
-          if (sp.position.x < -140) sp.position.x = 140;
-          // flip visually by negating scale.x
-          const baseScaleX = Math.abs(sp.scale.x) || 4;
-          sp.scale.x =
-            d.dir === 1 ? Math.abs(baseScaleX) : -Math.abs(baseScaleX);
-          sp.material.rotation =
-            (d.dir === 1 ? 0 : Math.PI) + 0.03 * Math.sin(t * 2 + i);
-        });
+        // fish: GLB instances or sprite fallback
+        if (fishGroup) {
+          const children = fishGroup.children;
+
+          // GLB instances (object3D clones)
+          if (children.length && !fishGroup.userData.fallbackSprites) {
+            for (let i = 0; i < children.length; i++) {
+              const inst = children[i];
+              const ud = inst.userData || {};
+              inst.position.x += (ud.dir || 1) * (ud.speed || 0.25);
+              inst.position.y +=
+                Math.sin(t * (0.4 + (ud.offset || 0) * 0.03)) * 0.02;
+              if (inst.position.x > 140) inst.position.x = -140;
+              if (inst.position.x < -140) inst.position.x = 140;
+              // simple orientation (tweak if model faces a different axis)
+              inst.rotation.y =
+                (ud.dir === 1 ? 0 : Math.PI) + Math.sin(t * 2 + i) * 0.03;
+            }
+          }
+
+          // sprite fallback
+          const sprites = fishGroup.userData.fallbackSprites;
+          if (sprites && sprites.length) {
+            sprites.forEach((sp, i) => {
+              const d = sp.userData;
+              sp.position.x += d.dir * d.speed;
+              sp.position.y += Math.sin(t * (0.4 + d.offset * 0.03)) * 0.02;
+              if (sp.position.x > 140) sp.position.x = -140;
+              if (sp.position.x < -140) sp.position.x = 140;
+              const baseScaleX = Math.abs(sp.scale.x) || 4;
+              sp.scale.x =
+                d.dir === 1 ? Math.abs(baseScaleX) : -Math.abs(baseScaleX);
+              sp.material.rotation =
+                (d.dir === 1 ? 0 : Math.PI) + 0.03 * Math.sin(t * 2 + i);
+            });
+          }
+
+          // advance mixers (if any)
+          if (
+            fishGroup.userData &&
+            fishGroup.userData.mixers &&
+            fishGroup.userData.mixers.length
+          ) {
+            const mixArr = fishGroup.userData.mixers;
+            const dt = Math.min(
+              0.06,
+              (time - (fishGroup.userData._lastMixTime || time)) * 0.001
+            );
+            for (let m of mixArr) if (m) m.update(dt);
+            fishGroup.userData._lastMixTime = time;
+          }
+        }
 
         // grass sway
         grassGroup.children.forEach((g, idx) => {
@@ -571,14 +699,84 @@ export default function UnderwaterScene({
         if (mount && mount.__uwCleanup) mount.__uwCleanup();
         if (mount && mount.firstChild) mount.removeChild(mount.firstChild);
       } catch (err) {
-          console.error(err);
-          
+        console.error(err);
       }
+
+      // dispose Three.js resources
       try {
-        if (renderer) renderer.dispose();
+        // stop and uncache mixers
+        try {
+          if (mixersToDispose && mixersToDispose.length) {
+            mixersToDispose.forEach((m) => {
+              try {
+                m.stopAllAction && m.stopAllAction();
+                // best-effort uncache
+                if (m.uncacheRoot && typeof m.getRoot === "function") {
+                  try {
+                    m.uncacheRoot(m.getRoot());
+                  } catch (e) {}
+                }
+              } catch (ee) {}
+            });
+          }
+          if (fishGroup && fishGroup.userData && fishGroup.userData.mixers) {
+            fishGroup.userData.mixers = null;
+          }
+        } catch (e) {}
+
+        // dispose scene textures, geometries, materials
+        if (scene) {
+          scene.traverse((obj) => {
+            try {
+              if (obj.isMesh) {
+                if (obj.geometry) {
+                  obj.geometry.dispose && obj.geometry.dispose();
+                }
+                if (obj.material) {
+                  const mat = obj.material;
+                  // handle Array material
+                  if (Array.isArray(mat)) {
+                    mat.forEach((m) => {
+                      if (m.map) m.map.dispose && m.map.dispose();
+                      m.dispose && m.dispose();
+                    });
+                  } else {
+                    if (mat.map) mat.map.dispose && mat.map.dispose();
+                    mat.dispose && mat.dispose();
+                  }
+                }
+              } else if (obj.isPoints) {
+                if (obj.geometry)
+                  obj.geometry.dispose && obj.geometry.dispose();
+                if (obj.material)
+                  obj.material.dispose && obj.material.dispose();
+              }
+              // dispose textures on objects
+              if (obj.material && obj.material.map) {
+                try {
+                  obj.material.map.dispose && obj.material.map.dispose();
+                } catch {}
+              }
+            } catch (ee) {}
+          });
+        }
+
+        // dispose caustic canvas texture
+        try {
+          causticTexture && causticTexture.dispose && causticTexture.dispose();
+        } catch (e) {}
+
+        // finally dispose renderer
+        try {
+          if (renderer) {
+            renderer.forceContextLoss && renderer.forceContextLoss();
+            renderer.dispose && renderer.dispose();
+          }
+        } catch (e) {
+          console.warn("Renderer dispose error", e);
+        }
       } catch (err) {
-          console.error(err);
-          
+        console.error("Error during cleanup:", err);
       }
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
