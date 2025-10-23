@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
-import BASE_URL from '../utils/contants';
+import { BASE_URL } from '../utils/contants';
 import axios from 'axios';
 
-export default function useVolunteers(open) {
+export default function useGetVolunteers(open) {
   const [volunteers, setVolunteers] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
