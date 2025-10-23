@@ -1,100 +1,95 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState } from 'react';
+import useVolunteers from '../hooks/useGetVolunteers';
 
 export default function VolunteerList({ open, onClose }) {
-  const [volunteers, setVolunteers] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const { volunteers, loading, error } = useVolunteers(open);
 
   // mock volunteer data
-  const MOCK_VOLUNTEERS = [
-    {
-      name: "Ananya R",
-      role: "Field Coordinator",
-      location: "Goa",
-      joined: "2 days ago",
-    },
-    {
-      name: "Rahul K",
-      role: "Beach Cleanup Lead",
-      location: "Kerala",
-      joined: "5 days ago",
-    },
-    {
-      name: "Sneha V",
-      role: "Community Educator",
-      location: "Lakshadweep",
-      joined: "1 week ago",
-    },
-    {
-      name: "Amit S",
-      role: "Data Analyst",
-      location: "Mumbai",
-      joined: "2 weeks ago",
-    },
-    {
-      name: "Nisha L",
-      role: "Marine Biologist",
-      location: "Chennai",
-      joined: "3 weeks ago",
-    },
-    {
-      name: "Karthik G",
-      role: "Volunteer Trainer",
-      location: "Goa",
-      joined: "1 month ago",
-    },
-    {
-      name: "Divya M",
-      role: "Waste Management Advisor",
-      location: "Pondicherry",
-      joined: "1 month ago",
-    },
-    {
-      name: "Arjun P",
-      role: "Reef Restoration Assistant",
-      location: "Lakshadweep",
-      joined: "2 months ago",
-    },
-    {
-      name: "Meera J",
-      role: "Coral Nursery Support",
-      location: "Andaman",
-      joined: "2 months ago",
-    },
-    {
-      name: "Ravi T",
-      role: "Public Awareness Manager",
-      location: "Chennai",
-      joined: "3 months ago",
-    },
-    {
-      name: "Leena C",
-      role: "Photographer",
-      location: "Goa",
-      joined: "3 months ago",
-    },
-    {
-      name: "Prakash B",
-      role: "Community Liaison",
-      location: "Kerala",
-      joined: "4 months ago",
-    },
-    {
-      name: "Harini D",
-      role: "Marine Science Intern",
-      location: "Mumbai",
-      joined: "4 months ago",
-    },
-  ];
+  // const MOCK_VOLUNTEERS = [
+  //   {
+  //     name: 'Ananya R',
+  //     role: 'Field Coordinator',
+  //     location: 'Goa',
+  //     joined: '2 days ago',
+  //   },
+  //   {
+  //     name: 'Rahul K',
+  //     role: 'Beach Cleanup Lead',
+  //     location: 'Kerala',
+  //     joined: '5 days ago',
+  //   },
+  //   {
+  //     name: 'Sneha V',
+  //     role: 'Community Educator',
+  //     location: 'Lakshadweep',
+  //     joined: '1 week ago',
+  //   },
+  //   {
+  //     name: 'Amit S',
+  //     role: 'Data Analyst',
+  //     location: 'Mumbai',
+  //     joined: '2 weeks ago',
+  //   },
+  //   {
+  //     name: 'Nisha L',
+  //     role: 'Marine Biologist',
+  //     location: 'Chennai',
+  //     joined: '3 weeks ago',
+  //   },
+  //   {
+  //     name: 'Karthik G',
+  //     role: 'Volunteer Trainer',
+  //     location: 'Goa',
+  //     joined: '1 month ago',
+  //   },
+  //   {
+  //     name: 'Divya M',
+  //     role: 'Waste Management Advisor',
+  //     location: 'Pondicherry',
+  //     joined: '1 month ago',
+  //   },
+  //   {
+  //     name: 'Arjun P',
+  //     role: 'Reef Restoration Assistant',
+  //     location: 'Lakshadweep',
+  //     joined: '2 months ago',
+  //   },
+  //   {
+  //     name: 'Meera J',
+  //     role: 'Coral Nursery Support',
+  //     location: 'Andaman',
+  //     joined: '2 months ago',
+  //   },
+  //   {
+  //     name: 'Ravi T',
+  //     role: 'Public Awareness Manager',
+  //     location: 'Chennai',
+  //     joined: '3 months ago',
+  //   },
+  //   {
+  //     name: 'Leena C',
+  //     role: 'Photographer',
+  //     location: 'Goa',
+  //     joined: '3 months ago',
+  //   },
+  //   {
+  //     name: 'Prakash B',
+  //     role: 'Community Liaison',
+  //     location: 'Kerala',
+  //     joined: '4 months ago',
+  //   },
+  //   {
+  //     name: 'Harini D',
+  //     role: 'Marine Science Intern',
+  //     location: 'Mumbai',
+  //     joined: '4 months ago',
+  //   },
+  // ];
 
-  useEffect(() => {
-    if (!open) return;
-    setLoading(true);
-    // simulate API
-    setTimeout(() => {
-      setVolunteers(MOCK_VOLUNTEERS);
-      setLoading(false);
-    }, 800);
-  }, [open]);
+  // useEffect(() => {
+  //   if (!open) return;
+  //   setLoading(true), setError(null);
+  // }, [open]);
 
   if (!open) return null;
 
@@ -130,10 +125,10 @@ export default function VolunteerList({ open, onClose }) {
                   <div className="flex items-center gap-3">
                     <div className="w-10 h-10 bg-gradient-to-r from-[#00b4d8] to-[#0077b6] text-white flex items-center justify-center rounded-full font-semibold">
                       {v.name
-                        .split(" ")
+                        .split(' ')
                         .map((s) => s[0])
                         .slice(0, 2)
-                        .join("")}
+                        .join('')}
                     </div>
                     <div>
                       <h4 className="font-semibold">{v.name}</h4>
