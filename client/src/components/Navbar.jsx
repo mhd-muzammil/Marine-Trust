@@ -1,8 +1,8 @@
-import React from "react";
-import { Link } from "react-router-dom";
-import Logo from "../assets/logo.jfif"; // optional: if you have logo in src/assets; else use <span> emoji
+import React from 'react';
+import { Link } from 'react-router-dom';
+import Logo from '../assets/logo.jfif'; // optional: if you have logo in src/assets; else use <span> emoji
 
-export default function Navbar() {
+export default function Navbar({ visitorCount }) {
   return (
     <div className="navbar bg-sky-600 text-white px-6 shadow-md">
       <div className="flex-1 flex items-center gap-3">
@@ -15,6 +15,9 @@ export default function Navbar() {
         >
           Marine Biodiversity
         </Link>
+      </div>
+      <div>
+        <p>Live Visitors: {visitorCount}</p>
       </div>
 
       <div className="flex-none">
@@ -35,7 +38,10 @@ export default function Navbar() {
             <Link to="/contact">Contact</Link>
           </li>
         </ul>
-        <a href="/donate"  className="transform transition duration-200 hover:scale-110 btn btn-accent ml-3">
+        <a
+          href="/donate"
+          className="transform transition duration-200 hover:scale-110 btn btn-accent ml-3"
+        >
           Donate
         </a>
       </div>

@@ -6,9 +6,12 @@ require('dotenv').config({ path: path.resolve(__dirname, '../.env') }); // MUST 
 const express = require('express');
 const app = express();
 const http = require('http');
+const { Server } = require('socket.io');
 const connectDB = require('../config/database');
 const volunteerRouter = require('../routes/volunteer');
+const visiterCountRouter = require('../routes/visitorCount');
 const { axios } = require('axios');
+const { InitializeSocket } = require('../utils/socket');
 
 app.use(
   cors({
@@ -21,7 +24,10 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 const server = http.createServer(app);
+InitializeSocket(server);
+
 app.use('/api', volunteerRouter);
+app.use('/api', visiterCountRouter);
 
 app.get('/', (req, res) => res.send('OK'));
 connectDB()
@@ -29,6 +35,9 @@ connectDB()
     console.log('Db connection successful');
     server.listen(process.env.PORT, () => {
       console.log('Server listening on port ' + process.env.PORT);
+      console.log(
+        `WebSocket server also running on ws://localhost:${process.env.PORT}`
+      );
     });
   })
   .catch((err) => {

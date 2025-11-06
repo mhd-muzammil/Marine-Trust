@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 
 export default function Footer() {
   return (
@@ -8,6 +8,7 @@ export default function Footer() {
           © {new Date().getFullYear()} Marine Biodiversity Trust — All rights
           reserved
         </div>
+
         <div className="flex gap-3">
           <a href="#" aria-label="twitter">
             🐦
