@@ -1,6 +1,6 @@
 // src/components/JoinVolunteerForm.jsx
-import React, { useEffect, useRef, useState } from "react";
-import axios from "axios";
+import React, { useEffect, useRef, useState } from 'react';
+import axios from 'axios';
 import {
   FaTimes,
   FaUser,
@@ -9,7 +9,7 @@ import {
   FaHandsHelping,
   FaClock,
   FaPhone,
-} from "react-icons/fa";
+} from 'react-icons/fa';
 
 /**
  * JoinVolunteerForm (wired to backend OTP flow)
@@ -22,7 +22,7 @@ import {
  *
  * Backend endpoints used:
  *  POST {apiBase}/send-otp       { email }
- *  POST {apiBase}/register       { name, email, phone, location, role, availability, interests..., otp }
+ *  POST {apiBase}/register       { fullName, email, phone, location, role, availability, interests..., otp }
  *
  * Install: npm install axios
  */
@@ -31,16 +31,15 @@ export default function JoinVolunteerForm({
   open,
   onClose,
   onSubmit,
-  // apiBase = process.env.REACT_APP_API_BASE ||
-    // "http://localhost:5000/api/volunteer",
+  apiBase = 'http://localhost:5000/api',
 }) {
   const [form, setForm] = useState({
-    name: "",
-    email: "",
-    phone: "",
-    location: "",
-    role: "",
-    availability: "",
+    fullName: '',
+    emailId: '',
+    phone: '',
+    location: '',
+    role: '',
+    availability: '',
     interestsCleanup: true,
     interestsRestoration: false,
     interestsEducation: false,
@@ -48,10 +47,7 @@ export default function JoinVolunteerForm({
   const [errors, setErrors] = useState({});
   const [busy, setBusy] = useState(false); // generic loader state
   const [done, setDone] = useState(false);
-  const [otpSent, setOtpSent] = useState(false);
-  const [otp, setOtp] = useState("");
-  const [otpCooldown, setOtpCooldown] = useState(0);
-  const [serverMsg, setServerMsg] = useState("");
+  const [serverMsg, setServerMsg] = useState('');
   const modalRef = useRef(null);
   const buttonRef = useRef(null);
   const confettiLayerRef = useRef(null);
@@ -61,28 +57,19 @@ export default function JoinVolunteerForm({
     else {
       // focus first input when opened
       setTimeout(() => {
-        modalRef.current?.querySelector("input, select, button")?.focus();
+        modalRef.current?.querySelector('input, select, button')?.focus();
       }, 80);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [open]);
-
-  useEffect(() => {
-    let timer;
-    if (otpCooldown > 0) {
-      timer = setTimeout(() => setOtpCooldown((s) => s - 1), 1000);
-    }
-    return () => clearTimeout(timer);
-  }, [otpCooldown]);
 
   function reset() {
     setForm({
-      name: "",
-      email: "",
-      phone: "",
-      location: "",
-      role: "",
-      availability: "",
+      fullName: '',
+      emailId: '',
+      phone: '',
+      location: '',
+      role: '',
+      availability: '',
       interestsCleanup: true,
       interestsRestoration: false,
       interestsEducation: false,
@@ -90,26 +77,23 @@ export default function JoinVolunteerForm({
     setErrors({});
     setBusy(false);
     setDone(false);
-    setOtp("");
-    setOtpSent(false);
-    setServerMsg("");
-    setOtpCooldown(0);
+    setServerMsg('');
   }
 
   const validate = () => {
     const e = {};
-    if (!form.name.trim()) e.name = "Please enter your full name";
-    if (!form.email.trim() || !/^\S+@\S+\.\S+$/.test(form.email))
-      e.email = "Please enter a valid email";
+    if (!form.fullName.trim()) e.name = 'Please enter your fullName';
+    if (!form.emailId.trim() || !/^\S+@\S+\.\S+$/.test(form.emailId))
+      e.emailId = 'Please enter a valid email';
     if (form.phone && !/^[\d +()-]{7,20}$/.test(form.phone))
-      e.phone = "Phone looks invalid";
-    if (!form.role) e.role = "Please select a volunteer role";
+      e.phone = 'Phone looks invalid';
+    // if (!form.role) e.role = 'Please select a volunteer role';
     return e;
   };
 
   const handleChange = (ev) => {
     const { name, value, type, checked } = ev.target;
-    if (type === "checkbox") setForm((s) => ({ ...s, [name]: checked }));
+    if (type === 'checkbox') setForm((s) => ({ ...s, [name]: checked }));
     else setForm((s) => ({ ...s, [name]: value }));
   };
 
@@ -118,145 +102,79 @@ export default function JoinVolunteerForm({
     const container = confettiLayerRef.current;
     if (!container) return;
     for (let i = 0; i < count; i++) {
-      const el = document.createElement("span");
-      el.className = "cv-piece";
+      const el = document.createElement('span');
+      el.className = 'cv-piece';
       const size = 6 + Math.round(Math.random() * 14);
       el.style.width = `${size}px`;
       el.style.height = `${Math.round(size * 0.6)}px`;
       el.style.left = `${x - size / 2}px`;
       el.style.top = `${y - size / 2}px`;
       const palette = [
-        "#00b4d8",
-        "#0077b6",
-        "#90e0ef",
-        "#ffd166",
-        "#06d6a0",
-        "#ff6b6b",
+        '#00b4d8',
+        '#0077b6',
+        '#90e0ef',
+        '#ffd166',
+        '#06d6a0',
+        '#ff6b6b',
       ];
       el.style.background = palette[Math.floor(Math.random() * palette.length)];
       el.style.setProperty(
-        "--dx",
+        '--dx',
         `${Math.round((Math.random() - 0.5) * 700)}px`
       );
       el.style.setProperty(
-        "--dy",
+        '--dy',
         `${-(200 + Math.round(Math.random() * 700))}px`
       );
-      el.style.setProperty("--rot", `${Math.round(Math.random() * 720)}deg`);
+      el.style.setProperty('--rot', `${Math.round(Math.random() * 720)}deg`);
       container.appendChild(el);
-      el.addEventListener("animationend", () => el.remove(), { once: true });
+      el.addEventListener('animationend', () => el.remove(), { once: true });
     }
   }
-
-  // 1) Send OTP to email
-  const sendOtp = async () => {
-    setErrors({});
-    const e = {};
-    if (!form.email || !/^\S+@\S+\.\S+$/.test(form.email)) {
-      e.email = "Please provide a valid email to receive OTP";
-      setErrors(e);
-      return;
-    }
-    setBusy(true);
-    setServerMsg("");
+  //new Handle submit
+  const handleSubmit = async () => {
     try {
-      const res = await axios.post(`${apiBase}/send-otp`, {
-        email: form.email,
-      });
-      if (res.data?.success) {
-        setOtpSent(true);
-        setOtpCooldown(60); // 60s cooldown for resend
-        setServerMsg("OTP sent to your email. Check spam if you don't see it.");
-      } else {
-        setServerMsg(res.data?.message || "Failed to send OTP");
+      const validation = validate();
+      if (Object.keys(validation).length > 0) {
+        setErrors(validation);
+        return;
       }
-    } catch (err) {
-      console.error(err);
-      setServerMsg(err?.response?.data?.message || "Error sending OTP");
-    } finally {
-      setBusy(false);
-    }
-  };
-
-  // 2) Verify OTP and register volunteer
-  const verifyAndRegister = async () => {
-    const errs = validate();
-    if (Object.keys(errs).length) {
-      setErrors(errs);
-      return;
-    }
-    if (!otp || !/^\d{4,6}$/.test(otp)) {
-      setErrors((s) => ({
-        ...s,
-        submit: "Please enter the OTP sent to your email",
-      }));
-      return;
-    }
-    setBusy(true);
-    setServerMsg("");
-    try {
-      const payload = {
-        name: form.name,
-        email: form.email,
-        phone: form.phone,
-        address: form.location,
-        role: form.role,
-        availability: form.availability,
-        interestsCleanup: !!form.interestsCleanup,
-        interestsRestoration: !!form.interestsRestoration,
-        interestsEducation: !!form.interestsEducation,
-        otp,
-      };
-      const res = await axios.post(`${apiBase}/register`, payload);
-      if (res.data?.success) {
-        // visual success
+      const { fullName, emailId, phone, availability, location } = form;
+      setBusy(true);
+      const response = await axios.post(
+        apiBase + '/volunteer',
+        {
+          fullName,
+          emailId,
+          phone,
+          availability,
+          location,
+        },
+        {
+          withCredentials: true,
+        }
+      );
+      if (response.data) {
+        setDone(true);
         const btn = buttonRef.current;
-        let cx = window.innerWidth / 2;
-        let cy = window.innerHeight / 2;
         if (btn) {
           const rect = btn.getBoundingClientRect();
-          cx = rect.left + rect.width / 2;
-          cy = rect.top + rect.height / 2;
+          spawnConfettiAt(
+            rect.left + rect.width / 2,
+            rect.top + rect.height / 2
+          );
         }
-        // small delay for UX
-        await new Promise((r) => setTimeout(r, 250));
-        spawnConfettiAt(cx, cy, 36);
-        setDone(true);
-        setServerMsg(res.data.message || "Registered successfully");
-
-        // call parent's onSubmit with server response (if any)
-        try {
-          onSubmit?.(res.data); // res.data could include saved volunteer
-        } catch (err) {
-          console.warn("onSubmit handler threw:", err);
+        if (onSubmit) {
+          onSubmit(response.data);
         }
-
-        setTimeout(() => {
-          setDone(false);
-          onClose?.();
-          reset();
-        }, 1400);
-      } else {
-        setErrors((s) => ({
-          ...s,
-          submit: res.data?.message || "Verification failed",
-        }));
       }
     } catch (err) {
-      console.error(err);
-      setErrors((s) => ({
-        ...s,
-        submit: err?.response?.data?.message || "Verification error",
-      }));
+      setErrors({
+        Error: err?.response?.data?.message || 'An unexpected Error occured',
+      });
     } finally {
       setBusy(false);
     }
-  };
-
-  // If user wants to resend OTP
-  const resendOtp = async () => {
-    if (otpCooldown > 0) return;
-    await sendOtp();
   };
 
   if (!open) return null;
@@ -367,25 +285,25 @@ export default function JoinVolunteerForm({
                   className="space-y-4"
                   noValidate
                 >
-                  {/* name + email */}
+                  {/* fullName + email */}
                   <div className="grid md:grid-cols-2 gap-3">
                     <label className="relative">
                       <FaUser className="absolute left-3 top-1/2 -translate-y-1/2 text-white/70" />
                       <input
-                        name="name"
-                        value={form.name}
+                        name="fullName"
+                        value={form.fullName}
                         onChange={handleChange}
-                        placeholder="Full name"
+                        placeholder="Jhon Doe"
                         className={`w-full pl-10 pr-3 py-2 rounded-lg bg-white/5 text-white placeholder:text-white/60 focus:outline-none ${
-                          errors.name
-                            ? "ring-2 ring-rose-400"
-                            : "ring-1 ring-white/10"
+                          errors.fullName
+                            ? 'ring-2 ring-rose-400'
+                            : 'ring-1 ring-white/10'
                         }`}
                         required
                       />
-                      {errors.name && (
+                      {errors.fullName && (
                         <div className="text-rose-300 text-xs mt-1">
-                          {errors.name}
+                          {errors.fullName}
                         </div>
                       )}
                     </label>
@@ -393,21 +311,21 @@ export default function JoinVolunteerForm({
                     <label className="relative">
                       <FaEnvelope className="absolute left-3 top-1/2 -translate-y-1/2 text-white/70" />
                       <input
-                        name="email"
+                        name="emailId"
                         type="email"
-                        value={form.email}
+                        value={form.emailId}
                         onChange={handleChange}
                         placeholder="Email"
                         className={`w-full pl-10 pr-3 py-2 rounded-lg bg-white/5 text-white placeholder:text-white/60 focus:outline-none ${
-                          errors.email
-                            ? "ring-2 ring-rose-400"
-                            : "ring-1 ring-white/10"
+                          errors.emailId
+                            ? 'ring-2 ring-rose-400'
+                            : 'ring-1 ring-white/10'
                         }`}
                         required
                       />
-                      {errors.email && (
+                      {errors.emailId && (
                         <div className="text-rose-300 text-xs mt-1">
-                          {errors.email}
+                          {errors.emailId}
                         </div>
                       )}
                     </label>
@@ -452,8 +370,8 @@ export default function JoinVolunteerForm({
                         onChange={handleChange}
                         className={`w-full py-2 px-3 rounded-lg bg-white/5 text-white placeholder:text-white/60 focus:outline-none ${
                           errors.role
-                            ? "ring-2 ring-rose-400"
-                            : "ring-1 ring-white/10"
+                            ? 'ring-2 ring-rose-400'
+                            : 'ring-1 ring-white/10'
                         }`}
                         required
                       >
@@ -490,7 +408,7 @@ export default function JoinVolunteerForm({
                         checked={form.interestsCleanup}
                         onChange={handleChange}
                         className="accent-[#00b4d8] w-4 h-4"
-                      />{" "}
+                      />{' '}
                       Beach cleanup
                     </label>
                     <label className="inline-flex items-center gap-2 text-white/90">
@@ -500,7 +418,7 @@ export default function JoinVolunteerForm({
                         checked={form.interestsRestoration}
                         onChange={handleChange}
                         className="accent-[#00b4d8] w-4 h-4"
-                      />{" "}
+                      />{' '}
                       Reef restoration
                     </label>
                     <label className="inline-flex items-center gap-2 text-white/90">
@@ -510,94 +428,30 @@ export default function JoinVolunteerForm({
                         checked={form.interestsEducation}
                         onChange={handleChange}
                         className="accent-[#00b4d8] w-4 h-4"
-                      />{" "}
+                      />{' '}
                       Community education
                     </label>
                   </div>
 
-                  {/* OTP area */}
+                  {/* Submit */}
                   <div className="mt-2">
-                    {!otpSent ? (
-                      <button
-                        ref={buttonRef}
-                        onClick={sendOtp}
-                        disabled={busy}
-                        className={`relative w-full py-2 rounded-lg text-white font-semibold transition-transform transform ${
-                          busy
-                            ? "scale-95 opacity-90 pointer-events-none"
-                            : "hover:scale-[1.02]"
-                        } bg-gradient-to-r from-[#00b4d8] to-[#0077b6] flex items-center justify-center gap-3`}
-                        aria-live="polite"
-                        aria-busy={busy}
-                      >
-                        {busy && <span className="spinner" aria-hidden />}
-                        <span className="btn-text">
-                          {busy ? "Sending..." : "Send OTP"}
-                        </span>
-                      </button>
-                    ) : (
-                      <div className="space-y-2">
-                        <div className="flex gap-2">
-                          <input
-                            name="otp"
-                            value={otp}
-                            onChange={(e) => setOtp(e.target.value)}
-                            placeholder="Enter OTP"
-                            className="flex-1 py-2 px-3 rounded-lg bg-white/5 text-white placeholder:text-white/60 focus:outline-none ring-1 ring-white/10"
-                          />
-                          <button
-                            onClick={resendOtp}
-                            disabled={otpCooldown > 0 || busy}
-                            className="py-2 px-3 rounded-lg bg-white/10 text-white/90 disabled:opacity-40"
-                          >
-                            {otpCooldown > 0
-                              ? `Resend (${otpCooldown}s)`
-                              : "Resend"}
-                          </button>
-                        </div>
-
-                        <div className="grid grid-cols-2 gap-2">
-                          <button
-                            ref={buttonRef}
-                            onClick={verifyAndRegister}
-                            disabled={busy}
-                            className={`relative w-full py-2 rounded-lg text-white font-semibold transition-transform transform ${
-                              busy
-                                ? "scale-95 opacity-90 pointer-events-none"
-                                : "hover:scale-[1.02]"
-                            } bg-gradient-to-r from-[#06d6a0] to-[#00b894] flex items-center justify-center gap-3`}
-                            aria-live="polite"
-                            aria-busy={busy}
-                          >
-                            {busy && <span className="spinner" aria-hidden />}
-                            <span className="btn-text">
-                              {busy ? "Submitting..." : "Verify & Submit"}
-                            </span>
-                          </button>
-
-                          <button
-                            onClick={() => {
-                              setOtpSent(false);
-                              setOtp("");
-                              setServerMsg("");
-                            }}
-                            className="py-2 px-3 rounded-lg border border-white/20 text-white/90"
-                          >
-                            Edit details
-                          </button>
-                        </div>
-                      </div>
-                    )}
-                    {errors.submit && (
-                      <div className="text-rose-300 text-sm mt-2">
-                        {errors.submit}
-                      </div>
-                    )}
-                    {serverMsg && (
-                      <div className="text-sm mt-2 text-white/80">
-                        {serverMsg}
-                      </div>
-                    )}
+                    <button
+                      ref={buttonRef}
+                      onClick={handleSubmit}
+                      disabled={busy}
+                      className={`relative w-full py-2 rounded-lg text-white font-semibold transition-transform transform ${
+                        busy
+                          ? 'scale-95 opacity-90 pointer-events-none'
+                          : 'hover:scale-[1.02]'
+                      } bg-gradient-to-r from-[#00b4d8] to-[#0077b6] flex items-center justify-center gap-3`}
+                      aria-live="polite"
+                      aria-busy={busy}
+                    >
+                      {busy && <span className="spinner" aria-hidden />}
+                      <span className="btn-text">
+                        {busy ? 'Submitting...' : 'Submit'}
+                      </span>
+                    </button>
                   </div>
                 </form>
               </>

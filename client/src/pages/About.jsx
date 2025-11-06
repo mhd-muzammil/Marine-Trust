@@ -1,16 +1,15 @@
-import React from "react";
-import { FaLeaf, FaMicroscope, FaBookOpen, FaHandshake } from "react-icons/fa";
+import React from 'react';
+import { FaLeaf, FaMicroscope, FaBookOpen, FaHandshake } from 'react-icons/fa';
 
-import StoryBg from "../assets/UW-C BG.jpg";
-import ValuesCards from "../components/ValuesCards";
-import CTA from "../components/CTA";
-import WhoWeAreCarousel from "../components/WhoWeAre";
-import UnderwaterScene from "../components/UnderwaterScene";
-
+import StoryBg from '../assets/UW-C BG.jpg';
+import ValuesCards from '../components/ValuesCards';
+import CTA from '../components/CTA';
+import WhoWeAreCarousel from '../components/WhoWeAre';
+import UnderwaterScene from '../components/UnderwaterScene';
 
 export default function About() {
-  return (<>
-      <UnderwaterScene />
+  return (
+    <>
       <div>
         {/* Who We Are */}
         <section
@@ -34,10 +33,9 @@ export default function About() {
         //       with education and awareness.
         //     </p>
         //   </div>
-        
-        
-        ><WhoWeAreCarousel/></section>
-        
+        >
+          <WhoWeAreCarousel />
+        </section>
 
         {/* Mission & Vision */}
         <section className="bg-lime-100 max-w-8xl mx-auto px-6 py-16 grid md:grid-cols-3 gap-10">
@@ -185,7 +183,7 @@ export default function About() {
 
         {/* Call to Action */}
         <CTA />
-    </div>
+      </div>
     </>
-    );
+  );
 }

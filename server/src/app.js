@@ -1,4 +1,5 @@
 const path = require('path');
+// import default from './../../client/tailwind.config';
 const cors = require('cors');
 require('dotenv').config({ path: path.resolve(__dirname, '../.env') }); // MUST run before other requires
 
@@ -7,6 +8,8 @@ const app = express();
 const http = require('http');
 const connectDB = require('../config/database');
 const volunteerRouter = require('../routes/volunteer');
+const { axios } = require('axios');
+
 app.use(
   cors({
     origin: 'http://localhost:5173',

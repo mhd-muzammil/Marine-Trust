@@ -4,11 +4,12 @@ const Volunteer = require('../model/volunteer');
 
 volunteerRouter.post('/volunteer', async (req, res) => {
   try {
-    const { fullName, emailId, phone, location } = req.body;
+    const { fullName, emailId, phone, availability, location } = req.body;
     const volunteer = new Volunteer({
       fullName,
       emailId,
       phone,
+      availability,
       location,
     });
 

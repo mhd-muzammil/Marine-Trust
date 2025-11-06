@@ -1,23 +1,19 @@
-import React from "react";
-import UnderwaterScene from "../components/UnderwaterScene";
+import React from 'react';
+import UnderwaterScene from '../components/UnderwaterScene';
 // import ThreeScene from "../3d/ThreeScene"
-import ObjectivesZigzag from "../components/ObjectivesZigzag";
-import Threats from "../components/Threats";
-import CTA from "../components/CTA";
+import ObjectivesZigzag from '../components/ObjectivesZigzag';
+import Threats from '../components/Threats';
+import CTA from '../components/CTA';
 
 export default function Home() {
   return (
     <>
-      {/* 👇 full-page animated background */}
-      <UnderwaterScene />
-      {/* <ThreeScene/> */}
-
       {/* 👇 page content (above background) */}
       <main className="relative z-10 text-white">
         {/* Hero Section */}
         <section className="min-h-screen flex flex-col items-center justify-center text-center px-6">
           <h1 className="text-5xl md:text-7xl font-extrabold drop-shadow-xl">
-            Marine Biodiversity{" "}
+            Marine Biodiversity{' '}
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-200 to-emerald-200">
               Conservation
             </span>

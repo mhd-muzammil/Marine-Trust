@@ -18,6 +18,10 @@ const volunteerSchema = new mongoose.Schema(
       unique: true,
       dafault: '+91 XXXXX XXXXX',
     },
+    availability: {
+      type: String,
+      default: 'Weekend',
+    },
     location: {
       type: String,
       required: [true, 'location is required'],
