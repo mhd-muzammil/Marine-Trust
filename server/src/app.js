@@ -26,8 +26,13 @@ app.use(express.urlencoded({ extended: true }));
 const server = http.createServer(app);
 InitializeSocket(server);
 
+const opineRouter = require("../routes/opine");
+
+app.use("/api/opine", opineRouter);
+
 app.use('/api', volunteerRouter);
 app.use('/api', visiterCountRouter);
+
 
 app.get('/', (req, res) => res.send('OK'));
 connectDB()
