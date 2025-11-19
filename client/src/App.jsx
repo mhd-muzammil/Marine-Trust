@@ -5,6 +5,7 @@ import Footer from './components/Footer';
 import Body from './Body';
 import About from './pages/About';
 import Blog from './pages/Blog';
+import Opine from './pages/Opine'
 // import BlogP1 from "./pages/Blog-p1"
 import Contact from './pages/Contact';
 import Donation from './pages/Donate';
@@ -13,6 +14,11 @@ import { useState, useEffect } from 'react';
 import io from 'socket.io-client';
 import axios from 'axios';
 import { BASE_URL } from './utils/contants';
+import PrivacyPolicy from './pages/PrivacyPolicy';
+import TermsAndConditions from './pages/TermsAndConditions';
+import RefundPolicy from './pages/RefundPolicy';
+import MembershipAgreement from './pages/MembershipAgreement';
+import DonationPolicy from './pages/DonationPolicy';
 
 const socket = io('http://localhost:5000');
 
@@ -48,9 +54,15 @@ export default function App() {
             <Route path="/" element={<Body />} />
             <Route path="/about" element={<About />} />
             <Route path="/blog" element={<Blog />} />
+            <Route path="/opine" element={<Opine />} />
             <Route path="/projects" element={<Project />} />
             <Route path="/contact" element={<Contact />} />
             <Route path="/donate" element={<Donation />} />
+            <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+            <Route path="/terms-and-conditions" element={<TermsAndConditions />} />
+            <Route path="/cancellation-refund-policy" element={<RefundPolicy />} />
+            <Route path="/membership-agreement" element={<MembershipAgreement />} />
+            <Route path="/donation-policy" element={<DonationPolicy />} />
           </Routes>
         </div>
         <Footer />
