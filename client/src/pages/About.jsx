@@ -1,189 +1,466 @@
-import React from 'react';
-import { FaLeaf, FaMicroscope, FaBookOpen, FaHandshake } from 'react-icons/fa';
+import React from "react";
+import StoryBg from "../assets/UW-C BG.jpg";
+import ValuesCards from "../components/ValuesCards";
+import CTA from "../components/CTA";
+import WhoWeAreCarousel from "../components/WhoWeAre";
+import UnderwaterScene from "../components/UnderwaterScene";
+import { motion } from 'framer-motion';
+import { useState, useRef } from "react";
+import { missionVisionData } from "../data/missionVisionData";
 
-import StoryBg from '../assets/UW-C BG.jpg';
-import ValuesCards from '../components/ValuesCards';
-import CTA from '../components/CTA';
-import WhoWeAreCarousel from '../components/WhoWeAre';
-import UnderwaterScene from '../components/UnderwaterScene';
+
+const timelineData = [
+  {
+    icon: "🌱",
+    title: "Awareness & Education",
+    desc: "Community and school programs to build ocean literacy.",
+  },
+  {
+    icon: "🐢",
+    title: "Beach Cleanups",
+    desc: "Organized cleanups and debris removal for safer coasts.",
+  },
+  {
+    icon: "🌿",
+    title: "Mangrove Restoration",
+    desc: "Planting and monitoring mangroves to protect shorelines.",
+  },
+  {
+    icon: "📚",
+    title: "Workshops & Training",
+    desc: "Empowering youth with skills for marine stewardship.",
+  },
+  {
+    icon: "🔬",
+    title: "Research & Monitoring",
+    desc: "Data collection and analysis to guide conservation policy.",
+  },
+  {
+    icon: "🤝",
+    title: "Partnerships",
+    desc: "Collaborating with NGOs, institutions, and governments.",
+  },
+];
+
 
 export default function About() {
+
+
+
   return (
-    <>
-      <div>
-        {/* Who We Are */}
-        <section
-        //   className="relative h-[500px] flex items-center justify-center text-center text-white"
-        //   style={{
-        //     backgroundImage: `url(${StoryBg})`,
-        //     backgroundSize: "cover",
-        //     backgroundPosition: "center",
-        //   }}
-        // >
-        //   <div className="absolute inset-0 bg-black/50"></div>
-        //   <div className="relative max-w-3xl px-6">
-        //     <h2 className="text-violet-400 text-4xl font-bold mb-4">
-        //       Who We Are
-        //     </h2>
-        //     <p className="text-lime-200 font-semibold ">
-        //       We are a collective of ocean advocates, scientists, and community
-        //       members working to conserve marine biodiversity. Our focus is on
-        //       protecting endangered species, restoring coral reefs and
-        //       mangroves, promoting sustainable practices, and empowering people
-        //       with education and awareness.
-        //     </p>
-        //   </div>
-        >
-          <WhoWeAreCarousel />
-        </section>
+    <main className="bg-cyan-950 text-slate-900">
+      {/* HERO */}
+      {/* Hero Section */}
+      <section
+        aria-label="About MBCT Hero"
+        className="relative w-full h-[600px] flex items-center justify-center overflow-hidden"
+      >
+        {/* Background Image */}
+        <img
+          src="https://images.pexels.com/photos/1450356/pexels-photo-1450356.jpeg"
+          alt="Ocean and coral reef"
+          className="absolute inset-0 w-full h-full object-cover"
+          loading="lazy"
+        />
 
-        {/* Mission & Vision */}
-        <section className="bg-lime-100 max-w-8xl mx-auto px-6 py-16 grid md:grid-cols-3 gap-10">
-          <div className="bg-sky-200 shadow rounded-xl overflow-hidden transform transition duration-200 hover:scale-105">
-            <img
-              src="https://media.istockphoto.com/id/1217125004/photo/fish-farm-in-calm-sea.jpg?s=612x612&w=0&k=20&c=obZkczS9MIgsZZ-eMHhO8z-Y-ME0n21l3PMi9IX90Kc="
-              alt="Mission"
-              className="w-full h-56 object-cover"
-            />
-            <div className="p-6">
-              <h3 className="text-2xl font-bold text-[#023e8a] mb-2">
-                Our Mission
-              </h3>
-              <p className="text-gray-700 font-semibold">
-                Our mission is to safeguard marine biodiversity through a
-                holistic approach that combines conservation, education,
-                research, and sustainable practices. We are dedicated to
-                protecting vital ecosystems such as coral reefs, mangroves, and
-                seagrass meadows while ensuring the survival of endangered
-                species that call them home. <br />
-                <br />
-                We work to promote responsible fisheries and aquaculture,
-                restore degraded habitats, and empower coastal communities with
-                the knowledge and tools to manage resources sustainably. Through
-                scientific surveys and data-driven strategies, we guide
-                effective policy decisions and conservation actions. By engaging
-                schools, youth, and local leaders, we nurture a culture of ocean
-                stewardship where everyone becomes a guardian of the sea.
-                <br />
-                <br /> At the heart of our mission lies a simple truth: the
-                ocean is life. Protecting it today means protecting food
-                security, livelihoods, climate stability, and a healthy planet
-                for all.
-              </p>
+        {/* Dark Overlay */}
+        <div className="absolute inset-0 bg-[#002b36]/70 mix-blend-multiply"></div>
+
+        {/* Center Text */}
+        <div className="relative z-10 text-center px-6">
+          <p className="text-3xl md:text-5xl font-bold italic text-white drop-shadow-md">
+            Protect the Ocean. Preserve Life
+          </p>
+        </div>
+
+        {/* Bottom Fade Effect */}
+        <div className="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-[#002b36] to-transparent"></div>
+      </section>
+
+      {/* About Section */}
+      <section
+        id="about-mbct"
+        className="max-w-8xl mx-auto px-16 py-16 text-slate-800 bg-white text-justify"
+      >
+        <p className="text-lg font-bold uppercase text-teal-600 tracking-wide mb-3">
+          About MBCT
+        </p>
+
+        <h2 className="text-4xl md:text-5xl font-extrabold text-[#1f80ff] mb-6">
+          Marine Biodiversity Conservation Trust (MBCT)
+        </h2>
+
+        <p className="text-lg leading-relaxed text-slate-900 mb-4">
+          The <strong>Marine Biodiversity Conservation Trust (MBCT)</strong> is
+          a community-driven non-profit organization dedicated to protecting,
+          restoring and sustaining marine ecosystems through education,
+          restoration and collaboration. We envision a world where oceans are
+          vibrant, thriving and protected by an aware generation.
+        </p>
+
+        <p className="text-slate-500">
+          <strong>Head Office:</strong> Chengalpattu, Tamil Nadu, India
+        </p>
+      </section>
+
+      {/* Mission - Vision - Approach */}
+      <section
+        id="mission-vision-approach"
+        className="max-w-6xl mx-auto px-6 py-12"
+        aria-label="Mission Vision Approach"
+      >
+        <div className="text-center mb-8">
+          <h2 className="text-3xl font-extrabold text-[#0270ff]">
+            Mission • Vision • Approach
+          </h2>
+          <p className="mt-2 text-lg font-semibold text-white max-w-2xl mx-auto">
+            A distinctive presentation of what drives MBCT curated for clarity
+            and impact.
+          </p>
+        </div>
+
+        <div className="space-y-8">
+          {missionVisionData.map((item, idx) => {
+            const isLeftImage = idx % 2 === 0;
+            return (
+              <article
+                key={item.key}
+                className="relative overflow-hidden rounded-2xl shadow-lg group"
+                aria-labelledby={`${item.key}-title`}
+              >
+                <div
+                  className={`flex flex-col md:flex-row items-stretch transition-transform duration-500 ease-out
+              ${isLeftImage ? "md:flex-row" : "md:flex-row-reverse"}
+              group-hover:scale-[1.01]`}
+                  style={{ height: "380px" }} // keep consistent height on md+
+                >
+                  {/* Image half */}
+                  <div
+                    className={`relative md:w-1/2 overflow-hidden h-56 md:h-auto ${
+                      isLeftImage ? "diag-left" : "diag-right"
+                    }`}
+                  >
+                    {/* Use non-absolute img so it always fills its container reliably */}
+                    <img
+                      src={item.img}
+                      alt={item.title}
+                      className="w-full h-full object-cover transform transition-transform duration-700 group-hover:scale-105"
+                      loading="lazy"
+                    />
+                    {/* Teal overlay for depth */}
+                    <div className="absolute inset-0 bg-gradient-to-t from-[#002b36]/30 to-transparent pointer-events-none" />
+                  </div>
+
+                  {/* Text half */}
+                  <div className="md:w-1/2 bg-white p-6 md:p-10 flex flex-col justify-center">
+                    <div className="text-lg text-teal-600 font-semibold mb-2">
+                      {item.eyebrow}
+                    </div>
+                    <h3
+                      id={`${item.key}-title`}
+                      className="text-2xl font-bold text-[#023e8a]"
+                    >
+                      {item.title}
+                    </h3>
+                    <p className="mt-3 text-sm font-semibold text-slate-700 leading-relaxed text-justify">
+                      {item.text}
+                    </p>
+
+                    {/* small meta / decorative */}
+                    <div className="mt-5 text-xs text-slate-400 flex items-center gap-3">
+                      <span className="inline-block w-2 h-2 rounded-full bg-[#01607f]" />
+                      <span>Community • Science • Action</span>
+                    </div>
+                  </div>
+                </div>
+              </article>
+            );
+          })}
+        </div>
+      </section>
+
+      {/* === WHAT WE DO (Timeline Version) === */}
+      <section
+        id="what-we-do"
+        className="max-w-6xl mx-auto px-6 py-16 relative"
+      >
+        <h2 className="text-5xl font-bold text-sky-500 mb-3 text-center">
+          What We Do
+        </h2>
+        <p className="text-sm text-white font-semibold text-center mb-12 max-w-2xl mx-auto">
+          Focused initiatives in conservation, education, and restoration.
+        </p>
+
+        <div className="relative before:content-[''] before:absolute before:top-0 before:bottom-0 before:left-1/2 before:w-1 before:-translate-x-1/2 before:bg-[#0096c7]/30">
+          {timelineData.map((item, index) => {
+            const isLeft = index % 2 === 0;
+            return (
+              <motion.div
+                key={index}
+                className={`relative mb-12 flex flex-col md:flex-row items-center ${
+                  isLeft ? "md:justify-start" : "md:justify-end"
+                }`}
+                initial={{
+                  opacity: 0,
+                  x: isLeft ? -100 : 100,
+                }}
+                whileInView={{
+                  opacity: 1,
+                  x: 0,
+                  transition: { duration: 0.8, ease: "easeOut" },
+                }}
+                viewport={{ once: true, amount: 0.3 }}
+              >
+                <div
+                  className={`w-full md:w-[46%] bg-white border border-slate-100 rounded-xl shadow-sm hover:shadow-md transition p-6 ${
+                    isLeft ? "md:mr-auto" : "md:ml-auto"
+                  }`}
+                >
+                  <div className="flex items-start gap-4">
+                    <div className="text-2xl bg-[#0077b6] text-white w-10 h-10 rounded-full flex items-center justify-center shadow-md">
+                      {item.icon}
+                    </div>
+                    <div>
+                      <h4 className="text-lg font-semibold text-[#023e8a]">
+                        {item.title}
+                      </h4>
+                      <p className="mt-2 text-sm text-slate-600 leading-relaxed">
+                        {item.desc}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Connector Dot */}
+                <div className="absolute left-1/2 transform -translate-x-1/2 bg-[#0077b6] w-5 h-5 rounded-full border-4 border-white shadow" />
+              </motion.div>
+            );
+          })}
+        </div>
+      </section>
+
+      <section className="bg-[#f8fbfd] py-16">
+        <div className="max-w-6xl mx-auto px-6 text-center">
+          <h2 className="text-3xl md:text-4xl font-extrabold text-[#023e8a] mb-4">
+            Our Impact
+          </h2>
+          <p className="text-lg text-slate-600 mb-12 max-w-2xl mx-auto">
+            The foundation of MBCT is built on awareness, action and alliance
+            uniting people and purpose for a sustainable marine future.
+          </p>
+
+          {/* Cards */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10">
+            {/* Card 1 */}
+            <div className="bg-white rounded-2xl shadow-md hover:shadow-lg transition duration-300 overflow-hidden">
+              <img
+                src="https://images.pexels.com/photos/2409015/pexels-photo-2409015.jpeg"
+                alt="Awareness"
+                className="w-full h-52 object-cover"
+                loading="lazy"
+              />
+              <div className="p-6">
+                <h3 className="text-xl font-bold text-[#0270ff] mb-3">
+                  Awareness
+                </h3>
+                <p className="text-sm text-slate-600 leading-relaxed">
+                  Inspiring people to understand and appreciate the beauty and
+                  importance of marine ecosystems through education, workshops,
+                  and public outreach programs.
+                </p>
+              </div>
+            </div>
+
+            {/* Card 2 */}
+            <div className="bg-white rounded-2xl shadow-md hover:shadow-lg transition duration-300 overflow-hidden">
+              <img
+                src="https://images.pexels.com/photos/7767973/pexels-photo-7767973.jpeg"
+                alt="Action"
+                className="w-full h-52 object-cover"
+                loading="lazy"
+              />
+              <div className="p-6">
+                <h3 className="text-xl font-bold text-[#0270ff] mb-3">
+                  Action
+                </h3>
+                <p className="text-sm text-slate-600 leading-relaxed">
+                  Driving real change through coastal clean-ups, mangrove
+                  restoration, coral rehabilitation, and sustainable
+                  conservation initiatives with community participation.
+                </p>
+              </div>
+            </div>
+
+            {/* Card 3 */}
+            <div className="bg-white rounded-2xl shadow-md hover:shadow-lg transition duration-300 overflow-hidden">
+              <img
+                src="https://images.pexels.com/photos/3357397/pexels-photo-3357397.jpeg"
+                alt="Alliance"
+                className="w-full h-52 object-cover"
+                loading="lazy"
+              />
+              <div className="p-6">
+                <h3 className="text-xl font-bold text-[#0270ff] mb-3">
+                  Alliance
+                </h3>
+                <p className="text-sm text-slate-600 leading-relaxed">
+                  Building strong partnerships with local communities, NGOs and
+                  global organizations to amplify marine conservation efforts
+                  and create lasting impact.
+                </p>
+              </div>
             </div>
           </div>
+        </div>
+      </section>
 
-          <div className="bg-emerald-300 shadow rounded-xl overflow-hidden transform transition duration-200 hover:scale-105">
-            <img
-              src="https://images.pexels.com/photos/847393/pexels-photo-847393.jpeg?_gl=1*1vecrtj*_ga*MTE4MDM5NDI1NC4xNzU4OTcwMzY0*_ga_8JE65Q40S6*czE3NTg5NzcwOTEkbzIkZzAkdDE3NTg5NzcwOTEkajYwJGwwJGgw"
-              alt="Vision"
-              className="w-full h-56 object-cover"
-            />
-            <div className="p-6">
-              <h3 className="text-2xl font-bold text-[#023e8a] mb-2">
-                Our Vision
-              </h3>
-              <p className="text-gray-700 font-semibold">
-                We envision a future where oceans are thriving, resilient, and
-                abundant — a future where coral reefs flourish with life,
-                mangrove forests shield coasts, and marine species swim freely
-                in clean, healthy waters. In this vision, communities live in
-                harmony with the sea, drawing livelihoods without exhausting its
-                resources, while governments, scientists, and organizations work
-                hand-in-hand to sustain marine ecosystems.
-                <br /> <br />
-                We dream of a world where every child grows up with ocean
-                literacy, where sustainable fishing is the norm, where
-                coastlines are naturally protected from storms, and where marine
-                biodiversity is valued as much as economic growth.
-                <br />
-                <br /> Our vision is a legacy — to ensure that the beauty,
-                richness, and life-giving power of the oceans are passed on
-                intact to future generations.
-              </p>
-            </div>
-          </div>
-          <div className="bg-pink-200 shadow rounded-xl overflow-hidden transform transition duration-200 hover:scale-105">
-            <img
-              src="https://cdn.pixabay.com/photo/2015/10/30/20/13/sunrise-1014712_1280.jpg"
-              alt="Vision"
-              className="w-full h-56 object-cover"
-            />
-            <div className="p-6">
-              <h3 className="text-2xl font-bold text-[#023e8a] mb-2">
-                Our Approach
-              </h3>
-              <p className="text-gray-700 font-semibold">
-                Our approach is rooted in collaboration, science, and community
-                empowerment. We believe that lasting ocean conservation comes
-                from combining knowledge with action. That’s why we integrate
-                cutting-edge scientific research with local wisdom to develop
-                solutions that work both for ecosystems and the people who
-                depend on them.
-                <br /> <br />
-                We focus on practical strategies: restoring coral reefs and
-                mangroves, promoting sustainable fishing and aquaculture, and
-                conducting data-driven monitoring programs that inform policy.
-                At the same time, we invest in education and awareness campaigns
-                to build a culture of ocean stewardship, where communities,
-                schools, and individuals play an active role in protecting
-                marine life.
-                <br />
-                <br /> By working hand-in-hand with governments, NGOs, and local
-                communities, we ensure that conservation efforts scale beyond
-                individual projects, creating ripple effects that protect oceans
-                regionally and globally. Our approach is holistic, inclusive,
-                and driven by the belief that protecting the sea is a shared
-                responsibility one that requires both global cooperation and
-                local action.
-              </p>
-            </div>
-          </div>
-        </section>
-
-        {/* Values */}
+      {/* VALUES */}
+      <section className="max-w-6xl mx-auto px-6 py-10">
         <ValuesCards />
+      </section>
+      {/* STORY */}
+      <section className="bg-white border-t">
+        <div className="max-w-4xl mx-auto px-6 py-16">
+          <h2 className="text-3xl font-extrabold text-[#023e8a] mb-6">
+            Our Story
+          </h2>
 
-        {/* Story */}
-        <section className="bg-sky-100 py-16">
-          <div className="max-w-5xl mx-auto px-6">
-            <h2 className="text-3xl font-bold text-[#023e8a] mb-6">
-              Our Story
-            </h2>
-            <p className="text-sky-700 leading-relaxed mb-4 font-semibold">
-              Our story began with a simple but powerful realization the ocean,
-              the very foundation of life on Earth, was showing signs of
-              distress. Local communities started noticing fewer fish in their
-              nets, beaches covered in plastic rather than shells, and coral
-              reefs that once flourished turning pale and lifeless. These
-              changes weren’t distant problems; they were happening right here,
-              in our waters. <br />
-              <br />
-              What started as a small group of volunteers teachers, students,
-              fishers, and ocean lovers cleaning beaches and raising awareness
-              in schools soon grew into a larger movement. We realized that
-              protecting marine biodiversity required more than one-off efforts:
-              it demanded science, community participation, and long-term
-              commitment. <br />
-              <br />
-              Over time, we expanded into coral reef restoration, mangrove
-              planting, sustainable fishing campaigns, and educational programs.
-              Collaborations with NGOs, governments, and scientists strengthened
-              our reach, while youth-led programs inspired the next generation
-              of ocean stewards. <br />
-              <br />
-              Today, our story is still being written. What began as a local
-              initiative has evolved into a dedicated trust working to protect
-              marine ecosystems on a larger scale. We carry forward the same
-              spirit — that small actions, when multiplied, can transform the
-              future of our oceans.
+          <p className="text-base text-justify text-slate-700 leading-relaxed mb-4">
+            We have seen many marine life collapse due to pollutions in means of
+            plastic, oil spills, chemicals and microplastics destroying food
+            chains. Overfishing and destructive methods like trawling and ghost
+            nets wipe out species faster than they can recover. Climate change
+            fuels coral bleaching, ocean acidification and melting ice,
+            disrupting entire ecosystems. Habitat destruction from coastal
+            development, mining, anchoring and dredging destroys reefs,
+            mangroves and seagrass beds. Invasive species, oil and gas
+            exploration, ship noise and vessel strikes further destabilize
+            marine life. Tourism, agricultural runoff and extreme climate events
+            create dead zones and intensify ocean habitat loss.
+          </p>
+
+          <p className="text-base text-justify text-slate-700 leading-relaxed mb-4">
+            From those humble beginnings, the{" "}
+            <strong>Marine Biodiversity Conservation Trust (MBCT)</strong> was
+            born a movement driven by compassion, science and collaboration.
+            Early efforts centered around restoring mangroves, rescuing marine
+            wildlife and conducting awareness campaigns in schools and fishing
+            villages. These small yet consistent actions sparked a wave of
+            environmental awareness across coastal communities.
+          </p>
+
+          <p className="text-base text-justify text-slate-700 leading-relaxed mb-4">
+            Today, MBCT stands as a united network of scientists, educators,
+            conservationists, and volunteers working hand-in-hand to protect and
+            restore marine ecosystems. Through research-driven conservation
+            projects, coastal restoration programs and youth engagement
+            initiatives, MBCT continues to bridge the gap between science and
+            community action.
+          </p>
+
+          <p className="text-base text-justify text-slate-700 leading-relaxed">
+            Our story is not just about saving the ocean it’s about inspiring a
+            generation to value the life beneath the waves. Every coral revived,
+            every mangrove planted, and every young mind educated adds a new
+            chapter to our shared journey toward a thriving, sustainable blue
+            planet.
+          </p>
+        </div>
+      </section>
+
+      {/* Legal & Registration Details Section */}
+      <section className="bg-cyan-950 text-gray-200 py-10 px-6">
+        <div className="max-w-5xl mx-auto text-center">
+          <div className="bg-[#032a5d] rounded-2xl shadow-lg p-6 md:p-8 inline-block text-left mx-auto">
+            <h3 className="text-2xl font-bold text-sky-400 mb-4 text-center pb-8">
+              Legal & Registration Details
+            </h3>
+            <p className="mb-2 text-gray-300">
+              <span className="font-semibold text-white">
+                Marine Biodiversity Conservation Trust (MBCT)
+              </span>{" "}
+              is a registered charitable trust under the{" "}
+              <span className="text-sky-300">Indian Trusts Act, 1882.</span>
             </p>
-          </div>
-        </section>
 
-        {/* Call to Action */}
-        <CTA />
-      </div>
-    </>
+            <div className="grid md:grid-cols-2 gap-x-10 gap-y-2 mt-4">
+              <p>
+                <span className="font-semibold text-sky-300">
+                  Registration No:
+                </span>{" "}
+                <span className="text-white font-medium">
+                  REG2025XXXX7621250
+                </span>
+              </p>
+              <p>
+                <span className="font-semibold text-sky-300">
+                  Trust PAN No:
+                </span>{" "}
+                <span className="text-white font-medium">
+                  AAKTM<span className="tracking-wider">XXX2B</span>
+                </span>
+              </p>
+              <p>
+                <span className="font-semibold text-sky-300">12A Status:</span>{" "}
+                <span className="text-white">
+                  Application Submitted – Approval Pending
+                </span>
+              </p>
+
+              <p>
+                <span className="font-semibold text-sky-300">80G Status:</span>{" "}
+                <span className="text-white">
+                  Application Submitted – Approval Pending
+                </span>
+              </p>
+
+              <p className="md:col-span-2">
+                <span className="font-semibold text-sky-300">
+                  Registered Office:
+                </span>{" "}
+                <span className="text-white">
+                  No: 81/5, 6th Street, Shanthi Nagar, Chengalpattu District,
+                  Tamil Nadu – 603003.
+                </span>
+              </p>
+            </div>
+
+            {/* Divider line */}
+          </div>
+        </div>
+      </section>
+
+      {/* JOIN CTA */}
+      <section id="join" className="bg-cyan-500">
+        <div className="max-w-4xl mx-auto px-6 py-12 text-center">
+          <h3 className="text-2xl font-bold text-slate-900">
+            Join the Movement
+          </h3>
+          <p className="mt-3 text-slate-600 text-lg font-semibold max-w-2xl mx-auto">
+            Students, educators, and citizens become volunteers and ocean
+            ambassadors. Together, we can protect marine life and inspire
+            change.
+          </p>
+
+          <div className="mt-6 flex items-center justify-center gap-4">
+            <a
+              href="/blog"
+              className="inline-block px-6 py-3 rounded-md bg-[#01607f] text-white font-medium hover:opacity-95 transition hover:bg-white hover:text-black"
+            >
+              Become a Volunteer
+            </a>
+            <a
+              href="/donate"
+              className="inline-block px-6 py-3 rounded-md border border-slate-200 text-white font-medium hover:bg-slate-50 transition hover:text-black"
+            >
+              Support Our Work
+            </a>
+          </div>
+        </div>
+      </section>
+
+      {/* CTA component */}
+    </main>
   );
 }
+

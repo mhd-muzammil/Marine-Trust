@@ -150,9 +150,12 @@ export default function Donate() {
       <div className="max-w-4xl mx-auto space-y-8">
         {/* Hero */}
         <section className="text-center">
-          <h1 className="text-4xl font-extrabold text-neutral-50">Help Protect Our Coastal Seas</h1>
+          <h1 className="text-4xl font-extrabold text-neutral-50">
+            Help Protect Our Coastal Seas
+          </h1>
           <p className="mt-2 text-neutral-300">
-            Your support funds cleanups, restoration and community programs — small gifts create big change.
+            Your support funds cleanups, restoration and community programs
+            small gifts create big change.
           </p>
         </section>
 
@@ -160,7 +163,9 @@ export default function Donate() {
         <section className="bg-white/5 rounded-xl p-6 border border-white/8 shadow-sm">
           <div className="grid md:grid-cols-2 gap-6">
             <div>
-              <h2 className="text-xl font-semibold text-neutral-50 mb-3">Choose an amount</h2>
+              <h2 className="text-xl font-semibold text-neutral-50 mb-3">
+                Choose an amount
+              </h2>
 
               <div className="grid grid-cols-3 gap-3 mb-4">
                 {TIERS.map((t) => (
@@ -171,19 +176,31 @@ export default function Donate() {
                       setCustom("");
                     }}
                     className={`rounded-lg p-3 text-left border transition ${
-                      selected === t.amount && !custom ? "border-[#00b4d8] bg-white/6" : "border-white/8 bg-transparent"
+                      selected === t.amount && !custom
+                        ? "border-[#00b4d8] bg-white/6"
+                        : "border-white/8 bg-transparent"
                     }`}
                   >
-                    <div className="font-semibold text-neutral-50">{t.label}</div>
-                    <div className="text-neutral-300 text-sm mt-1">₹{t.amount}</div>
-                    <div className="text-xs text-neutral-400 mt-1">{t.desc}</div>
+                    <div className="font-semibold text-neutral-50">
+                      {t.label}
+                    </div>
+                    <div className="text-neutral-300 text-sm mt-1">
+                      ₹{t.amount}
+                    </div>
+                    <div className="text-xs text-neutral-400 mt-1">
+                      {t.desc}
+                    </div>
                   </button>
                 ))}
               </div>
 
-              <label className="text-sm text-neutral-300">Or enter a custom amount (INR)</label>
+              <label className="text-sm text-neutral-300">
+                Or enter a custom amount (INR)
+              </label>
               <div className="mt-2 flex gap-2">
-                <span className="inline-flex items-center px-3 bg-white/8 rounded-l text-neutral-50">₹</span>
+                <span className="inline-flex items-center px-3 bg-white/8 rounded-l text-neutral-50">
+                  ₹
+                </span>
                 <input
                   value={custom}
                   onChange={(e) => {
@@ -200,20 +217,39 @@ export default function Donate() {
               </div>
 
               <div className="mt-3 flex items-center gap-2 text-sm text-neutral-300">
-                <input id="coverFees" type="checkbox" checked={coverFees} onChange={() => setCoverFees((s) => !s)} />
-                <label htmlFor="coverFees">Add a small fee to cover processing costs</label>
+                <input
+                  id="coverFees"
+                  type="checkbox"
+                  checked={coverFees}
+                  onChange={() => setCoverFees((s) => !s)}
+                />
+                <label htmlFor="coverFees">
+                  Add a small fee to cover processing costs
+                </label>
               </div>
 
               <div className="mt-4 text-sm text-neutral-300">
-                <strong className="text-neutral-50">Amount:</strong> <span className="text-neutral-50">₹{displayAmount().toLocaleString()}</span>{" "}
-                <span className="text-neutral-400">({coverFees ? "includes small processing fee" : "no fees added"})</span>
+                <strong className="text-neutral-50">Amount:</strong>{" "}
+                <span className="text-neutral-50">
+                  ₹{displayAmount().toLocaleString()}
+                </span>{" "}
+                <span className="text-neutral-400">
+                  (
+                  {coverFees
+                    ? "includes small processing fee"
+                    : "no fees added"}
+                  )
+                </span>
               </div>
             </div>
 
             <div>
-              <h3 className="text-lg font-semibold text-neutral-50 mb-3">Secure Checkout</h3>
+              <h3 className="text-lg font-semibold text-neutral-50 mb-3">
+                Secure Checkout
+              </h3>
               <p className="text-sm text-neutral-300 mb-4">
-                Fast, secure payments processed via Razorpay. You will get a receipt if you provide email during checkout.
+                Fast, secure payments processed via Razorpay. You will get a
+                receipt if you provide email during checkout.
               </p>
 
               <div className="flex gap-3">
@@ -227,11 +263,22 @@ export default function Donate() {
               </div>
 
               <div className="mt-6">
-                <div className="text-sm font-semibold mb-2 text-neutral-50">Why your gift matters</div>
+                <div className="text-sm font-semibold mb-2 text-neutral-50">
+                  Why your gift matters
+                </div>
                 <ul className="text-sm text-neutral-300 space-y-2">
-                  <li className="flex items-start gap-2"><FaCheckCircle className="mt-1 text-[#00b4d8]" /> Transparent impact reporting</li>
-                  <li className="flex items-start gap-2"><FaCheckCircle className="mt-1 text-[#00b4d8]" /> Community-led restoration</li>
-                  <li className="flex items-start gap-2"><FaCheckCircle className="mt-1 text-[#00b4d8]" /> Science-backed methods</li>
+                  <li className="flex items-start gap-2">
+                    <FaCheckCircle className="mt-1 text-[#00b4d8]" />{" "}
+                    Transparent impact reporting
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <FaCheckCircle className="mt-1 text-[#00b4d8]" />{" "}
+                    Community-led restoration
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <FaCheckCircle className="mt-1 text-[#00b4d8]" />{" "}
+                    Science-backed methods
+                  </li>
                 </ul>
               </div>
             </div>
@@ -244,22 +291,30 @@ export default function Donate() {
             <h4 className="font-semibold mb-2 text-neutral-50">Impact</h4>
             <div className="grid grid-cols-3 gap-2 text-center">
               <div>
-                <div className="text-2xl font-bold text-neutral-50">{impact.cleaned_km}</div>
+                <div className="text-2xl font-bold text-neutral-50">
+                  {impact.cleaned_km}
+                </div>
                 <div className="text-sm text-neutral-300">km cleaned</div>
               </div>
               <div>
-                <div className="text-2xl font-bold text-neutral-50">{impact.volunteers}</div>
+                <div className="text-2xl font-bold text-neutral-50">
+                  {impact.volunteers}
+                </div>
                 <div className="text-sm text-neutral-300">volunteers</div>
               </div>
               <div>
-                <div className="text-2xl font-bold text-neutral-50">{impact.seedlings}</div>
+                <div className="text-2xl font-bold text-neutral-50">
+                  {impact.seedlings}
+                </div>
                 <div className="text-sm text-neutral-300">seedlings</div>
               </div>
             </div>
           </div>
 
           <div className="p-4 rounded-lg bg-white/6 border border-white/8">
-            <h4 className="font-semibold mb-2 text-neutral-50">Recent donors</h4>
+            <h4 className="font-semibold mb-2 text-neutral-50">
+              Recent donors
+            </h4>
             <ul className="text-sm text-neutral-300 space-y-2">
               <li> - Ram Kumar - ₹500</li>
               <li> - David Raj - ₹5,000</li>
@@ -270,7 +325,10 @@ export default function Donate() {
 
         {/* Short FAQ */}
         <section className="p-4 rounded-lg bg-white/6 border border-white/8">
-          <button onClick={() => setFaqOpen((s) => !s)} className="w-full text-left flex justify-between items-center py-2 text-neutral-50">
+          <button
+            onClick={() => setFaqOpen((s) => !s)}
+            className="w-full text-left flex justify-between items-center py-2 text-neutral-50"
+          >
             <span className="font-semibold">FAQ</span>
             <span className="text-neutral-300">{faqOpen ? "−" : "+"}</span>
           </button>
@@ -278,11 +336,23 @@ export default function Donate() {
             <div className="mt-3 text-sm text-neutral-300 space-y-2">
               <div>
                 <strong>Where do donations go?</strong>
-                <p>Field work, community education, restoration and monitoring — we publish quarterly impact reports.</p>
+                <p>
+                  Field work, community education, restoration and monitoring
+                  we publish quarterly impact reports.
+                </p>
               </div>
               <div>
                 <strong>Is my donation tax-deductible?</strong>
-                <p>Contact us at <a className="underline text-neutral-200" href="mailto:info@marinebiodiversity.org">info@marinebiodiversity.org</a> for a receipt.</p>
+                <p>
+                  Contact us at{" "}
+                  <a
+                    className=" text-neutral-200"
+                    href="mailto:worldmarinebiodiversity@gmail.com"
+                  >
+                    worldmarinebiodiversity@gmail.com
+                  </a>{" "}
+                  for a receipt.
+                </p>
               </div>
             </div>
           )}
@@ -290,8 +360,15 @@ export default function Donate() {
 
         {/* Footer / contact */}
         <footer className="text-center text-neutral-300 text-sm">
-          <div className="mb-2">Questions? <a className="underline text-neutral-200" href="mailto:info@marinebiodiversity.org">info@marinebiodiversity.org</a></div>
-          <div className="text-xs">Note: For production, your backend must create the Razorpay order and verify the payment signature.</div>
+          <div className="mb-2">
+            Questions?{" "}
+            <a
+              className=" text-neutral-200"
+              href="mailto:worldmarinebiodiversity@gmail.com"
+            >
+              worldmarinebiodiversity@gmail.com
+            </a>
+          </div>
         </footer>
       </div>
 
@@ -300,8 +377,16 @@ export default function Donate() {
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
           <div className="bg-white rounded-xl p-6 max-w-sm text-center text-slate-900">
             <h3 className="text-xl font-bold mb-2">Thank you!</h3>
-            <p className="mb-4">We received your donation (demo). We'll email a receipt if you provided contact details.</p>
-            <button onClick={() => setShowThanks(false)} className="px-4 py-2 rounded bg-[#00b4d8] text-white">Close</button>
+            <p className="mb-4">
+              We received your donation. We'll email a receipt if you provided
+              contact details.
+            </p>
+            <button
+              onClick={() => setShowThanks(false)}
+              className="px-4 py-2 rounded bg-[#00b4d8] text-white"
+            >
+              Close
+            </button>
           </div>
         </div>
       )}

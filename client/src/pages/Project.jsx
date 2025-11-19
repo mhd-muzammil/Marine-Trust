@@ -1,383 +1,253 @@
-import React, { useMemo, useState } from "react";
-import { FaMapMarkerAlt, FaDonate, FaUsers, FaLeaf } from "react-icons/fa";
-import VolunteerModal from "../components/VolunteerModal"; // ✅ make sure this file exists (we’ll add it below)
+/*
+EBoard.jsx — Asset-only with Content-Type check before preview
+Drop into your project and use like your previous component.
+*/
 
-const DEMO_PROJECTS = [
+import React, { useEffect, useMemo, useState } from "react";
+
+// ====== ISSUES: add your items here ======
+const ISSUES = [
   {
-    id: "proj-reef-01",
-    title: "Coral Reef Restoration — Lakshadweep",
-    category: "Restoration",
-    location: "Lakshadweep, India",
-    summary:
-      "Restoring degraded reef areas using coral nurseries and community monitoring.",
-    description:
-      "We run coral nurseries where fragments are grown, monitored, and transplanted back to degraded reefs. Local fishers trained in monitoring and reef-safe livelihoods receive ongoing support.",
-    image:
-      "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1400&q=80",
-    goal: 200000,
-    raised: 84000,
-    volunteers: 120,
-    status: "Active",
-    impactPoints: [
-      "Established 3 coral nurseries",
-      "Transplanted 2,400 fragments",
-      "Trained 120 local monitors",
-    ],
+    id: "issue-2025-11-12",
+    title: "Global Invitation (Nov 12, 2025)",
+    filename: "sample.pdf",
+    url: "/src/assets/eMagazines/MARINE AL-1.pdf",
+    date: "2025-11-12",
   },
-  {
-    id: "proj-mangrove-02",
-    title: "Mangrove Regeneration — Goa Coast",
-    category: "Restoration",
-    location: "Goa, India",
-    summary:
-      "Community-led mangrove planting and tidal barrier restoration to reduce erosion.",
-    description:
-      "Working with coastal villages to plant mangrove seedlings, install sediment traps, and monitor survival rates. Program emphasises local stewardship and nursery training.",
-    image:
-      "https://media.istockphoto.com/id/1430223585/photo/%E0%B9%8D%E0%B9%8Dyoung-plant-mangrove-tree-of-mangrove-forest-mangrove-planting-activities-at-tropical.jpg?s=612x612&w=0&k=20&c=GH5VzlVs1N8zdnB2sCPqahMDSzYmJvcC-DzkPUvCumY=",
-    goal: 120000,
-    raised: 72000,
-    volunteers: 240,
-    status: "Active",
-    impactPoints: [
-      "Planted 12,450 seedlings",
-      "Reduced erosion on priority beaches",
-    ],
-  },
-  {
-    id: "proj-cleanup-03",
-    title: "Coastal Cleanups & Waste Education",
-    category: "Awareness",
-    location: "Kerala Coast",
-    summary:
-      "Monthly cleanups combined with school workshops and waste diversion pilots.",
-    description:
-      "Monthly coastal cleanups that collect data on debris, paired with school workshops to teach waste segregation and recycling. Pilot program converts collected plastic into community benches.",
-    image:
-      "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1400&q=80",
-    goal: 50000,
-    raised: 36500,
-    volunteers: 520,
-    status: "Sustained",
-    impactPoints: ["Cleaned 142 km of coastline", "Educated 3,200 students"],
-  },
-  {
-    id: "proj-research-04",
-    title: "Monitoring & Data Platform",
-    category: "Research",
-    location: "Nationwide",
-    summary:
-      "Building a monitoring dashboard to centralize reef, mangrove and cleanup metrics.",
-    description:
-      "We aggregate field data, satellite inputs, and volunteer reports into a dashboard used by project managers to track success and publish transparent impact reports for donors.",
-    image:
-      "https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-    goal: 150000,
-    raised: 45000,
-    volunteers: 60,
-    status: "Planning",
-    impactPoints: ["Open-source dashboard", "Quarterly public reports"],
-  },
+  // {
+  //   id: "issue-2025-11-12",
+  //   title: "E-Board — Weekly Issue 2 (Nov 22, 2025)",
+  //   filename: "sample.pdf",
+  //   url: "/src/assets/eMagazines/sample.pdf",
+  //   date: "2025-11-22",
+  // },
+  // {
+  //   id: "issue-2025-11-12",
+  //   title: "E-Board — Weekly Issue 3 (Nov 22, 2025)",
+  //   filename: "sample.pdf",
+  //   url: "/src/assets/eMagazines/sample.pdf",
+  //   date: "2025-11-26",
+  // },
+  // {
+  //   id: "issue-2025-11-12",
+  //   title: "E-Board — Weekly Issue 4 (Nov 22, 2025)",
+  //   filename: "sample.pdf",
+  //   url: "/src/assets/eMagazines/sample.pdf",
+  //   date: "2025-11-28",
+  // },
+  // {
+  //   id: "issue-2025-11-12",
+  //   title: "E-Board — Weekly Issue 5 (Nov 22, 2025)",
+  //   filename: "sample.pdf",
+  //   url: "/src/assets/eMagazines/sample.pdf",
+  //   date: "2025-12-01",
+  // },
 ];
 
-function formatCurrencyINR(n) {
-  return "₹" + Number(n).toLocaleString();
-}
+// format date helper
+const formatDate = (d) => {
+  try {
+    return new Intl.DateTimeFormat("en-IN", {
+      year: "numeric",
+      month: "short",
+      day: "numeric",
+    }).format(new Date(d));
+  } catch {
+    return d;
+  }
+};
 
-export default function Project() {
-  const [filter, setFilter] = useState("All");
-  const [query, setQuery] = useState("");
-  const [selectedProject, setSelectedProject] = useState(null);
-  const [openVolunteerProject, setOpenVolunteerProject] = useState(null); // ✅ for volunteer modal
+export default function EBoard() {
+  const [selected, setSelected] = useState(null);
+  const [checking, setChecking] = useState(false);
+  const [errorMsg, setErrorMsg] = useState("");
 
-  const categories = useMemo(() => {
-    const c = new Set(DEMO_PROJECTS.map((p) => p.category));
-    return ["All", ...Array.from(c)];
+  const issues = useMemo(
+    () =>
+      [...ISSUES].sort((a, b) => new Date(b.date || 0) - new Date(a.date || 0)),
+    []
+  );
+
+  // ESC to close
+  useEffect(() => {
+    const onKey = (e) => e.key === "Escape" && setSelected(null);
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
   }, []);
 
-  const filtered = useMemo(() => {
-    let arr = DEMO_PROJECTS.slice();
-    if (filter !== "All") arr = arr.filter((p) => p.category === filter);
-    if (query.trim()) {
-      const q = query.toLowerCase();
-      arr = arr.filter(
-        (p) =>
-          p.title.toLowerCase().includes(q) ||
-          p.summary.toLowerCase().includes(q) ||
-          p.location.toLowerCase().includes(q)
-      );
+  // Main safe view handler:
+  // - checks HEAD Content-Type
+  // - if application/pdf => open modal
+  // - otherwise open in new tab (safer than embedding HTML)
+  async function handleView(issue) {
+    setErrorMsg("");
+    setChecking(true);
+
+    try {
+      // Try HEAD first (fast). Some servers may block HEAD; then fallback to GET with no body.
+      let res;
+      try {
+        res = await fetch(issue.url, { method: "HEAD" });
+      } catch (headErr) {
+        // HEAD failed; try GET but don't read body
+        res = await fetch(issue.url, { method: "GET" });
+      }
+
+      const ct = res.headers.get("content-type") || "";
+      // Debug help (open console to see)
+      console.log(`[EBoard] HEAD result for ${issue.url}`, {
+        ok: res.ok,
+        status: res.status,
+        contentType: ct,
+      });
+
+      // If the server returned HTML (index.html) or any non-PDF, fallback to opening in new tab
+      if (!res.ok) {
+        setErrorMsg(
+          "Resource not found (status " + res.status + "). Opening in new tab."
+        );
+        window.open(issue.url, "_blank", "noopener");
+      } else if (ct.includes("application/pdf")) {
+        setSelected(issue);
+      } else {
+        // Not a PDF — likely index.html rewrite. Open in new tab (so user can inspect).
+        setErrorMsg("Resource is not a PDF — opened in a new tab instead.");
+        window.open(issue.url, "_blank", "noopener");
+      }
+    } catch (err) {
+      console.error("[EBoard] preview check failed:", err);
+      setErrorMsg("Failed to check resource. Opened in new tab.");
+      window.open(issue.url, "_blank", "noopener");
+    } finally {
+      setChecking(false);
     }
-    return arr;
-  }, [filter, query]);
-
-  const totals = useMemo(() => {
-    const raised = DEMO_PROJECTS.reduce((s, p) => s + (p.raised || 0), 0);
-    const goal = DEMO_PROJECTS.reduce((s, p) => s + (p.goal || 0), 0);
-    const volunteers = DEMO_PROJECTS.reduce(
-      (s, p) => s + (p.volunteers || 0),
-      0
-    );
-    return { raised, goal, volunteers };
-  }, []);
-
-  // Mock volunteer data fetch
-  async function fetchVolunteers(projectId) {
-    return [
-      { name: "Ananya R", role: "Field Coordinator", date: "2 days ago" },
-      { name: "Rahul K", role: "Nursery Volunteer", date: "5 days ago" },
-      {
-        name: "SeaSupport LLC",
-        role: "Corporate Sponsor",
-        date: "1 month ago",
-      },
-    ];
   }
 
   return (
-    <main className="min-h-screen bg-gradient-to-b from-[#00121a] via-[#002b3a] to-[#00121a] text-sky-100 p-6">
+    <div className="min-h-screen bg-gradient-to-b from-[#00121a] via-[#002b3a] to-[#00121a] py-12 px-4 sm:px-8">
       <div className="max-w-6xl mx-auto">
-        {/* header */}
-        <header className="mb-8 grid md:grid-cols-2 gap-6 items-center">
-          <div>
-            <h1 className="text-4xl font-extrabold text-white">Our Projects</h1>
-            <p className="mt-2 text-cyan-200 max-w-xl">
-              Active restoration, research, and community programs protecting
-              coastal ecosystems. Explore current projects, progress and how you
-              can help.
+        <div className="mb-8">
+          <h1 className="text-3xl font-bold text-sky-600">Admin's Lounge</h1>
+          <p className="text-sm text-slate-500 mt-1">
+            Click View to preview. If resource isn't a PDF we open it in a new
+            tab.
+          </p>
+        </div>
+
+        {errorMsg && (
+          <div className="mb-4 text-sm text-rose-600">{errorMsg}</div>
+        )}
+
+        {issues.length === 0 ? (
+          <div className="text-center py-16 border rounded-2xl border-dashed">
+            <p className="text-slate-500">
+              No issues. Add PDFs to <code>/public/assets/eMagazines/</code>.
             </p>
-
-            <div className="mt-4 flex gap-3 items-center">
-              <div className="inline-flex items-center gap-2 bg-white/5 px-3 py-2 rounded">
-                <FaDonate className="text-cyan-300" />
-                <div>
-                  <div className="text-sm text-cyan-200">Total raised</div>
-                  <div className="font-semibold">
-                    {formatCurrencyINR(totals.raised)}
-                  </div>
-                </div>
-              </div>
-
-              <div className="inline-flex items-center gap-2 bg-white/5 px-3 py-2 rounded">
-                <FaUsers className="text-cyan-300" />
-                <div>
-                  <div className="text-sm text-cyan-200">Volunteers</div>
-                  <div className="font-semibold">{totals.volunteers}</div>
-                </div>
-              </div>
-
-              <div className="inline-flex items-center gap-2 bg-white/5 px-3 py-2 rounded">
-                <FaLeaf className="text-cyan-300" />
-                <div>
-                  <div className="text-sm text-cyan-200">Projects</div>
-                  <div className="font-semibold">{DEMO_PROJECTS.length}</div>
-                </div>
-              </div>
-            </div>
           </div>
-
-          <div>
-            <div className="flex items-center gap-3">
-              <input
-                placeholder="Search projects, location..."
-                value={query}
-                onChange={(e) => setQuery(e.target.value)}
-                className="w-full px-3 py-2 rounded bg-white/5 border border-white/8 placeholder:text-cyan-200"
-              />
-              <select
-                value={filter}
-                onChange={(e) => setFilter(e.target.value)}
-                className="px-3 py-2 rounded bg-white/5 border border-white/8"
+        ) : (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {issues.map((issue) => (
+              <div
+                key={issue.id}
+                className="p-5 bg-gray-50 border border-gray-100 rounded-2xl shadow-sm"
               >
-                {categories.map((c) => (
-                  <option key={c} value={c}>
-                    {c}
-                  </option>
-                ))}
-              </select>
-            </div>
-          </div>
-        </header>
-
-        {/* grid */}
-        <section className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {filtered.map((p) => {
-            const percent = Math.min(
-              100,
-              Math.round(((p.raised || 0) / (p.goal || 1)) * 100)
-            );
-            return (
-              <article
-                key={p.id}
-                className="rounded-lg overflow-hidden border border-white/8 bg-white/5 shadow hover:shadow-lg transition"
-              >
-                <div className="relative">
-                  <img
-                    src={p.image}
-                    alt={p.title}
-                    className="w-full h-44 object-cover"
-                  />
-                  <div className="absolute top-3 left-3 bg-white/6 px-2 py-1 rounded text-xs text-cyan-100">
-                    {p.category}
+                <div className="flex items-start gap-4">
+                  <div className="w-14 h-20 bg-teal-50 text-sky-600 font-semibold flex items-center justify-center rounded-md">
+                    PDF
                   </div>
-                </div>
+                  <div className="flex-1">
+                    <h3 className="font-semibold text-slate-900">
+                      {issue.title}
+                    </h3>
+                    <p className="text-sm text-slate-500 mt-1">
+                      {formatDate(issue.date)}
+                    </p>
 
-                <div className="p-4">
-                  <h3 className="text-lg font-semibold">{p.title}</h3>
-                  <p className="mt-2 text-sm text-cyan-200">{p.summary}</p>
-
-                  <div className="mt-3">
-                    <div className="w-full bg-white/10 h-3 rounded-full overflow-hidden">
-                      <div
-                        className="h-full bg-gradient-to-r from-[#00b4d8] to-[#0077b6]"
-                        style={{ width: `${percent}%` }}
-                      />
-                    </div>
-                    <div className="flex justify-between text-xs text-cyan-200 mt-2">
-                      <div>{percent}% funded</div>
-                      <div>
-                        {formatCurrencyINR(p.raised)} of{" "}
-                        {formatCurrencyINR(p.goal)}
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="mt-4 flex items-center justify-between gap-3">
-                    <div className="text-sm text-cyan-200">
-                      <FaMapMarkerAlt className="inline mr-1" />
-                      {p.location}
-                    </div>
-                    <div className="flex gap-2">
+                    <div className="mt-4 flex gap-2">
                       <button
-                        onClick={() => setSelectedProject(p)}
-                        className="px-3 py-1 rounded bg-gradient-to-r from-[#00b4d8] to-[#0077b6] text-white text-sm"
+                        onClick={() => handleView(issue)}
+                        disabled={checking}
+                        className="px-4 py-1.5 rounded-md bg-sky-600 text-white text-sm font-medium hover:bg-sky-900 transition disabled:opacity-60"
                       >
-                        View
-                      </button>
-
-                      <button
-                        onClick={() => setOpenVolunteerProject(p)} // ✅ new Volunteer modal trigger
-                        className="px-3 py-1 rounded border border-white/8 text-sm text-cyan-100"
-                      >
-                        Volunteer
+                        {checking ? "Checking..." : "View"}
                       </button>
 
                       <a
-                        href="/donate"
-                        className="px-3 py-1 rounded border border-white/8 text-sm text-cyan-100"
+                        href={issue.url}
+                        download
+                        className="px-4 py-1.5 rounded-md border text-sm font-medium text-gray-800 hover:bg-gray-100 transition"
                       >
-                        Donate
+                        Download
                       </a>
                     </div>
                   </div>
                 </div>
-              </article>
-            );
-          })}
-        </section>
-
-        {/* CTA */}
-        <section className="mt-10 rounded-lg bg-gradient-to-r from-[#003444] to-[#002b3a] p-6 shadow-lg border border-white/8 flex flex-col md:flex-row items-center justify-between gap-4">
-          <div>
-            <h3 className="text-xl font-semibold">Want to support our work?</h3>
-            <p className="text-cyan-200 mt-1">
-              Choose a project above and make a donation to amplify impact —
-              every contribution counts.
-            </p>
+              </div>
+            ))}
           </div>
-          <div className="flex gap-3">
-            <a
-              href="/donate"
-              className="px-4 py-2 rounded bg-gradient-to-r from-[#00b4d8] to-[#0077b6] text-white font-semibold"
-            >
-              Donate Now
-            </a>
-            <a
-              href="/contact"
-              className="px-4 py-2 rounded border border-white/8 text-cyan-200"
-            >
-              Contact Us
-            </a>
-          </div>
-        </section>
+        )}
 
-        {/* Existing detail modal */}
-        {selectedProject && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60">
-            <div className="bg-white rounded-xl max-w-3xl w-full overflow-auto p-6 text-slate-800">
-              <div className="flex justify-between items-start gap-4">
-                <h2 className="text-2xl font-bold">{selectedProject.title}</h2>
-                <button
-                  onClick={() => setSelectedProject(null)}
-                  className="text-slate-600"
-                >
-                  Close
-                </button>
+        {/* Preview modal */}
+        {selected && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+            <div
+              className="absolute inset-0 bg-black/50"
+              onClick={() => setSelected(null)}
+            />
+            <div className="relative w-full max-w-5xl h-[85vh] bg-white rounded-2xl overflow-hidden shadow-2xl border border-gray-200">
+              <div className="flex items-center justify-between p-4 border-b bg-gray-50">
+                <div>
+                  <h2 className="font-semibold text-slate-800">
+                    {selected.title}
+                  </h2>
+                  <p className="text-xs text-slate-500">
+                    {formatDate(selected.date)}
+                  </p>
+                </div>
+                <div className="flex items-center gap-2">
+                  <a
+                    href={selected.url}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="px-3 py-1 rounded-md border bg-slate-600 text-sm hover:bg-gray-900"
+                  >
+                    Open in new tab
+                  </a>
+                  <button
+                    onClick={() => setSelected(null)}
+                    className="px-3 py-1 rounded-md bg-slate-600 text-sm hover:bg-slate-900"
+                  >
+                    Close
+                  </button>
+                </div>
               </div>
 
-              <img
-                src={selectedProject.image}
-                alt={selectedProject.title}
-                className="w-full h-56 object-cover rounded mt-4"
-              />
-
-              <div className="mt-4 grid md:grid-cols-2 gap-4">
-                <div>
-                  <p className="text-slate-700">
-                    {selectedProject.description}
-                  </p>
-
-                  <ul className="mt-4 list-disc ml-5 text-slate-700">
-                    {selectedProject.impactPoints.map((it, idx) => (
-                      <li key={idx}>{it}</li>
-                    ))}
-                  </ul>
-                </div>
-
-                <div className="bg-white/5 p-4 rounded border border-white/8">
-                  <div className="text-sm text-slate-600">Location</div>
-                  <div className="font-semibold">
-                    {selectedProject.location}
-                  </div>
-
-                  <div className="mt-4">
-                    <div className="text-sm text-slate-600">Funding</div>
-                    <div className="font-semibold">
-                      {formatCurrencyINR(selectedProject.raised)} raised
-                    </div>
-                    <div className="text-sm text-slate-600">
-                      {formatCurrencyINR(selectedProject.goal)} goal
-                    </div>
-                  </div>
-
-                  <div className="mt-4">
-                    <div className="text-sm text-slate-600">Volunteers</div>
-                    <div className="font-semibold">
-                      {selectedProject.volunteers}
-                    </div>
-                  </div>
-
-                  <div className="mt-6">
+              <div className="w-full h-[calc(100%-64px)] bg-white">
+                <object
+                  data={selected.url}
+                  type="application/pdf"
+                  width="100%"
+                  height="100%"
+                >
+                  <div className="flex flex-col items-center justify-center h-full text-slate-900">
+                    <p className="mb-4">
+                      PDF cannot be displayed inline. Click below to open.
+                    </p>
                     <a
-                      href="/donate"
-                      className="w-full inline-block text-center px-4 py-2 rounded bg-gradient-to-r from-[#00b4d8] to-[#0077b6] text-white font-semibold"
+                      href={selected.url}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="px-4 py-2 bg-sky-600 text-white rounded-md"
                     >
-                      Donate to this project
+                      Open PDF
                     </a>
                   </div>
-                </div>
+                </object>
               </div>
             </div>
           </div>
         )}
-
-        {/* ✅ Volunteer Modal */}
-        <VolunteerModal
-          open={!!openVolunteerProject}
-          onClose={() => setOpenVolunteerProject(null)}
-          project={openVolunteerProject}
-          fetchVolunteers={fetchVolunteers}
-        />
       </div>
-    </main>
+    </div>
   );
 }

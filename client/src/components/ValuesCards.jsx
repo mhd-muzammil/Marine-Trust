@@ -34,9 +34,9 @@ const VALUES = [
 
 export default function ValuesCards() {
   return (
-    <section className="py-12 bg-gray-50">
+    <section className="py-12 bg-gray-50 rounded-2xl">
       <div className="max-w-6xl mx-auto px-4">
-        <h2 className="text-3xl md:text-4xl font-bold text-[#023e8a] mb-8">
+        <h2 className="text-3xl md:text-4xl font-bold text-[#023e8a] mb-8 text-center">
           Our Values
         </h2>
 
@@ -46,7 +46,7 @@ export default function ValuesCards() {
             return (
               <article
                 key={v.id}
-                className="bg-yellow-400 rounded-xl p-6 shadow-sm hover:shadow-lg transition-shadow duration-300 ease-out transform hover:scale-105"
+                className="bg-sky-700 rounded-xl p-6 shadow-sm hover:shadow-lg transition-shadow duration-300 ease-out transform hover:scale-105"
                 aria-labelledby={`value-${v.id}-title`}
               >
                 <div className="flex items-start gap-4">
@@ -59,11 +59,11 @@ export default function ValuesCards() {
                   <div>
                     <h3
                       id={`value-${v.id}-title`}
-                      className="text-lg font-bold text-orange-600"
+                      className="text-lg font-bold text-sky-300"
                     >
                       {v.title}
                     </h3>
-                    <p className="mt-2 text-sm text-gray-600 leading-relaxed">
+                    <p className="mt-2 text-md font-semibold text-gray-900 leading-relaxed">
                       {v.desc}
                     </p>
 

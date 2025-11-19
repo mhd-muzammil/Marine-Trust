@@ -1,3 +1,4 @@
+// src/pages/Blog.jsx
 import React, { useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import {
@@ -7,10 +8,15 @@ import {
   FaUserCircle,
   FaClock,
   FaArrowRight,
-  FaBell,
+  FaUser,
+  FaEnvelope,
+  FaMapMarkerAlt,
+  FaHandsHelping,
+  FaPhone,
 } from "react-icons/fa";
-import JoinVolunteerForm from "../components/JoinVolunteerForm";
-import UnderwaterScene from "../components/UnderwaterScene";
+import axios from "axios";
+import { Player } from "@lottiefiles/react-lottie-player";
+import successAnim from "../animations/success.json";
 
 /* ---------------- Demo posts ---------------- */
 const DEMO_POSTS = [
@@ -86,16 +92,358 @@ function formatDate(dateStr) {
   }
 }
 
-/* ---------------- Component ---------------- */
+/* ---------------- Inline JoinVolunteerForm ----------------
+   This is the form inlined so you don't need the separate file.
+   It defaults to inline rendering and simple validation.
+---------------------------------------------------------*/
+// replace your existing JoinVolunteerFormInline with this clean version
+function JoinVolunteerFormInline({
+  apiBase = "http://localhost:5000/api",
+  onSubmit,
+}) {
+  const [form, setForm] = useState({
+    fullName: "",
+    emailId: "",
+    phone: "",
+    location: "",
+    role: "",
+    availability: "",
+    interestsCleanup: true,
+    interestsRestoration: false,
+    interestsEducation: false,
+  });
+
+  const [errors, setErrors] = useState({});
+  const [busy, setBusy] = useState(false);
+  const [done, setDone] = useState(false);
+
+  /* -----------------------------------------
+    CONFETTI BLAST FUNCTION (4 sec)
+  ----------------------------------------- */
+  const confettiBlast = () => {
+    const container = document.body;
+    const colors = [
+      "#00b4d8",
+      "#0077b6",
+      "#90e0ef",
+      "#ffd166",
+      "#06d6a0",
+      "#ff6b6b",
+    ];
+
+    for (let i = 0; i < 150; i++) {
+      const piece = document.createElement("div");
+      piece.classList.add("confetti-piece");
+
+      const size = Math.random() * 8 + 6;
+      piece.style.width = `${size}px`;
+      piece.style.height = `${size * 0.6}px`;
+
+      piece.style.left = `${Math.random() * window.innerWidth}px`;
+      piece.style.top = `${window.innerHeight * 0.2}px`;
+
+      piece.style.background =
+        colors[Math.floor(Math.random() * colors.length)];
+      piece.style.animationDuration = `${Math.random() * 1 + 2}s`;
+
+      container.appendChild(piece);
+
+      setTimeout(() => piece.remove(), 3500);
+    }
+  };
+
+  /* -----------------------------------------
+    VALIDATION
+  ----------------------------------------- */
+  const validate = () => {
+    const e = {};
+    if (!form.fullName.trim()) e.fullName = "Please enter your full name";
+    if (!form.emailId.trim() || !/^\S+@\S+\.\S+$/.test(form.emailId))
+      e.emailId = "Please enter a valid email";
+    return e;
+  };
+
+  const handleChange = (ev) => {
+    const { name, value, type, checked } = ev.target;
+    setForm((s) => ({ ...s, [name]: type === "checkbox" ? checked : value }));
+  };
+
+  /* -----------------------------------------
+    SUBMIT
+  ----------------------------------------- */
+  const handleSubmit = async () => {
+    const v = validate();
+    if (Object.keys(v).length) {
+      setErrors(v);
+      return;
+    }
+
+    setBusy(true);
+    setErrors({});
+
+    try {
+      const resp = await axios.post(apiBase + "/volunteer", form, {
+        withCredentials: true,
+      });
+
+      if (resp?.data) {
+        setDone(true);
+        confettiBlast(); // 🔥 CONFETTI HERE
+        if (onSubmit) onSubmit(resp.data);
+      } else {
+        // fallback
+        setDone(true);
+        confettiBlast(); // 🔥 CONFETTI HERE
+      }
+    } catch (err) {
+      setErrors({
+        server: err?.response?.data?.message || "Server error. Try again.",
+      });
+    } finally {
+      setBusy(false);
+    }
+  };
+
+  /* -----------------------------------------
+    SUCCESS SCREEN
+  ----------------------------------------- */
+  if (done) {
+    return (
+      <div className="w-full flex justify-center">
+        <div className="w-full max-w-lg rounded-2xl bg-[#001921] border border-white/10 p-8 text-center shadow-xl">
+          {/* LOTTIE ANIMATION */}
+          <Player
+            autoplay
+            loop={false}
+            src={successAnim}
+            style={{ height: "140px", width: "140px", margin: "0 auto" }}
+          />
+
+          {/* Success Heading */}
+          <h3 className="text-2xl font-bold text-white mt-4 mb-2">
+            You're in thanks!
+          </h3>
+
+          {/* Subtext */}
+          <p className="text-cyan-200 text-sm leading-relaxed">
+            We'll email next steps and volunteer opportunities soon.
+          </p>
+        </div>
+
+        {/* Confetti (unchanged) */}
+        <style>{`
+        .confetti-piece {
+          position: absolute;
+          width: 8px;
+          height: 12px;
+          opacity: 0.9;
+          border-radius: 2px;
+          animation: confetti-fall linear forwards;
+        }
+
+        @keyframes confetti-fall {
+          0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+          100% { transform: translateY(350px) rotate(360deg); opacity: 0; }
+        }
+      `}</style>
+      </div>
+    );
+  }
+
+
+
+
+  /* -----------------------------------------
+    FORM UI
+  ----------------------------------------- */
+  return (
+    <div className="w-full rounded-2xl overflow-hidden border border-white/8 bg-white/5 p-4 md:p-6">
+      <h3 className="text-2xl font-semibold text-white mb-4">
+        Join as a Volunteer
+      </h3>
+
+      <div className="space-y-4">
+        {/* Name */}
+        <div>
+          <label className="block text-sm text-cyan-200 mb-1">Full name</label>
+          <input
+            name="fullName"
+            value={form.fullName}
+            onChange={handleChange}
+            placeholder="e.g. Priya R"
+            className="w-full py-2 px-3 rounded-md bg-white/5 text-white placeholder:text-white/60 border border-white/10"
+          />
+          {errors.fullName && (
+            <p className="text-rose-300 text-xs">{errors.fullName}</p>
+          )}
+        </div>
+
+        {/* Email */}
+        <div>
+          <label className="block text-sm text-cyan-200 mb-1">Email</label>
+          <input
+            name="emailId"
+            type="email"
+            value={form.emailId}
+            onChange={handleChange}
+            placeholder="you@example.com"
+            className="w-full py-2 px-3 rounded-md bg-white/5 text-white placeholder:text-white/60 border border-white/10"
+          />
+          {errors.emailId && (
+            <p className="text-rose-300 text-xs">{errors.emailId}</p>
+          )}
+        </div>
+
+        {/* Phone + Location */}
+        <div className="grid md:grid-cols-2 gap-4">
+          <div>
+            <label className="block text-sm text-cyan-200 mb-1">
+              Phone (optional)
+            </label>
+            <input
+              name="phone"
+              value={form.phone}
+              onChange={handleChange}
+              placeholder="+91 98765 43210"
+              className="w-full py-2 px-3 rounded-md bg-white/5 text-white placeholder:text-white/60 border border-white/10"
+            />
+          </div>
+
+          <div>
+            <label className="block text-sm text-cyan-200 mb-1">
+              City / Location
+            </label>
+            <input
+              name="location"
+              value={form.location}
+              onChange={handleChange}
+              placeholder="e.g. Chennai"
+              className="w-full py-2 px-3 rounded-md bg-white/5 text-white placeholder:text-white/60 border border-white/10"
+            />
+          </div>
+        </div>
+
+        {/* Role + Availability */}
+        <div className="grid md:grid-cols-2 gap-4">
+          <div>
+            <label className="block text-sm text-cyan-200 mb-1">Role</label>
+            <select
+              name="role"
+              value={form.role}
+              onChange={handleChange}
+              className="w-full py-2 px-3 rounded-md bg-white/5 text-white border border-white/10"
+            >
+              <option value="">Select a role</option>
+              <option>Beach Cleanup</option>
+              <option>Reef Restoration</option>
+              <option>Community Education</option>
+              <option>Research Support</option>
+            </select>
+          </div>
+
+          <div>
+            <label className="block text-sm text-cyan-200 mb-1">
+              Availability
+            </label>
+            <input
+              name="availability"
+              value={form.availability}
+              onChange={handleChange}
+              placeholder="Weekends, weekdays..."
+              className="w-full py-2 px-3 rounded-md bg-white/5 text-white border border-white/10"
+            />
+          </div>
+        </div>
+
+        {/* Interests */}
+        <div>
+          <p className="text-sm text-cyan-200 mb-2">Interests</p>
+
+          <div className="flex flex-col gap-2 text-white/90">
+            <label className="flex items-center gap-2">
+              <input
+                type="checkbox"
+                name="interestsCleanup"
+                checked={form.interestsCleanup}
+                onChange={handleChange}
+                className="accent-[#00b4d8]"
+              />
+              Beach cleanup
+            </label>
+
+            <label className="flex items-center gap-2">
+              <input
+                type="checkbox"
+                name="interestsRestoration"
+                checked={form.interestsRestoration}
+                onChange={handleChange}
+                className="accent-[#00b4d8]"
+              />
+              Reef restoration
+            </label>
+
+            <label className="flex items-center gap-2">
+              <input
+                type="checkbox"
+                name="interestsEducation"
+                checked={form.interestsEducation}
+                onChange={handleChange}
+                className="accent-[#00b4d8]"
+              />
+              Community education
+            </label>
+          </div>
+        </div>
+
+        {errors.server && (
+          <p className="text-rose-300 text-sm">{errors.server}</p>
+        )}
+
+        {/* Submit */}
+        <button
+          onClick={handleSubmit}
+          disabled={busy}
+          className={`w-full py-2 rounded-md text-white font-semibold bg-gradient-to-r from-[#00b4d8] to-[#0077b6] ${
+            busy ? "opacity-60" : "hover:opacity-95"
+          }`}
+        >
+          {busy ? "Submitting..." : "Submit"}
+        </button>
+      </div>
+
+      {/* Confetti styles */}
+      <style>{`
+        .confetti-piece {
+          position: absolute;
+          width: 8px;
+          height: 12px;
+          opacity: 0.9;
+          border-radius: 2px;
+          animation: confetti-fall linear forwards;
+        }
+
+        @keyframes confetti-fall {
+          0% {
+            transform: translateY(0) rotate(0deg);
+            opacity: 1;
+          }
+          100% {
+            transform: translateY(350px) rotate(360deg);
+            opacity: 0;
+          }
+        }
+      `}</style>
+    </div>
+  );
+}
+
+/* ---------------- Component (page) ---------------- */
 export default function Blog() {
-  
   // states we actually use
   const [query, setQuery] = useState("");
   const [category, setCategory] = useState("All");
   const [activeTag, setActiveTag] = useState(null);
-  const [showJoinForm, setShowJoinForm] = useState(false);
   const [page, setPage] = useState(1);
-
   const perPage = 6;
 
   // categories and tags (used in UI)
@@ -145,7 +493,6 @@ export default function Blog() {
 
   return (
     <>
-      
       <main className="min-h-screen bg-gradient-to-b from-[#00121a] via-[#002b3a] to-[#00121a] text-sky-100 px-6 py-12">
         <div className="max-w-7xl mx-auto">
           {/* Header */}
@@ -365,37 +712,16 @@ export default function Blog() {
                 </div>
               </div>
 
-              <div className="p-4 rounded-lg bg-gradient-to-r from-[#002b3a] to-[#012a34] border border-white/6">
-                <h4 className="font-semibold text-white mb-2">Volunteer</h4>
-                <p className="text-sm text-cyan-200">
-                  Join our volunteer network — help with monitoring,
-                  restoration, or community outreach.
-                </p>
-                <div className="mt-3 flex gap-2">
-                  <button
-                    onClick={() => setShowJoinForm(true)}
-                    className="px-6 py-3 bg-gradient-to-r from-[#00b4d8] to-[#0077b6] text-white font-semibold rounded-lg shadow-lg transform transition-all duration-300 hover:animate-heartbeat hover:shadow-cyan-400/50"
-                  >
-                    Become a volunteer
-                  </button>
-                  <Link
-                    to="/donate"
-                    className="px-3 py-2 rounded bg-white/6 text-cyan-100 border border-white/6"
-                  >
-                    Donate
-                  </Link>
-                </div>
+              {/* Inline volunteer form (directly in sidebar) */}
+              <div className="p-0 max-w-[380px]">
+                <JoinVolunteerFormInline
+                  apiBase="http://localhost:5000/api"
+                  onSubmit={(data) => console.log("Volunteer Joined:", data)}
+                />
               </div>
             </aside>
           </div>
         </div>
-
-        {/* Volunteer Form Modal */}
-        <JoinVolunteerForm
-          open={showJoinForm}
-          onClose={() => setShowJoinForm(false)}
-          onSubmit={(data) => console.log("Volunteer Joined:", data)}
-        />
       </main>
     </>
   );
