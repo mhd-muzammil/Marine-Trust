@@ -20,7 +20,7 @@ import RefundPolicy from './pages/RefundPolicy';
 import MembershipAgreement from './pages/MembershipAgreement';
 import DonationPolicy from './pages/DonationPolicy';
 
-const socket = io('http://localhost:5000');
+const socket = io('http://localhost:5173');
 
 export default function App() {
   const [visitorCount, setVisitorCount] = useState(null);

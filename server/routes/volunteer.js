@@ -4,20 +4,37 @@ const Volunteer = require('../model/volunteer');
 
 volunteerRouter.post('/volunteer', async (req, res) => {
   try {
-    const { fullName, emailId, phone, availability, location } = req.body;
+    const {
+      fullName,
+      emailId,
+      phone,
+      availability,
+      location,
+      role,
+      interestsCleanup,
+      interestsRestoration,
+      interestsEducation,
+    } = req.body;
     const volunteer = new Volunteer({
       fullName,
       emailId,
       phone,
       availability,
       location,
+      role,
+      interestsCleanup,
+      interestsRestoration,
+      interestsEducation,
     });
 
     const savedVolunteer = await volunteer.save();
 
     res.status(200).json(savedVolunteer);
   } catch (err) {
-    res.status(401).send({ Error: err.message });
+    if (err.name === 'ValidationError') {
+      return res.status(400).send({ message: err.message });
+    }
+    res.status(500).send({ message: err.message });
   }
 });
 

@@ -98,7 +98,7 @@ function formatDate(dateStr) {
 ---------------------------------------------------------*/
 // replace your existing JoinVolunteerFormInline with this clean version
 function JoinVolunteerFormInline({
-  apiBase = "http://localhost:5000/api",
+  apiBase = "http://localhost:5173/api",
   onSubmit,
 }) {
   const [form, setForm] = useState({
@@ -715,7 +715,7 @@ export default function Blog() {
               {/* Inline volunteer form (directly in sidebar) */}
               <div className="p-0 max-w-[380px]">
                 <JoinVolunteerFormInline
-                  apiBase="http://localhost:5000/api"
+                  apiBase="http://localhost:5173/api"
                   onSubmit={(data) => console.log("Volunteer Joined:", data)}
                 />
               </div>

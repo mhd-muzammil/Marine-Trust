@@ -32,7 +32,7 @@ export default function JoinVolunteerForm({
   open,
   onClose,
   onSubmit,
-  apiBase = 'http://localhost:5000/api',
+  apiBase = 'http://localhost:5173/api',
 }) {
   const [form, setForm] = useState({
     fullName: '',

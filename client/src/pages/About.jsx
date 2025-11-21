@@ -13,17 +13,17 @@ const timelineData = [
   {
     icon: "🌱",
     title: "Awareness & Education",
-    desc: "Community and school programs to build ocean literacy.",
+    desc: "Conduct awareness programs in schools, colleges and communities.",
   },
   {
     icon: "🐢",
     title: "Beach Cleanups",
-    desc: "Organized cleanups and debris removal for safer coasts.",
+    desc: "Organize beach cleanup and mangrove restoration activities.",
   },
   {
     icon: "🌿",
     title: "Mangrove Restoration",
-    desc: "Planting and monitoring mangroves to protect shorelines.",
+    desc: "Provide environmental education workshops and youth training.",
   },
   {
     icon: "📚",
@@ -33,12 +33,12 @@ const timelineData = [
   {
     icon: "🔬",
     title: "Research & Monitoring",
-    desc: "Data collection and analysis to guide conservation policy.",
+    desc: "Develop digital platforms to connect global volunteers.",
   },
   {
     icon: "🤝",
     title: "Partnerships",
-    desc: "Collaborating with NGOs, institutions, and governments.",
+    desc: "Partner with governments, NGOs and institutions for conservation project.",
   },
 ];
 
@@ -92,10 +92,14 @@ export default function About() {
 
         <p className="text-lg leading-relaxed text-slate-900 mb-4">
           The <strong>Marine Biodiversity Conservation Trust (MBCT)</strong> is
-          a community-driven non-profit organization dedicated to protecting,
-          restoring and sustaining marine ecosystems through education,
-          restoration and collaboration. We envision a world where oceans are
-          vibrant, thriving and protected by an aware generation.
+          a non-profit organization founded with a single vision to protect,
+          restore, and sustain the marine ecosystems that support life on Earth.
+        </p>
+        <p className="text-lg leading-relaxed text-slate-900 mb-4">
+          We are a community-driven movement led by passionate individuals,
+          environmentalists, and youth volunteers who believe that every drop of
+          the ocean matters. From students to scientists, we unite people across
+          all walks of life to work for a sustainable and healthy blue planet.
         </p>
 
         <p className="text-slate-500">
@@ -437,9 +441,10 @@ export default function About() {
             Join the Movement
           </h3>
           <p className="mt-3 text-slate-600 text-lg font-semibold max-w-2xl mx-auto">
-            Students, educators, and citizens become volunteers and ocean
-            ambassadors. Together, we can protect marine life and inspire
-            change.
+            We welcome everyone  students, educators, professionals and
+            citizens to join us as volunteers and ocean ambassadors. Together,
+            let’s protect marine life, promote sustainable habits and inspire
+            others to act for the ocean’s future.
           </p>
 
           <div className="mt-6 flex items-center justify-center gap-4">

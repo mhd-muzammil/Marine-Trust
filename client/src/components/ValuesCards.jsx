@@ -63,7 +63,7 @@ export default function ValuesCards() {
                     >
                       {v.title}
                     </h3>
-                    <p className="mt-2 text-md font-semibold text-gray-900 leading-relaxed">
+                    <p className="mt-2 text-md font-semibold text-white leading-relaxed">
                       {v.desc}
                     </p>
 

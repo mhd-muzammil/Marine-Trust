@@ -16,7 +16,7 @@ const volunteerSchema = new mongoose.Schema(
     phone: {
       type: String,
       unique: true,
-      dafault: '+91 XXXXX XXXXX',
+      default: '+91 XXXXX XXXXX',
     },
     availability: {
       type: String,
@@ -26,6 +26,22 @@ const volunteerSchema = new mongoose.Schema(
       type: String,
       required: [true, 'location is required'],
       trim: true,
+    },
+    role: {
+      type: String,
+      default: 'Volunteer',
+    },
+    interestsCleanup: {
+      type: Boolean,
+      default: false,
+    },
+    interestsRestoration: {
+      type: Boolean,
+      default: false,
+    },
+    interestsEducation: {
+      type: Boolean,
+      default: false,
     },
   },
   {

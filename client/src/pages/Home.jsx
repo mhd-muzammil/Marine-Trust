@@ -29,8 +29,8 @@ export default function Home() {
             </h1>
 
             <p className="mt-6 max-w-2xl text-sky-100/90 mx-auto">
-              Dive into our mission to protect marine ecosystems, coral reefs,
-              mangroves, and ocean life for future generations.
+              Our oceans are the lungs of our planet. Let’s unite to protect
+              marine life for today and for generations to come.
             </p>
 
             <a
