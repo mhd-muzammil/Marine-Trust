@@ -24,6 +24,7 @@ export default function Navbar({ visitorCount = 0 }) {
     { to: "/about", label: "About" },
     { to: "/blog", label: "Volunteer" },
     { to: "/projects", label: "Admins-Lounge" },
+    { to: "/careers", label: "Careers" },
     { to: "/opine", label: "Opine" },
     { to: "/contact", label: "Contact" },
   ];

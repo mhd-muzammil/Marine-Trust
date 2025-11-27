@@ -1,51 +1,63 @@
-const path = require('path');
-// import default from './../../client/tailwind.config';
-const cors = require('cors');
-require('dotenv').config({ path: path.resolve(__dirname, '../.env') }); // MUST run before other requires
+// src/app.js
+const path = require("path");
+const cors = require("cors");
 
-const express = require('express');
+// load .env BEFORE other imports
+require("dotenv").config({ path: path.resolve(__dirname, "../.env") });
+
+const express = require("express");
 const app = express();
-const http = require('http');
-const { Server } = require('socket.io');
-const connectDB = require('../config/database');
-const volunteerRouter = require('../routes/volunteer');
-const visiterCountRouter = require('../routes/visitorCount');
-const { axios } = require('axios');
-const { InitializeSocket } = require('../utils/socket');
+const http = require("http");
+const { Server } = require("socket.io");
+const connectDB = require("../config/database");
 
+// existing routers
+const volunteerRouter = require("../routes/volunteer");
+const visiterCountRouter = require("../routes/visitorCount");
+const opineRouter = require("../routes/opine");
+
+// ⭐ NEW: careers applications router
+const applicationsRouter = require("../routes/applications");
+
+const { axios } = require("axios");
+const { InitializeSocket } = require("../utils/socket");
+
+// CORS (keep your current origin)
 app.use(
   cors({
-    origin: 'http://localhost:8173',
-    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    origin: "http://localhost:8173",
+    methods: ["GET", "POST", "PUT", "DELETE"],
     credentials: true,
   })
 );
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 const server = http.createServer(app);
 InitializeSocket(server);
 
-const opineRouter = require("../routes/opine");
-
+// routes
 app.use("/api/opine", opineRouter);
+app.use("/api", volunteerRouter);
+app.use("/api", visiterCountRouter);
 
-app.use('/api', volunteerRouter);
-app.use('/api', visiterCountRouter);
+// ⭐ NEW: exposes POST /api/apply
+app.use("/api", applicationsRouter);
 
+app.get("/", (req, res) => res.send("OK"));
 
-app.get('/', (req, res) => res.send('OK'));
 connectDB()
   .then(() => {
-    console.log('Db connection successful');
+    console.log("Db connection successful");
     server.listen(process.env.PORT, () => {
-      console.log('Server listening on port ' + process.env.PORT);
+      console.log("Server listening on port " + process.env.PORT);
       console.log(
         `WebSocket server also running on ws://localhost:${process.env.PORT}`
       );
     });
   })
   .catch((err) => {
-    console.error('DB connection failed:', err);
+    console.error("DB connection failed:", err);
     process.exit(1);
   });

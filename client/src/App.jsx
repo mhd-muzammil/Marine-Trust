@@ -19,6 +19,7 @@ import TermsAndConditions from './pages/TermsAndConditions';
 import RefundPolicy from './pages/RefundPolicy';
 import MembershipAgreement from './pages/MembershipAgreement';
 import DonationPolicy from './pages/DonationPolicy';
+import Careers from './pages/Careers';
 
 const socket = io('http://localhost:5173');
 
@@ -55,6 +56,7 @@ export default function App() {
             <Route path="/about" element={<About />} />
             <Route path="/blog" element={<Blog />} />
             <Route path="/opine" element={<Opine />} />
+            <Route path="/careers" element={<Careers />} />
             <Route path="/projects" element={<Project />} />
             <Route path="/contact" element={<Contact />} />
             <Route path="/donate" element={<Donation />} />
