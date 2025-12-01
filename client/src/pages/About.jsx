@@ -57,7 +57,7 @@ export default function About() {
       >
         {/* Background Image */}
         <img
-          src="https://images.pexels.com/photos/1450356/pexels-photo-1450356.jpeg"
+          src="/src/assets/About-Hero.jpg"
           alt="Ocean and coral reef"
           className="absolute inset-0 w-full h-full object-cover"
           loading="lazy"
