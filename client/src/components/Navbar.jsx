@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import Logo from "../assets/logo.jfif"; // replace or remove if not present
+import Logo from "../assets/MBCT-logo.png"; // replace or remove if not present
 
 export default function Navbar({ visitorCount = 0 }) {
   const [open, setOpen] = useState(false);
@@ -22,9 +22,9 @@ export default function Navbar({ visitorCount = 0 }) {
   const navLinks = [
     { to: "/", label: "Home" },
     { to: "/about", label: "About" },
-    { to: "/blog", label: "Volunteer" },
+    { to: "/blog", label: "Get Involved" },
     { to: "/projects", label: "Admins-Lounge" },
-    { to: "/careers", label: "Careers" },
+    // { to: "/careers", label: "Careers" },
     { to: "/opine", label: "Opine" },
     { to: "/contact", label: "Contact" },
   ];
@@ -39,7 +39,7 @@ export default function Navbar({ visitorCount = 0 }) {
             <Link to="/" className="flex items-center gap-3">
               <div className="w-16 h-16 rounded-full bg-white/10 border border-white/10 flex items-center justify-center overflow-hidden shrink-0">
                 {Logo ? (
-                  <img src={Logo} alt="logo" className="w-16 h-16 rounded-full object-cover" />
+                  <img src={Logo} alt="logo" className="w-24 h-24 rounded-full object-cover" />
                 ) : (
                   <span className="text-white text-lg">🌊</span>
                 )}

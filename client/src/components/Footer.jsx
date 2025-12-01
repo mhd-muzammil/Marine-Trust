@@ -177,6 +177,22 @@ export default function Footer() {
               <FaLinkedinIn className="p-2 w-10 h-10 bg-gray-700 rounded-full cursor-pointer hover:bg-[#0A66C2] transition" />
             </a>
           </div>
+          <div className="mt-5">
+            <p className="text-sm font-medium text-gray-300 mb-2">
+              Download our app
+            </p>
+            <a
+              href="https://play.google.com/store/apps/" // replace with your real app link
+              target="_blank"
+              rel="noreferrer"
+            >
+              <img
+                src="/src/assets/play-store.png"
+                alt="Get it on Google Play"
+                className="h-20 w-40 hover:scale-105 transition-transform duration-200"
+              />
+            </a>
+          </div>
         </div>
       </div>
 

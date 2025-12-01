@@ -3,7 +3,6 @@ import UnderwaterScene from '../components/UnderwaterScene';
 // import ThreeScene from "../3d/ThreeScene"
 import ObjectivesZigzag from '../components/ObjectivesZigzag';
 import Threats from '../components/Threats';
-import CTA from '../components/CTA';
 
 export default function Home() {
   return (
@@ -36,7 +35,7 @@ export default function Home() {
             <a
               href="#objectives"
               className="mt-8 inline-block px-8 py-3 rounded-full bg-gradient-to-r from-cyan-500 to-emerald-400 
-                 text-black font-semibold hover:scale-105 transition-transform shadow-lg"
+                  text-black font-semibold hover:scale-105 transition-transform shadow-lg"
             >
               Explore Objectives ↓
             </a>
@@ -86,6 +85,7 @@ export default function Home() {
             </div>
           </div>
         </section>
+        
       </main>
     </>
   );

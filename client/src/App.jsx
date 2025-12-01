@@ -20,6 +20,8 @@ import RefundPolicy from './pages/RefundPolicy';
 import MembershipAgreement from './pages/MembershipAgreement';
 import DonationPolicy from './pages/DonationPolicy';
 import Careers from './pages/Careers';
+import FellowShip from './pages/FellowShip';
+import FloatingActions from './components/FloatingActions';
 
 const socket = io('http://localhost:5173');
 
@@ -49,6 +51,8 @@ export default function App() {
     <BrowserRouter>
       <div className="flex flex-col min-h-screen">
         <Navbar visitorCount={visitorCount} />
+
+        <FloatingActions/>
         <div className="flex-1">
           <Routes>
             {/* <Route path="/" element={<Body />} /> */}
@@ -57,6 +61,7 @@ export default function App() {
             <Route path="/blog" element={<Blog />} />
             <Route path="/opine" element={<Opine />} />
             <Route path="/careers" element={<Careers />} />
+            <Route path="/fellowship" element={<FellowShip />} />
             <Route path="/projects" element={<Project />} />
             <Route path="/contact" element={<Contact />} />
             <Route path="/donate" element={<Donation />} />
