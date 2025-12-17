@@ -3,35 +3,35 @@ import React, { useRef, useEffect } from 'react';
 
 const OBJECTIVES = [
   {
-    title: "Conservation & Protection",
-    desc: "Marine biodiversity is under threat, and protecting species, habitats, and ecosystems has never been more urgent. Coral reefs, often called the ‘rainforests of the sea,’ shelter thousands of species but are rapidly declining due to warming waters. Mangroves safeguard our coasts while serving as nurseries for young fish, yet they are being cleared for development. Endangered species such as sea turtles, sharks, and dugongs face extinction if action is not taken. By conserving these habitats and species, we secure food, oxygen, medicine, and a stable climate not only for ourselves but also for future generations.",
-    image: "/img-1.jpeg",
+    title: 'Conservation & Protection',
+    desc: 'Marine biodiversity is under threat, and protecting species, habitats, and ecosystems has never been more urgent. Coral reefs, often called the ‘rainforests of the sea,’ shelter thousands of species but are rapidly declining due to warming waters. Mangroves safeguard our coasts while serving as nurseries for young fish, yet they are being cleared for development. Endangered species such as sea turtles, sharks, and dugongs face extinction if action is not taken. By conserving these habitats and species, we secure food, oxygen, medicine, and a stable climate not only for ourselves but also for future generations.',
+    image: '/img-1.jpeg',
     // cta: { text: 'Learn More', href: 'https://www.marinebio.org' },
   },
   {
-    title: "Sustainable Use",
-    desc: "Healthy oceans are vital for people and planet, yet overfishing, unsustainable aquaculture, and poorly managed coastal development threaten their balance. Responsible fisheries ensure fish stocks remain for future generations, while eco-friendly aquaculture provides food without polluting waters. Proper coastal management protects mangroves and reefs that defend communities from storms and erosion. By promoting practices that meet human needs while safeguarding marine ecosystems, we can achieve true harmony between development and conservation.",
-    image: "/img-2.jpeg",
+    title: 'Sustainable Use',
+    desc: 'Healthy oceans are vital for people and planet, yet overfishing, unsustainable aquaculture, and poorly managed coastal development threaten their balance. Responsible fisheries ensure fish stocks remain for future generations, while eco-friendly aquaculture provides food without polluting waters. Proper coastal management protects mangroves and reefs that defend communities from storms and erosion. By promoting practices that meet human needs while safeguarding marine ecosystems, we can achieve true harmony between development and conservation.',
+    image: '/img-2.jpeg',
     // cta: { text: 'Our Practices', href: '/projects' },
   },
   {
-    title: "Research & Monitoring",
-    desc: "Effective marine conservation depends on science. By conducting regular surveys and ecosystem monitoring, researchers collect vital data on species populations, habitat conditions, and human impacts. From coral reef health checks to tagging sea turtles and measuring water quality, these studies reveal where action is most needed. The data not only supports restoration projects such as mangrove planting or coral rehabilitation but also guides governments in creating policies, protected areas, and sustainable fisheries. Research and monitoring ensure that conservation is based on evidence, not guesswork, making every effort more impactful.",
-    image: "https://images.pexels.com/photos/1645028/pexels-photo-1645028.jpeg",
+    title: 'Research & Monitoring',
+    desc: 'Effective marine conservation depends on science. By conducting regular surveys and ecosystem monitoring, researchers collect vital data on species populations, habitat conditions, and human impacts. From coral reef health checks to tagging sea turtles and measuring water quality, these studies reveal where action is most needed. The data not only supports restoration projects such as mangrove planting or coral rehabilitation but also guides governments in creating policies, protected areas, and sustainable fisheries. Research and monitoring ensure that conservation is based on evidence, not guesswork, making every effort more impactful.',
+    image: '../../public/tortoise (1).jpeg',
     // cta: { text: 'View Research', href: '/research' },
   },
   {
-    title: "Awareness & Education",
-    desc: "Awareness and education are the heart of long-term marine conservation. Through workshops, school programs, and public campaigns, we aim to build a generation of ocean-literate citizens who understand the value of marine biodiversity. Children learn to see the ocean not just as a resource, but as a living system that sustains life on Earth. Local communities are empowered to become stewards of their coasts, taking responsibility for protecting coral reefs, mangroves, and fisheries. By inspiring collective action through knowledge, we ensure that ocean conservation becomes part of daily life, not just an occasional effort.",
+    title: 'Awareness & Education',
+    desc: 'Awareness and education are the heart of long-term marine conservation. Through workshops, school programs, and public campaigns, we aim to build a generation of ocean-literate citizens who understand the value of marine biodiversity. Children learn to see the ocean not just as a resource, but as a living system that sustains life on Earth. Local communities are empowered to become stewards of their coasts, taking responsibility for protecting coral reefs, mangroves, and fisheries. By inspiring collective action through knowledge, we ensure that ocean conservation becomes part of daily life, not just an occasional effort.',
     image:
-      "https://www.marinebiodiversity.ca/wp-content/uploads/2025/06/coastal-marine-academy-collaboration.jpeg",
+      'https://www.marinebiodiversity.ca/wp-content/uploads/2025/06/coastal-marine-academy-collaboration.jpeg',
     // cta: { text: 'Get Educated', href: '/education' },
   },
   {
-    title: "Collaboration",
-    desc: "Marine conservation succeeds only when we work together. Our mission is to build strong partnerships with governments, NGOs, scientists, and local communities to scale impact beyond individual efforts. Governments have the power to establish protected areas and enforce policies, while NGOs bring expertise and global support. At the same time, local communities are empowered to act as stewards of their coasts, ensuring conservation is rooted in everyday life. By combining resources, knowledge, and action, collaboration transforms small-scale projects into regional and global movements that protect our oceans for future generations.",
+    title: 'Collaboration',
+    desc: 'Marine conservation succeeds only when we work together. Our mission is to build strong partnerships with governments, NGOs, scientists, and local communities to scale impact beyond individual efforts. Governments have the power to establish protected areas and enforce policies, while NGOs bring expertise and global support. At the same time, local communities are empowered to act as stewards of their coasts, ensuring conservation is rooted in everyday life. By combining resources, knowledge, and action, collaboration transforms small-scale projects into regional and global movements that protect our oceans for future generations.',
     image:
-      "https://media.istockphoto.com/id/172212065/photo/indian-fishermen-pulling-in-big-fishing-net.jpg?s=612x612&w=0&k=20&c=9WXLhjqjj3mbY9V5-uNiATU1L57A56Lv5jDI1bMQorY=",
+      'https://media.istockphoto.com/id/172212065/photo/indian-fishermen-pulling-in-big-fishing-net.jpg?s=612x612&w=0&k=20&c=9WXLhjqjj3mbY9V5-uNiATU1L57A56Lv5jDI1bMQorY=',
     // cta: { text: 'Partner With Us', href: '/contact' },
   },
 ];
