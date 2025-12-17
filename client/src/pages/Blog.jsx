@@ -7,6 +7,7 @@ import {
   FaUserGraduate,
   FaArrowRight,
 } from "react-icons/fa";
+import MarineMomentsSection from "../components/MarineMomentsSection";
 
 const HERO_TEXT = "Join Us in Protecting the Blue Heart of our Planet";
 
@@ -140,6 +141,7 @@ export default function GetInvolved() {
           </div>
         </div>
       </section>
+      <MarineMomentsSection/>
     </main>
   );
 }

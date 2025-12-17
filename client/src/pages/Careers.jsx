@@ -58,7 +58,7 @@ export default function Careers() {
             <p className="mt-3 text-sm md:text-base text-cyan-200 max-w-xl">
               We offer roles and internships for students and early-career
               professionals who want to work with real ocean conservation
-              projects, research, and outreach.
+              projects, research and outreach.
             </p>
 
             <div className="mt-5 flex flex-wrap gap-3">

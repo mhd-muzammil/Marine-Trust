@@ -22,6 +22,11 @@ import DonationPolicy from './pages/DonationPolicy';
 import Careers from './pages/Careers';
 import FellowShip from './pages/FellowShip';
 import FloatingActions from './components/FloatingActions';
+import CountriesPage from './pages/CountriesPage';
+import CountryDetail from './pages/CountryDetail';
+import MarineLife from './pages/MarineLife';
+import MarineGroupPage from './pages/MarineGroupPage';
+import SpeciesDetails from './pages/SpeciesDetails';
 
 const socket = io('http://localhost:5173');
 
@@ -52,7 +57,7 @@ export default function App() {
       <div className="flex flex-col min-h-screen">
         <Navbar visitorCount={visitorCount} />
 
-        <FloatingActions/>
+        <FloatingActions />
         <div className="flex-1">
           <Routes>
             {/* <Route path="/" element={<Body />} /> */}
@@ -66,10 +71,27 @@ export default function App() {
             <Route path="/contact" element={<Contact />} />
             <Route path="/donate" element={<Donation />} />
             <Route path="/privacy-policy" element={<PrivacyPolicy />} />
-            <Route path="/terms-and-conditions" element={<TermsAndConditions />} />
-            <Route path="/cancellation-refund-policy" element={<RefundPolicy />} />
-            <Route path="/membership-agreement" element={<MembershipAgreement />} />
+            <Route
+              path="/terms-and-conditions"
+              element={<TermsAndConditions />}
+            />
+            <Route
+              path="/cancellation-refund-policy"
+              element={<RefundPolicy />}
+            />
+            <Route
+              path="/membership-agreement"
+              element={<MembershipAgreement />}
+            />
             <Route path="/donation-policy" element={<DonationPolicy />} />
+            <Route path="/marine-life" element={<MarineLife />} />
+            <Route path="/marine-life/:group" element={<MarineGroupPage />} />
+            <Route
+              path="/marine-life/:group/:speciesId"
+              element={<SpeciesDetails />}
+            />
+            <Route path="/countries" element={<CountriesPage />} />
+            <Route path="/countries/:id" element={<CountryDetail />} />
           </Routes>
         </div>
         <Footer />
