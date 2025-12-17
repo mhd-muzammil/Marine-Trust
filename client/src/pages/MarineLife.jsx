@@ -1,0 +1,291 @@
+import React from "react";
+import { motion } from "framer-motion";
+import { Link } from "react-router-dom";
+import AOS from 'aos';
+import "aos/dist/aos.css";
+
+import { useEffect } from "react";
+const Hero =
+  "https://images.pexels.com/photos/31307991/pexels-photo-31307991.jpeg";
+
+const marineLife = [
+  {
+    title: "Marine Mammals",
+    desc: "Warm-blooded animals like whales, dolphins and seals that depend on the ocean for feeding, migration and breeding.",
+    image:
+      "https://images.pexels.com/photos/21533362/pexels-photo-21533362.jpeg",
+    link: "/marine-life/marine-mammals",
+  },
+  {
+    title: "Fish",
+    desc: "The most diverse marine group — from tiny reef fish to large pelagics like tuna and sharks — essential to ocean food webs.",
+    image: "https://images.pexels.com/photos/889929/pexels-photo-889929.jpeg",
+    link: "/marine-life/fish",
+  },
+  {
+    title: "Reptiles",
+    desc: "Marine reptiles such as sea turtles and marine iguanas adapted to coastal and ocean life, playing vital ecological roles.",
+    image:
+      "https://images.unsplash.com/photo-1526481280698-84da2e7c9b3e?w=1200&q=60",
+    link: "/marine-life/reptiles",
+  },
+  {
+    title: "Crustaceans",
+    desc: "Crabs, shrimps, lobsters and krill — important decomposers and a key food source across marine ecosystems.",
+    image:
+      "https://images.unsplash.com/photo-1545239351-1141bd82e8a6?w=1200&q=60",
+    link: "/marine-life/crustaceans",
+  },
+  {
+    title: "Mollusks",
+    desc: "Octopus, squid, clams and oysters — diverse soft-bodied animals that shape habitats and filter water.",
+    image:
+      "https://images.unsplash.com/photo-1515879218367-8466d910aaa4?w=1200&q=60",
+    link: "/marine-life/mollusks",
+  },
+  {
+    title: "Cnidaria",
+    desc: "Corals, jellyfish and sea anemones — stinging-cell animals that create reefs and spectacular planktonic displays.",
+    image:
+      "https://images.unsplash.com/photo-1483729558449-99ef09a8c325?w=1200&q=60",
+    link: "/marine-life/cnidaria",
+  },
+  {
+    title: "Echinoderms",
+    desc: "Starfish, sea urchins and sea cucumbers — benthic organisms that help maintain seafloor balance and nutrient cycles.",
+    image:
+      "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?w=1200&q=60",
+    link: "/marine-life/echinoderms",
+  },
+  {
+    title: "Plankton",
+    desc: "Microscopic phytoplankton and zooplankton — the base of marine food webs and major drivers of ocean productivity.",
+    image:
+      "https://images.unsplash.com/photo-1469474968028-56623f02e42e?w=1200&q=60",
+    link: "/marine-life/plankton",
+  },
+  {
+    title: "Algae",
+    desc: "Seaweeds and microscopic algae that produce oxygen and provide habitat and food for many marine species.",
+    image:
+      "https://images.unsplash.com/photo-1502082553048-35a269479413?w=1200&q=60",
+    link: "/marine-life/algae",
+  },
+  {
+    title: "Seagrass",
+    desc: "Underwater flowering plants forming meadows that serve as nurseries for fish and store blue carbon.",
+    image:
+      "https://images.unsplash.com/photo-1503264116251-35a269479413?w=1200&q=60",
+    link: "/marine-life/seagrass",
+  },
+  {
+    title: "Porifera (Sponges)",
+    desc: "Simple filter-feeding organisms that clean water and create microhabitats on reefs and rocky bottoms.",
+    image:
+      "https://images.unsplash.com/photo-1527772304093-9930c3a2d2c6?w=1200&q=60",
+    link: "/marine-life/porifera",
+  },
+  {
+    title: "Bryozoa",
+    desc: "Colonial filter-feeders forming encrusting or branching structures that add complexity to hard-bottom habitats.",
+    image:
+      "https://images.unsplash.com/photo-1502082553048-f009c37129b9?w=1200&q=60",
+    link: "/marine-life/bryozoa",
+  },
+];
+
+export default function Services() {
+
+
+    useEffect(() => {
+      AOS.init({
+        duration: 2400, // base duration (ms)
+        easing: "ease-in-out",
+        once: true, // animate only once
+        offset: 120, // trigger offset (px)
+      });
+    }, []);
+
+  return (
+    <div className="relative overflow-hidden bg-white">
+      {/* ---------- HERO ---------- */}
+      <section
+        className="relative w-full h-[480px] md:h-[520px] flex items-center justify-center text-center mb-24"
+        style={{
+          backgroundImage: `linear-gradient(180deg, rgba(2,112,133,0.45), rgba(1,42,68,0.6)), url(${Hero})`,
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          backgroundRepeat: "no-repeat",
+        }}
+      >
+        {/* decorative floating bubbles */}
+        <svg className="absolute left-6 top-8 opacity-30 w-36 h-36 animate-[float_6s_ease-in-out_infinite]">
+          <circle cx="60" cy="60" r="50" fill="#00a6b5" />
+        </svg>
+        <svg className="absolute right-6 bottom-10 opacity-25 w-28 h-28 animate-[float_8s_ease-in-out_infinite]">
+          <circle cx="40" cy="40" r="36" fill="#1e83a5" />
+        </svg>
+
+        {/* overlay for text readability */}
+        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[#002f3a]/30 to-[#001621]/60"></div>
+
+        <div className="relative z-10 px-6 max-w-4xl">
+          <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold mb-4 leading-tight text-white drop-shadow-md">
+            <span className="bg-clip-text text-transparent bg-gradient-to-r from-[#00d1d7] via-[#1fb1c7] to-[#01607f]">
+              MARINE LIFE & BIODIVERSITY
+            </span>
+          </h1>
+
+          <p className="text-gray-100 text-lg md:text-xl max-w-3xl mx-auto mb-6 drop-shadow-sm">
+            Discover the diverse groups that make up our oceans — their roles,
+            threats they face, and how we can protect marine habitats for future
+            generations.
+          </p>
+
+          <a
+            href="#marine-life"
+            className="inline-block transform-gpu will-change-transform shadow-2xl px-8 py-3 rounded-full bg-gradient-to-r from-[#012a44] via-[#01607f] to-[#00a6b5] text-white font-semibold hover:scale-105 active:scale-95 transition"
+            aria-label="Explore Marine Life"
+          >
+            Explore Marine Life ↓
+          </a>
+        </div>
+
+        {/* decorative wave SVG bottom */}
+        <svg
+          className="absolute bottom-0 left-0 w-full"
+          viewBox="0 0 1440 120"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M0,80 C180,140 360,0 720,60 C1080,120 1260,40 1440,80 L1440 120 L0 120 Z"
+            fill="rgba(255,255,255,0.06)"
+          />
+        </svg>
+      </section>
+
+      {/* ---------- Intro ---------- */}
+      <section className="max-w-6xl mx-auto px-6 md:px-12 text-center md:text-left mb-20">
+        <h2 className="text-4xl font-bold mb-6 text-center md:text-left bg-clip-text text-transparent bg-gradient-to-r from-[#01607f] via-[#00c6d0] to-[#00a6b5]">
+          What is Marine Biodiversity?
+        </h2>
+        <h4 className="text-gray-700 text-base md:text-lg leading-relaxed text-justify">
+          Marine biodiversity refers to the variety of life in the world's
+          oceans — from microscopic plankton to the largest whales. Healthy
+          marine biodiversity supports fisheries, protects coastlines, stores
+          carbon and sustains livelihoods. This page highlights major marine
+          groups, their ecological roles, common threats and simple conservation
+          actions anyone can take to help.
+          <br />
+          <br />
+          Coastal and open-ocean ecosystems are interconnected: damage in one
+          place can ripple across food webs and communities. Protecting marine
+          biodiversity means protecting habitats, reducing pollution, supporting
+          sustainable resource use and raising awareness.
+        </h4>
+      </section>
+
+      {/* ---------- Zig-Zag Cards ---------- */}
+      <section
+        id="marine-life"
+        className="relative z-10 max-w-7xl mx-auto px-6 md:px-12 space-y-24 pb-24"
+      >
+        {marineLife.map((s, i) => {
+          const imgOnRight = i % 2 === 1; // true when layout is reversed (image on right)
+          // image animates from the side it appears on
+          const imgAos = imgOnRight ? "fade-left" : "fade-right";
+          // text animates from the opposite side
+          const textAos = imgOnRight ? "fade-right" : "fade-left";
+          // delay in ms for stagger
+          const delay = Math.min(300, i * 60); // caps delay to 300ms
+
+          return (
+            <div
+              key={i}
+              className={`flex flex-col md:flex-row items-center gap-8 md:gap-12 ${
+                imgOnRight ? "md:flex-row-reverse" : ""
+              }`}
+            >
+              {/* Image block */}
+              <div
+                className="relative flex-1 group"
+                data-aos={imgAos}
+                data-aos-delay={delay}
+                data-aos-duration="850"
+                data-aos-easing="ease-in-out"
+              >
+                {/* gradient halo */}
+                <div
+                  className="absolute -inset-1 rounded-2xl blur-3xl opacity-40 transition group-hover:opacity-60"
+                  style={{
+                    background:
+                      "linear-gradient(90deg,#00d1d7,#1fb1c7,#01607f)",
+                  }}
+                />
+                <div className="relative overflow-hidden rounded-2xl shadow-2xl">
+                  <img
+                    src={s.image}
+                    alt={s.title}
+                    className="w-full h-[360px] md:h-[380px] object-cover transform transition-transform duration-700 will-change-transform"
+                    loading="lazy"
+                  />
+                  {/* subtle label pill */}
+                  <div className="absolute left-4 top-4 bg-white/80 backdrop-blur-sm px-3 py-1 rounded-full text-xs font-medium text-[#013d4b] shadow">
+                    {i + 1 < 10 ? `0${i + 1}` : i + 1} • {s.title.split(" ")[0]}
+                  </div>
+                </div>
+              </div>
+
+              {/* Text block */}
+              <div
+                className="flex-1"
+                data-aos={textAos}
+                data-aos-delay={delay + 80}
+                data-aos-duration="850"
+                data-aos-easing="ease-in-out"
+              >
+                <div className="bg-gradient-to-br from-white/80 to-white/60 backdrop-blur-sm rounded-2xl p-6 md:p-8 shadow-xl border border-white/30">
+                  <h2 className="text-3xl md:text-4xl font-extrabold mb-3 text-[#013d4b]">
+                    {s.title}
+                  </h2>
+
+                  <p className="text-gray-600 leading-relaxed mb-6">{s.desc}</p>
+
+                  <div className="flex flex-wrap items-center gap-3">
+                    <Link
+                      to={s.link}
+                      className="inline-flex items-center gap-2 px-6 py-2 rounded-full bg-gradient-to-r from-[#01607f] to-[#00a6b5] text-white font-semibold shadow-lg transform hover:-translate-y-0.5 transition"
+                    >
+                      Explore More →
+                    </Link>
+
+                    {/* small quick-info chips */}
+                    <div className="flex gap-2 flex-wrap">
+                      <span className="px-3 py-1 rounded-full bg-[#e6f8fa] text-[#015460] text-sm font-medium">
+                        Role: Ecosystem
+                      </span>
+                      <span className="px-3 py-1 rounded-full bg-[#fff6e6] text-[#6b3e00] text-sm font-medium">
+                        Threats: Pollution
+                      </span>
+                      <span className="px-3 py-1 rounded-full bg-[#f0f8ff] text-[#004e66] text-sm font-medium">
+                        Tip: Protect habitat
+                      </span>
+                    </div>
+                  </div>
+                </div>
+
+                {/* bottom accent bar */}
+                <div
+                  className="mt-4 h-1 rounded-full w-40"
+                  style={{
+                    background: "linear-gradient(90deg,#00d1d7,#01607f)",
+                  }}
+                />
+              </div>
+            </div>
+          );
+        })}
+      </section>
+    </div>
+  );
+}

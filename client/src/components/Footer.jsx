@@ -16,9 +16,9 @@ export default function Footer() {
         {/* LOGO + ABOUT */}
         <div>
           <img
-            src="/src/assets/logo.jfif"
+            src="/src/assets/MBCT-logo.png"
             alt="MBCT Logo"
-            className="w-20 h-20 rounded-full mb-4"
+            className="w-32 h-32 rounded-full object-cover"
           />
           <p className="text-sm leading-relaxed">
             We work towards conserving marine biodiversity through research,

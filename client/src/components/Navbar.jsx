@@ -23,9 +23,10 @@ export default function Navbar({ visitorCount = 0 }) {
     { to: "/", label: "Home" },
     { to: "/about", label: "About" },
     { to: "/blog", label: "Get Involved" },
-    { to: "/projects", label: "Admins-Lounge" },
+    { to: "/projects", label: "Admins Lounge" },
     // { to: "/careers", label: "Careers" },
-    { to: "/opine", label: "Opine" },
+    // { to: "/opine", label: "Opine" },
+    { to: "/marine-life", label: "Marine Life" },
     { to: "/contact", label: "Contact" },
   ];
 
