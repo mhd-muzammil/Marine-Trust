@@ -1,8 +1,7 @@
+import { lazy, Suspense } from 'react';
 import React from 'react';
-import UnderwaterScene from '../components/UnderwaterScene';
-// import ThreeScene from "../3d/ThreeScene"
-import ObjectivesZigzag from '../components/ObjectivesZigzag';
-import Threats from '../components/Threats';
+const ObjectivesZigzag = lazy(() => import('../components/ObjectivesZigzag'));
+const Threats = lazy(() => import('../components/Threats'));
 
 export default function Home() {
   return (
@@ -21,7 +20,7 @@ export default function Home() {
           {/* Content must be above the overlay */}
           <div className="relative z-10 max-w-4xl px-4">
             <h1 className="text-5xl md:text-7xl font-extrabold drop-shadow-xl leading-tight">
-              Marine Biodiversity{" "}
+              Marine Biodiversity{' '}
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-200 to-emerald-200">
                 Conservation
               </span>
@@ -43,14 +42,18 @@ export default function Home() {
         </section>
 
         {/* Objectives */}
-        <section id="objectives" className="bg-transparent py-20">
-          <ObjectivesZigzag />
-        </section>
+        <Suspense
+          fallback={<div className="text-center py-10">Loading...</div>}
+        >
+          <section id="objectives" className="bg-transparent py-20">
+            <ObjectivesZigzag />
+          </section>
 
-        {/* Threats */}
-        <section id="threats" className="bg-transparent">
-          <Threats />
-        </section>
+          {/* Threats */}
+          <section id="threats" className="bg-transparent">
+            <Threats />
+          </section>
+        </Suspense>
 
         {/* Call to Action */}
         {/* <section id="cta" className="bg-transparent py-20">
@@ -85,7 +88,6 @@ export default function Home() {
             </div>
           </div>
         </section>
-        
       </main>
     </>
   );
