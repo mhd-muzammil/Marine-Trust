@@ -27,6 +27,9 @@ import CountryDetail from './pages/CountryDetail';
 import MarineLife from './pages/MarineLife';
 import MarineGroupPage from './pages/MarineGroupPage';
 import SpeciesDetails from './pages/SpeciesDetails';
+import MarineQuiz from './pages/MarineQuiz';
+// import OceanDepthExperience from './pages/OceanDepthExperience';
+import OceanDive from './pages/OceanDrive';
 
 const socket = io('http://localhost:5173');
 
@@ -92,6 +95,10 @@ export default function App() {
             />
             <Route path="/countries" element={<CountriesPage />} />
             <Route path="/countries/:id" element={<CountryDetail />} />
+            <Route path="/marine-quiz" element={<MarineQuiz />} />
+            {/* <Route path="/ocean-depth" element={<OceanDepthExperience />} /> */}
+            <Route path="/ocean-drive" element={<OceanDive />} />
+
           </Routes>
         </div>
         <Footer />

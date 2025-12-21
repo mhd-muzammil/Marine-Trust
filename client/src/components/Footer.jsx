@@ -28,7 +28,7 @@ export default function Footer() {
 
           <div className="mt-4 space-y-1 text-sm">
             <p>
-              <strong className="text-teal-400">WhatsApp:</strong> +00 91 99944
+              <strong className="text-teal-400">WhatsApp:</strong> +91 99944
               01291
             </p>
             <p>
