@@ -3,9 +3,10 @@ import StoryBg from "../assets/UW-C BG.jpg";
 import ValuesCards from "../components/ValuesCards";
 import CTA from "../components/CTA";
 import WhoWeAreCarousel from "../components/WhoWeAre";
-import UnderwaterScene from "../components/UnderwaterScene";
+
 import { motion } from 'framer-motion';
 import { useState, useRef } from "react";
+import { useLazyLoad } from '../hooks/useLazyLoad';
 import { missionVisionData } from "../data/missionVisionData";
 
 
@@ -44,6 +45,7 @@ const timelineData = [
 
 
 export default function About() {
+  const addElement = useLazyLoad();
 
 
 
@@ -57,10 +59,11 @@ export default function About() {
       >
         {/* Background Image */}
         <img
-          src="/src/assets/About-Hero.jpg"
+          ref={addElement}
+          data-src="/src/assets/About-Hero.jpg"
+          src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" // Transparent pixel
           alt="Ocean and coral reef"
           className="absolute inset-0 w-full h-full object-cover"
-          loading="lazy"
         />
 
         {/* Dark Overlay */}
@@ -146,10 +149,11 @@ export default function About() {
                   >
                     {/* Use non-absolute img so it always fills its container reliably */}
                     <img
-                      src={item.img}
+                      ref={addElement}
+                      data-src={item.img}
+                      src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" // Transparent pixel
                       alt={item.title}
                       className="w-full h-full object-cover transform transition-transform duration-700 group-hover:scale-105"
-                      loading="lazy"
                     />
                     {/* Teal overlay for depth */}
                     <div className="absolute inset-0 bg-gradient-to-t from-[#002b36]/30 to-transparent pointer-events-none" />
@@ -214,6 +218,7 @@ export default function About() {
                   transition: { duration: 0.8, ease: "easeOut" },
                 }}
                 viewport={{ once: true, amount: 0.3 }}
+                style={{ willChange: 'transform, opacity' }}
               >
                 <div
                   className={`w-full md:w-[46%] bg-white border border-slate-100 rounded-xl shadow-sm hover:shadow-md transition p-6 ${
@@ -258,10 +263,11 @@ export default function About() {
             {/* Card 1 */}
             <div className="bg-white rounded-2xl shadow-md hover:shadow-lg transition duration-300 overflow-hidden">
               <img
-                src="https://images.pexels.com/photos/2409015/pexels-photo-2409015.jpeg"
+                ref={addElement}
+                data-src="https://images.pexels.com/photos/2409015/pexels-photo-2409015.jpeg"
+                src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" // Transparent pixel
                 alt="Awareness"
                 className="w-full h-52 object-cover"
-                loading="lazy"
               />
               <div className="p-6">
                 <h3 className="text-xl font-bold text-[#0270ff] mb-3">
@@ -278,10 +284,11 @@ export default function About() {
             {/* Card 2 */}
             <div className="bg-white rounded-2xl shadow-md hover:shadow-lg transition duration-300 overflow-hidden">
               <img
-                src="https://images.pexels.com/photos/7767973/pexels-photo-7767973.jpeg"
+                ref={addElement}
+                data-src="https://images.pexels.com/photos/7767973/pexels-photo-7767973.jpeg"
+                src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" // Transparent pixel
                 alt="Action"
                 className="w-full h-52 object-cover"
-                loading="lazy"
               />
               <div className="p-6">
                 <h3 className="text-xl font-bold text-[#0270ff] mb-3">
@@ -298,10 +305,11 @@ export default function About() {
             {/* Card 3 */}
             <div className="bg-white rounded-2xl shadow-md hover:shadow-lg transition duration-300 overflow-hidden">
               <img
-                src="https://images.pexels.com/photos/3357397/pexels-photo-3357397.jpeg"
+                ref={addElement}
+                data-src="https://images.pexels.com/photos/3357397/pexels-photo-3357397.jpeg"
+                src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" // Transparent pixel
                 alt="Alliance"
                 className="w-full h-52 object-cover"
-                loading="lazy"
               />
               <div className="p-6">
                 <h3 className="text-xl font-bold text-[#0270ff] mb-3">

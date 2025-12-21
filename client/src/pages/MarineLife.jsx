@@ -1,10 +1,8 @@
 import React from "react";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
-import AOS from 'aos';
-import "aos/dist/aos.css";
+import { useLazyLoad } from '../hooks/useLazyLoad';
 
-import { useEffect } from "react";
 const Hero =
   "https://images.pexels.com/photos/31307991/pexels-photo-31307991.jpeg";
 
@@ -95,24 +93,16 @@ const marineLife = [
 ];
 
 export default function Services() {
-
-
-    useEffect(() => {
-      AOS.init({
-        duration: 2400, // base duration (ms)
-        easing: "ease-in-out",
-        once: true, // animate only once
-        offset: 120, // trigger offset (px)
-      });
-    }, []);
+  const addElement = useLazyLoad();
 
   return (
     <div className="relative overflow-hidden bg-white">
       {/* ---------- HERO ---------- */}
       <section
+        ref={addElement}
+        data-bg={Hero}
         className="relative w-full h-[480px] md:h-[520px] flex items-center justify-center text-center mb-24"
         style={{
-          backgroundImage: `linear-gradient(180deg, rgba(2,112,133,0.45), rgba(1,42,68,0.6)), url(${Hero})`,
           backgroundSize: "cover",
           backgroundPosition: "center",
           backgroundRepeat: "no-repeat",
@@ -200,19 +190,20 @@ export default function Services() {
           const delay = Math.min(300, i * 60); // caps delay to 300ms
 
           return (
-            <div
+            <motion.div
               key={i}
               className={`flex flex-col md:flex-row items-center gap-8 md:gap-12 ${
                 imgOnRight ? "md:flex-row-reverse" : ""
               }`}
+              initial={{ opacity: 0, x: imgOnRight ? 100 : -100 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true, amount: 0.3 }}
+              transition={{ duration: 0.8, ease: "easeOut" }}
+              style={{ willChange: 'transform, opacity' }}
             >
               {/* Image block */}
               <div
                 className="relative flex-1 group"
-                data-aos={imgAos}
-                data-aos-delay={delay}
-                data-aos-duration="850"
-                data-aos-easing="ease-in-out"
               >
                 {/* gradient halo */}
                 <div
@@ -224,10 +215,11 @@ export default function Services() {
                 />
                 <div className="relative overflow-hidden rounded-2xl shadow-2xl">
                   <img
-                    src={s.image}
+                    ref={addElement}
+                    data-src={s.image}
+                    src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" // Transparent pixel
                     alt={s.title}
                     className="w-full h-[360px] md:h-[380px] object-cover transform transition-transform duration-700 will-change-transform"
-                    loading="lazy"
                   />
                   {/* subtle label pill */}
                   <div className="absolute left-4 top-4 bg-white/80 backdrop-blur-sm px-3 py-1 rounded-full text-xs font-medium text-[#013d4b] shadow">
@@ -237,12 +229,13 @@ export default function Services() {
               </div>
 
               {/* Text block */}
-              <div
+              <motion.div
                 className="flex-1"
-                data-aos={textAos}
-                data-aos-delay={delay + 80}
-                data-aos-duration="850"
-                data-aos-easing="ease-in-out"
+                initial={{ opacity: 0, x: imgOnRight ? -100 : 100 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true, amount: 0.3 }}
+                transition={{ duration: 0.8, ease: "easeOut", delay: 0.1 }}
+                style={{ willChange: 'transform, opacity' }}
               >
                 <div className="bg-gradient-to-br from-white/80 to-white/60 backdrop-blur-sm rounded-2xl p-6 md:p-8 shadow-xl border border-white/30">
                   <h2 className="text-3xl md:text-4xl font-extrabold mb-3 text-[#013d4b]">
@@ -281,8 +274,8 @@ export default function Services() {
                     background: "linear-gradient(90deg,#00d1d7,#01607f)",
                   }}
                 />
-              </div>
-            </div>
+              </motion.div>
+            </motion.div>
           );
         })}
       </section>
