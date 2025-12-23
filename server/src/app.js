@@ -19,6 +19,10 @@ const opineRouter = require("../routes/opine");
 // ⭐ NEW: careers applications router
 const applicationsRouter = require("../routes/applications");
 
+const rssNewsRouter = require("../routes/rssNews");
+const gnewsRouter = require("../routes/gnews");
+const allNewsRouter = require("../routes/allnews");
+
 const { axios } = require("axios");
 const { InitializeSocket } = require("../utils/socket");
 
@@ -41,6 +45,11 @@ InitializeSocket(server);
 app.use("/api/opine", opineRouter);
 app.use("/api", volunteerRouter);
 app.use("/api", visiterCountRouter);
+
+app.use("/api", rssNewsRouter);
+app.use("/api", gnewsRouter);
+app.use("/api", allNewsRouter);
+
 
 // ⭐ NEW: exposes POST /api/apply
 app.use("/api", applicationsRouter);
