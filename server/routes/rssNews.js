@@ -4,7 +4,13 @@ const Parser = require("rss-parser");
 const router = express.Router();
 const parser = new Parser();
 
-const FEEDS = ["https://news.mongabay.com/feed/"];
+const FEEDS = [
+  "https://news.mongabay.com/feed/?s=marine",
+  "https://news.mongabay.com/feed/?s=ocean",
+  "https://news.mongabay.com/feed/?s=coral",
+  "https://news.mongabay.com/feed/?s=reef",
+];
+
 
 const MARINE_KEYWORDS = [
   "marine",

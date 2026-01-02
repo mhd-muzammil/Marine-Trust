@@ -38,7 +38,7 @@ export default function MarineNews() {
 
   return (
     <div className="max-w-7xl mx-auto px-6 py-10">
-      <h1 className="text-4xl font-bold text-[#013d4b] mb-10">
+      <h1 className="text-4xl font-bold text-sky-600 mb-10">
         🌍 Global Marine Conservation News
       </h1>
 

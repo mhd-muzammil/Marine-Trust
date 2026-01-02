@@ -182,7 +182,7 @@ export default function Footer() {
               Download our app
             </p>
             <a
-              href="https://play.google.com/store/apps/" // replace with your real app link
+              href="https://play.google.com/store/apps/details?id=com.skiez.marine_trust&pcampaignid=web_share" // replace with your real app link
               target="_blank"
               rel="noreferrer"
             >
