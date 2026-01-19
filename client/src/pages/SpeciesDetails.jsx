@@ -92,8 +92,11 @@ export default function SpeciesDetails() {
           </>
         )}
 
-        <button className="w-full bg-green-500 text-black font-bold py-4 rounded-full text-lg">
-          🌱 Support Conservation
+        <button
+          onClick={() => navigate("/donate")}
+          className="w-full max-w-3xl rounded-full bg-green-500 py-4 text-lg font-semibold text-black"
+        >
+           Support Conservation
         </button>
       </div>
     </div>

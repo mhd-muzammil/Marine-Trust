@@ -76,13 +76,7 @@ const marineLife = [
       "https://images.unsplash.com/photo-1503264116251-35a269479413?w=1200&q=60",
     link: "/marine-life/seagrass",
   },
-  {
-    title: "Porifera (Sponges)",
-    desc: "Simple filter-feeding organisms that clean water and create microhabitats on reefs and rocky bottoms.",
-    image:
-      "https://images.unsplash.com/photo-1527772304093-9930c3a2d2c6?w=1200&q=60",
-    link: "/marine-life/porifera",
-  },
+  
   {
     title: "Bryozoa",
     desc: "Colonial filter-feeders forming encrusting or branching structures that add complexity to hard-bottom habitats.",
