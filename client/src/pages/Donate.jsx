@@ -1,16 +1,15 @@
-// src/pages/Donate.jsx
-import React, { useEffect, useState } from "react";
-import { FaHandHoldingUsd, FaCheckCircle } from "react-icons/fa";
+import React, { useEffect, useMemo, useState } from "react";
+import { FaHandHoldingUsd, FaShieldAlt, FaGlobeAsia } from "react-icons/fa";
 
-const RAZORPAY_KEY = "rzp_test_RPQrMz2geEuiTT";  // TODO: replace with live key for production
+const API_BASE = import.meta.env.VITE_API_BASE || "http://localhost:5000";
+const RAZORPAY_KEY = import.meta.env.VITE_RAZORPAY_KEY; // rzp_test_... or rzp_live_...
 
-// Approximate conversion rates → INR (example values)
 const FX_RATES = {
   INR: 1,
-  USD: 83, // 1 USD ≈ 83 INR
-  EUR: 90, // 1 EUR ≈ 90 INR
-  GBP: 105, // 1 GBP ≈ 105 INR
-  AED: 22.5, // 1 AED ≈ 22.5 INR
+  USD: 83,
+  EUR: 90,
+  GBP: 105,
+  AED: 22.5,
 };
 
 const CURRENCIES = [
@@ -21,294 +20,309 @@ const CURRENCIES = [
   { code: "AED", label: "د.إ AED – UAE Dirham" },
 ];
 
+function loadRazorpay() {
+  return new Promise((resolve, reject) => {
+    if (window.Razorpay) return resolve(true);
+
+    const script = document.createElement("script");
+    script.src = "https://checkout.razorpay.com/v1/checkout.js";
+    script.async = true;
+    script.onload = () => resolve(true);
+    script.onerror = () => reject(new Error("Razorpay SDK failed to load"));
+    document.body.appendChild(script);
+  });
+}
+
 export default function Donate() {
   const [currency, setCurrency] = useState("INR");
   const [amount, setAmount] = useState("");
   const [coverFees, setCoverFees] = useState(true);
+
   const [loading, setLoading] = useState(false);
-  const [showThanks, setShowThanks] = useState(false);
+  const [thanks, setThanks] = useState(false);
 
   useEffect(() => {
-    if (
-      !document.querySelector(
-        'script[src="https://checkout.razorpay.com/v1/checkout.js"]'
-      )
-    ) {
-      const s = document.createElement("script");
-      s.src = "https://checkout.razorpay.com/v1/checkout.js";
-      s.async = true;
-      document.body.appendChild(s);
-    }
+    loadRazorpay().catch(() => {});
   }, []);
 
-  const numericAmount = () => {
+  const numericAmount = useMemo(() => {
     const n = parseFloat(amount);
-    return isNaN(n) ? 0 : n;
-  };
+    return Number.isFinite(n) ? n : 0;
+  }, [amount]);
 
-  const convertedInr = () => {
-    const base = numericAmount();
-    const rate = FX_RATES[currency] || 1;
-    let inr = base * rate;
+  const inrAmount = useMemo(() => {
+    let inr = numericAmount * (FX_RATES[currency] || 1);
 
     if (coverFees && inr > 0) {
+      // approx razorpay fee
       const feePercent = 0.022;
       const fixed = 3;
       inr = inr + inr * feePercent + fixed;
     }
 
     return Math.round(inr);
-  };
+  }, [numericAmount, currency, coverFees]);
 
-  async function startRazorpayFrontEnd() {
-    const inrAmount = convertedInr();
+  async function donateNow() {
+    if (!RAZORPAY_KEY) {
+      alert("Missing Razorpay key! Add VITE_RAZORPAY_KEY in frontend .env");
+      return;
+    }
     if (!inrAmount || inrAmount <= 0) {
-      alert("Please enter a valid amount.");
+      alert("Enter a valid amount!");
       return;
     }
 
-    setLoading(true);
     try {
-      // 1) Create order on backend (in INR)
-      const createResp = await fetch("http://localhost:5000/create-order", {
+      setLoading(true);
+
+      // 1) create order from backend
+      const orderRes = await fetch(`${API_BASE}/api/razorpay/create-order`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ amount: inrAmount }),
+        body: JSON.stringify({
+          amountInr: inrAmount,
+          meta: {
+            originalCurrency: currency,
+            originalAmount: numericAmount,
+            coverFees,
+            source: "donate-page",
+          },
+        }),
       });
 
-      const order = await createResp.json();
-      if (!createResp.ok || !order.id) {
-        console.error("Order creation failed:", order);
-        alert("Failed to create order. Try again later.");
-        setLoading(false);
+      const orderJson = await orderRes.json();
+
+      if (!orderRes.ok || !orderJson?.order?.id) {
+        console.error(orderJson);
+        alert(orderJson?.message || "Order creation failed");
         return;
       }
 
-      // 2) Wait for Razorpay script
-      if (!window.Razorpay) {
-        await new Promise((resolve, reject) => {
-          let t = 0;
-          const id = setInterval(() => {
-            t++;
-            if (window.Razorpay) {
-              clearInterval(id);
-              resolve();
-            } else if (t > 40) {
-              clearInterval(id);
-              reject(new Error("Razorpay script failed to load"));
-            }
-          }, 100);
-        });
-      }
+      // 2) open razorpay checkout
+      await loadRazorpay();
 
-      // 3) Open Razorpay checkout
       const options = {
         key: RAZORPAY_KEY,
-        amount: order.amount, // from backend (paise)
-        currency: order.currency || "INR",
+        order_id: orderJson.order.id,
+        amount: orderJson.order.amount,
+        currency: "INR",
         name: "Marine Biodiversity Conservation Trust",
-        description: `Donation (${currency} → INR)`,
-        order_id: order.id,
-        notes: {
-          source: "mbct-web",
-          originalCurrency: currency,
-          originalAmount: numericAmount(),
-        },
+        description: "Donation to support Marine Conservation",
+        notes: orderJson.order.notes || {},
         theme: { color: "#0077b6" },
-        handler: async function (resp) {
-          try {
-            const verifyResp = await fetch(
-              "http://localhost:5000/verify-payment",
-              {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(resp),
-              }
-            );
-            const verifyJson = await verifyResp.json();
-            if (verifyResp.ok && verifyJson.success) {
-              setShowThanks(true);
-              setAmount("");
-            } else {
-              alert("Payment verification failed. Please contact support.");
-              console.error("Verify error:", verifyJson);
-            }
-          } catch (err) {
-            console.error("Error verifying payment:", err);
-            alert("Verification error occurred.");
+
+        handler: async function (response) {
+          // 3) verify payment
+          const verifyRes = await fetch(`${API_BASE}/api/razorpay/verify`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(response),
+          });
+
+          const verifyJson = await verifyRes.json();
+
+          if (verifyRes.ok && verifyJson?.success) {
+            setThanks(true);
+            setAmount("");
+          } else {
+            console.error("Verify failed:", verifyJson);
+            alert("Payment verification failed. Please contact support.");
           }
         },
       };
 
       const rzp = new window.Razorpay(options);
-      rzp.on("payment.failed", (err) => {
+      rzp.on("payment.failed", function (err) {
         console.error("Payment failed:", err);
-        alert(
-          "Payment failed: " +
-            (err.error?.description || "Unknown error occurred")
-        );
+        alert(err?.error?.description || "Payment Failed");
       });
+
       rzp.open();
     } catch (err) {
       console.error(err);
-      alert("Payment flow error: " + err.message);
+      alert("Something went wrong: " + err.message);
     } finally {
       setLoading(false);
     }
   }
 
-  const inr = convertedInr();
-  const base = numericAmount();
-
   return (
-    <main className="min-h-screen bg-gradient-to-b from-[#00121a] via-[#002b3a] to-[#00121a] text-sky-50 px-6 py-12">
-      <div className="max-w-3xl mx-auto space-y-10">
-        {/* Hero */}
+    <main className="min-h-screen bg-gradient-to-b from-[#00121a] via-[#002b3a] to-[#00121a] text-sky-50 px-5 py-12">
+      <div className="max-w-5xl mx-auto space-y-10">
+        {/* Header */}
         <section className="text-center space-y-3">
-          <p className="text-[11px] uppercase tracking-[0.3em] text-cyan-300">
+          <p className="text-[11px] uppercase tracking-[0.35em] text-cyan-300">
             Donate
           </p>
-          <h1 className="text-3xl md:text-4xl font-extrabold text-white">
+          <h1 className="text-3xl md:text-5xl font-extrabold text-white leading-tight">
             Make a Gift to Protect Our Oceans
           </h1>
-          <p className="max-w-2xl mx-auto text-sm md:text-base text-cyan-100">
-            We accept donations from around the world. Choose your currency, and
-            we’ll process the payment securely in INR via Razorpay.
+          <p className="max-w-3xl mx-auto text-sm md:text-base text-cyan-100">
+            Your contribution helps conserve marine biodiversity, protect
+            habitats, and support coastal communities.
           </p>
+
+          {/* trust badges */}
+          <div className="flex flex-wrap justify-center gap-3 pt-4">
+            <div className="flex items-center gap-2 rounded-full bg-white/5 border border-white/10 px-4 py-2 text-xs text-cyan-100">
+              <FaShieldAlt className="text-cyan-300" />
+              Secure payment via Razorpay
+            </div>
+            <div className="flex items-center gap-2 rounded-full bg-white/5 border border-white/10 px-4 py-2 text-xs text-cyan-100">
+              <FaGlobeAsia className="text-cyan-300" />
+              Donations accepted worldwide
+            </div>
+          </div>
         </section>
 
-        {/* Main donate card */}
-        <section className="bg-white/5 rounded-2xl border border-white/10 shadow-xl p-6 md:p-7">
-          <div className="space-y-5">
-            {/* Currency + amount */}
-            <div className="grid md:grid-cols-[1.1fr,0.9fr] gap-4">
-              <div className="space-y-3">
-                <div>
-                  <label className="block text-sm text-cyan-100 mb-1">
-                    Currency
-                  </label>
-                  <select
-                    value={currency}
-                    onChange={(e) => setCurrency(e.target.value)}
-                    className="w-full px-3 py-2 rounded-lg bg-[#001921] border border-white/15 text-sm md:text-base text-white"
-                  >
-                    {CURRENCIES.map((c) => (
-                      <option key={c.code} value={c.code}>
-                        {c.label}
-                      </option>
-                    ))}
-                  </select>
-                </div>
+        {/* Layout */}
+        <section className="grid lg:grid-cols-2 gap-6">
+          {/* Left card */}
+          <div className="bg-white/5 rounded-2xl border border-white/10 shadow-xl p-6 md:p-8">
+            <h2 className="text-xl font-bold text-white mb-1">
+              Donation Details
+            </h2>
+            <p className="text-sm text-cyan-200 mb-6">
+              Choose your currency and amount. We charge securely in INR.
+            </p>
 
-                <div>
-                  <label className="block text-sm text-cyan-100 mb-1">
-                    Amount in {currency}
-                  </label>
-                  <input
-                    value={amount}
-                    onChange={(e) => {
-                      const v = e.target.value;
-                      if (/^[0-9]*\.?[0-9]{0,2}$/.test(v) || v === "") {
-                        setAmount(v);
-                      }
-                    }}
-                    placeholder={currency === "INR" ? "500" : "25"}
-                    inputMode="decimal"
-                    className="w-full px-3 py-2 rounded-lg bg-transparent border border-white/15 text-sm md:text-base text-white"
-                  />
-                </div>
-
-                <div className="flex items-center gap-2 text-xs md:text-sm text-cyan-100">
-                  <input
-                    id="coverFees"
-                    type="checkbox"
-                    checked={coverFees}
-                    onChange={() => setCoverFees((s) => !s)}
-                    className="accent-[#00b4d8]"
-                  />
-                  <label htmlFor="coverFees">
-                    Add a small amount to cover payment processing fees.
-                  </label>
-                </div>
+            <div className="space-y-4">
+              <div>
+                <label className="block text-sm text-cyan-100 mb-1">
+                  Currency
+                </label>
+                <select
+                  value={currency}
+                  onChange={(e) => setCurrency(e.target.value)}
+                  className="w-full px-3 py-2.5 rounded-lg bg-[#001921] border border-white/15 text-white"
+                >
+                  {CURRENCIES.map((c) => (
+                    <option key={c.code} value={c.code}>
+                      {c.label}
+                    </option>
+                  ))}
+                </select>
               </div>
 
-              {/* Summary */}
-              <div className="rounded-xl bg-white/5 border border-white/10 p-4 text-sm md:text-base text-cyan-100 space-y-3">
-                <p className="font-semibold text-white">Summary of your gift</p>
-                <p>
-                  You are donating{" "}
-                  <span className="font-semibold text-white">
-                    {base > 0 ? `${base.toLocaleString()} ${currency}` : "—"}
-                  </span>
-                  .
+              <div>
+                <label className="block text-sm text-cyan-100 mb-1">
+                  Amount in {currency}
+                </label>
+                <input
+                  value={amount}
+                  onChange={(e) => {
+                    const v = e.target.value;
+                    if (/^[0-9]*\.?[0-9]{0,2}$/.test(v) || v === "")
+                      setAmount(v);
+                  }}
+                  placeholder={currency === "INR" ? "500" : "25"}
+                  inputMode="decimal"
+                  className="w-full px-3 py-2.5 rounded-lg bg-transparent border border-white/15 text-white outline-none focus:border-cyan-400"
+                />
+              </div>
+
+              <div className="flex items-start gap-2 text-sm text-cyan-100">
+                <input
+                  id="fees"
+                  type="checkbox"
+                  checked={coverFees}
+                  onChange={() => setCoverFees((s) => !s)}
+                  className="mt-1 accent-[#00b4d8]"
+                />
+                <label htmlFor="fees" className="leading-snug">
+                  Add a small amount to cover payment processing fees.
+                </label>
+              </div>
+
+              <button
+                onClick={donateNow}
+                disabled={loading}
+                className="w-full mt-3 inline-flex items-center justify-center gap-2
+                bg-gradient-to-r from-[#00b4d8] to-[#0077b6]
+                px-5 py-3 rounded-xl text-base font-semibold text-white
+                shadow-lg hover:opacity-95 disabled:opacity-60"
+              >
+                <FaHandHoldingUsd />
+                {loading ? "Processing..." : "Donate Securely"}
+              </button>
+
+              <p className="text-xs text-cyan-200 text-center pt-2">
+                By donating, you support conservation projects and awareness
+                initiatives.
+              </p>
+            </div>
+          </div>
+
+          {/* Right card */}
+          <div className="bg-white/5 rounded-2xl border border-white/10 shadow-xl p-6 md:p-8">
+            <h2 className="text-xl font-bold text-white mb-4">
+              Summary of your gift
+            </h2>
+
+            <div className="space-y-3 text-cyan-100">
+              <div className="flex items-center justify-between rounded-xl bg-black/20 border border-white/10 px-4 py-3">
+                <span className="text-sm">Donation</span>
+                <span className="font-semibold text-white">
+                  {numericAmount > 0
+                    ? `${numericAmount.toLocaleString()} ${currency}`
+                    : "—"}
+                </span>
+              </div>
+
+              <div className="flex items-center justify-between rounded-xl bg-black/20 border border-white/10 px-4 py-3">
+                <span className="text-sm">Charged in INR</span>
+                <span className="font-semibold text-white">
+                  {inrAmount > 0 ? `₹${inrAmount.toLocaleString()}` : "—"}
+                </span>
+              </div>
+
+              <div className="rounded-xl bg-black/20 border border-white/10 px-4 py-4">
+                <p className="text-xs text-cyan-200 leading-relaxed">
+                  Exchange rates shown are approximate. Final charged amount may
+                  vary slightly depending on bank/card issuer. Payments are
+                  processed securely via Razorpay.
                 </p>
-                <p>
-                  This will be charged as approximately{" "}
-                  <span className="font-semibold text-white">
-                    {inr > 0 ? `₹${inr.toLocaleString()} INR` : "—"}
-                  </span>{" "}
-                  through Razorpay.
+              </div>
+
+              <div className="rounded-xl bg-gradient-to-r from-cyan-500/10 to-blue-500/10 border border-white/10 px-4 py-4">
+                <p className="text-sm font-semibold text-white mb-1">
+                  Need support?
                 </p>
-                <p className="text-[11px] md:text-xs text-cyan-200">
-                  Exchange rates are approximate and updated periodically. Final
-                  charge may vary slightly based on your bank or card issuer.
+                <p className="text-xs text-cyan-200">
+                  For donation or CSR enquiries, email{" "}
+                  <a
+                    href="mailto:worldmarinebiodiversity@gmail.com"
+                    className="underline"
+                  >
+                    worldmarinebiodiversity@gmail.com
+                  </a>
                 </p>
               </div>
             </div>
-
-            <button
-              onClick={startRazorpayFrontEnd}
-              disabled={loading}
-              className="mt-2 inline-flex items-center justify-center gap-2 w-full md:w-auto
-                         bg-gradient-to-r from-[#00b4d8] to-[#0077b6]
-                         px-5 py-2.5 rounded-lg text-sm md:text-base font-semibold text-white
-                         shadow-md hover:opacity-95 disabled:opacity-60"
-            >
-              <FaHandHoldingUsd />
-              {loading ? "Processing..." : "Donate securely"}
-            </button>
           </div>
         </section>
 
-        {/* Small reassurance / contact */}
-        <section className="text-center text-xs md:text-sm text-cyan-200 space-y-1">
-          <p>
-            Payments are processed securely by Razorpay on behalf of Marine
-            Biodiversity Conservation Trust (MBCT).
-          </p>
-          <p>
-            For donation or CSR enquiries, email{" "}
-            <a
-              href="mailto:worldmarinebiodiversity@gmail.com"
-              className="underline"
-            >
-              worldmarinebiodiversity@gmail.com
-            </a>
-            .
-          </p>
-        </section>
+        {/* THANK YOU MODAL */}
+        {thanks && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 px-4">
+            <div className="w-full max-w-md rounded-2xl bg-white p-6 text-slate-900 shadow-2xl">
+              <h3 className="text-xl font-bold mb-2">Thank you, Ghost 💙</h3>
+              <p className="text-sm text-slate-700 mb-5">
+                Your donation helps protect marine ecosystems and coastal
+                communities. We truly appreciate your support.
+              </p>
+
+              <button
+                onClick={() => setThanks(false)}
+                className="w-full rounded-xl bg-[#0077b6] px-4 py-2.5 text-white font-semibold hover:opacity-95"
+              >
+                Close
+              </button>
+            </div>
+          </div>
+        )}
       </div>
-
-      {/* Thank you overlay */}
-      {showThanks && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
-          <div className="bg-white rounded-xl p-6 max-w-sm text-center text-slate-900">
-            <h3 className="text-xl font-bold mb-2">
-              Thank you for your support
-            </h3>
-            <p className="mb-4 text-sm">
-              Your donation helps us protect marine ecosystems and coastal
-              communities. We truly appreciate your contribution.
-            </p>
-            <button
-              onClick={() => setShowThanks(false)}
-              className="px-4 py-2 rounded bg-[#00b4d8] text-white text-sm font-semibold"
-            >
-              Close
-            </button>
-          </div>
-        </div>
-      )}
     </main>
   );
 }

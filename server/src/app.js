@@ -23,6 +23,11 @@ const rssNewsRouter = require("../routes/rssNews");
 const gnewsRouter = require("../routes/gnews");
 const allNewsRouter = require("../routes/allnews");
 
+//razorpay
+
+const razorpayRouter = require("../routes/razorpay");
+
+
 const { axios } = require("axios");
 const { InitializeSocket } = require("../utils/socket");
 
@@ -49,6 +54,9 @@ app.use("/api", visiterCountRouter);
 app.use("/api", rssNewsRouter);
 app.use("/api", gnewsRouter);
 app.use("/api", allNewsRouter);
+
+app.use("/api", razorpayRouter);
+
 
 
 // ⭐ NEW: exposes POST /api/apply
