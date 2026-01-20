@@ -252,7 +252,7 @@ export const SPECIES_DB = {
           id: "scalloped-hammerhead",
           name: "Scalloped Hammerhead Shark",
           image:
-            "https://upload.wikimedia.org/wikipedia/commons/1/1f/Scalloped_hammerhead.jpg",
+            "https://images.pexels.com/photos/11533264/pexels-photo-11533264.jpeg",
           status: "Critically Endangered",
           about:
             "Schooling hammerhead shark facing intense fishing pressure; populations have declined sharply.",
@@ -261,7 +261,7 @@ export const SPECIES_DB = {
           id: "green-sawfish",
           name: "Green Sawfish",
           image:
-            "https://upload.wikimedia.org/wikipedia/commons/0/0c/Pristis_zijsron.jpg",
+            "https://images.pexels.com/photos/4810629/pexels-photo-4810629.jpeg",
           status: "Critically Endangered",
           about:
             "Large sawfish species declining due to habitat loss and widespread net entanglement.",
@@ -286,7 +286,7 @@ export const SPECIES_DB = {
           id: "wild-common-carp",
           name: "Wild Common Carp",
           image:
-            "https://upload.wikimedia.org/wikipedia/commons/7/79/Common_carp.jpg",
+            "https://images.pexels.com/photos/9728431/pexels-photo-9728431.png",
           status: "Vulnerable",
           about:
             "Wild populations have declined in parts of its native range due to habitat alteration and genetic pollution.",
@@ -295,7 +295,7 @@ export const SPECIES_DB = {
           id: "zebra-shark",
           name: "Zebra Shark",
           image:
-            "https://upload.wikimedia.org/wikipedia/commons/8/84/Stegostoma_fasciatum.jpg",
+            "https://images.pexels.com/photos/34027148/pexels-photo-34027148.jpeg",
           status: "Endangered",
           about:
             "Reef-associated shark impacted by fishing pressure and habitat loss; slow-growing and vulnerable.",
@@ -310,7 +310,7 @@ export const SPECIES_DB = {
           id: "atlantic-bluefin-tuna",
           name: "Atlantic Bluefin Tuna",
           image:
-            "https://upload.wikimedia.org/wikipedia/commons/1/1a/Thunnus_thynnus.jpg",
+            "https://images.pexels.com/photos/12829694/pexels-photo-12829694.jpeg",
           status: "Least Concern",
           about:
             "Highly valued tuna species; improved management helped it move to Least Concern on IUCN (2021).",
@@ -319,7 +319,7 @@ export const SPECIES_DB = {
           id: "clownfish-ocellaris",
           name: "Ocellaris Clownfish",
           image:
-            "https://upload.wikimedia.org/wikipedia/commons/3/38/Amphiprion_ocellaris_%28Clown_anemonefish%29.jpg",
+            "https://images.pexels.com/photos/12861719/pexels-photo-12861719.jpeg",
           status: "Least Concern",
           about:
             "Popular reef fish living with sea anemones; widely distributed in the Indo-Pacific.",
@@ -328,7 +328,7 @@ export const SPECIES_DB = {
           id: "blue-tang",
           name: "Blue Tang",
           image:
-            "https://upload.wikimedia.org/wikipedia/commons/2/20/Paracanthurus_hepatus_01.jpg",
+            "https://images.pexels.com/photos/6949171/pexels-photo-6949171.jpeg",
           status: "Least Concern",
           about:
             "Reef fish found in Indo-Pacific; known for bright blue body and yellow tail.",
@@ -337,7 +337,7 @@ export const SPECIES_DB = {
           id: "atlantic-cod",
           name: "Atlantic Cod",
           image:
-            "https://upload.wikimedia.org/wikipedia/commons/6/67/Gadus_morhua_Cod-2b-Atlanterhavsparken-Norway.JPG",
+            "https://media.istockphoto.com/id/1400475244/photo/cod-fish-floating-in-aquarium-alesund-norway.jpg?s=612x612&w=0&k=20&c=kv-PPCVS6Tc1egjR-_B0uusXqMxwJ-g467fsbirwVMc=",
           status: "Least Concern",
           about:
             "Cold-water fish important for fisheries; conservation varies by region though globally listed LC.",
@@ -346,7 +346,7 @@ export const SPECIES_DB = {
           id: "great-barracuda",
           name: "Great Barracuda",
           image:
-            "https://upload.wikimedia.org/wikipedia/commons/8/83/Sphyraena_barracuda_1.jpg",
+            "https://images.pexels.com/photos/7001705/pexels-photo-7001705.jpeg",
           status: "Least Concern",
           about:
             "Fast predatory fish found in tropical and subtropical seas; known for speed and sharp teeth.",
@@ -355,7 +355,7 @@ export const SPECIES_DB = {
           id: "rainbow-trout",
           name: "Rainbow Trout",
           image:
-            "https://upload.wikimedia.org/wikipedia/commons/7/7a/Oncorhynchus_mykiss.jpg",
+            "https://images.pexels.com/photos/3311091/pexels-photo-3311091.jpeg",
           status: "Least Concern",
           about:
             "Widely distributed fish; native to North America and introduced in many regions.",
@@ -379,7 +379,7 @@ export const SPECIES_DB = {
           id: "hawksbill-turtle",
           name: "Hawksbill Sea Turtle",
           image:
-            "https://upload.wikimedia.org/wikipedia/commons/6/64/Eretmochelys_imbricata_Galapagos.jpg",
+            "https://images.pexels.com/photos/12173784/pexels-photo-12173784.jpeg",
           status: "Critically Endangered",
           about:
             "Reef-associated turtle heavily impacted by illegal shell trade, bycatch, and nesting habitat loss.",
@@ -388,7 +388,7 @@ export const SPECIES_DB = {
           id: "kemp-ridley-turtle",
           name: "Kemp’s Ridley Sea Turtle",
           image:
-            "https://upload.wikimedia.org/wikipedia/commons/2/2b/Lepidochelys_kempii.jpg",
+            "https://images.pexels.com/photos/4728995/pexels-photo-4728995.jpeg",
           status: "Critically Endangered",
           about:
             "Rarest sea turtle species; threatened by bycatch and limited nesting range.",
@@ -397,7 +397,7 @@ export const SPECIES_DB = {
           id: "loggerhead-turtle",
           name: "Loggerhead Sea Turtle",
           image:
-            "https://upload.wikimedia.org/wikipedia/commons/3/3c/Caretta_caretta_01.jpg",
+            "https://images.pexels.com/photos/30383324/pexels-photo-30383324.jpeg",
           status: "Vulnerable",
           about:
             "Large-headed sea turtle impacted by fisheries bycatch, plastic ingestion and coastal development.",
@@ -406,7 +406,7 @@ export const SPECIES_DB = {
           id: "green-sea-turtle-subpops",
           name: "Green Sea Turtle (some subpopulations)",
           image:
-            "https://upload.wikimedia.org/wikipedia/commons/5/5e/Green_Sea_Turtle_grazing_seagrass.jpg",
+            "https://images.pexels.com/photos/38452/pexels-photo-38452.jpeg",
           status: "Least Concern (Global, 2025)",
           about:
             "Globally listed as Least Concern after 2025 IUCN reassessment; some regional populations remain at higher risk.",
@@ -422,7 +422,7 @@ export const SPECIES_DB = {
           id: "leatherback-turtle",
           name: "Leatherback Sea Turtle",
           image:
-            "https://upload.wikimedia.org/wikipedia/commons/6/6b/Dermochelys_coriacea.jpg",
+            "https://www.fisheries.noaa.gov/s3//2024-08/750x500-leatherback-sea-turtle.jpg?itok=ss6utMk8",
           status: "Vulnerable",
           about:
             "Largest sea turtle; threatened mainly by fisheries bycatch, habitat loss, and plastic ingestion.",
@@ -431,7 +431,7 @@ export const SPECIES_DB = {
           id: "olive-ridley-turtle",
           name: "Olive Ridley Sea Turtle",
           image:
-            "https://upload.wikimedia.org/wikipedia/commons/1/17/Lepidochelys_olivacea.jpg",
+            "https://images.pexels.com/photos/19261157/pexels-photo-19261157.jpeg",
           status: "Vulnerable",
           about:
             "Known for mass nesting (arribadas); vulnerable due to egg harvesting and bycatch.",
@@ -440,7 +440,7 @@ export const SPECIES_DB = {
           id: "saltwater-crocodile",
           name: "Saltwater Crocodile",
           image:
-            "https://upload.wikimedia.org/wikipedia/commons/7/73/Crocodylus_porosus_head.jpg",
+            "https://images.pexels.com/photos/6477294/pexels-photo-6477294.jpeg",
           status: "Least Concern",
           about:
             "Largest living reptile; occurs in coastal waters and estuaries. Protection helped population recovery in many areas.",
@@ -455,7 +455,7 @@ export const SPECIES_DB = {
           id: "green-sea-turtle",
           name: "Green Sea Turtle",
           image:
-            "https://upload.wikimedia.org/wikipedia/commons/0/0f/Chelonia_mydas_is_going_for_the_air.jpg",
+            "https://images.pexels.com/photos/847393/pexels-photo-847393.jpeg",
           status: "Least Concern",
           about:
             "Seagrass-grazing turtle; moved from Endangered to Least Concern in 2025 due to conservation success.",
@@ -464,7 +464,7 @@ export const SPECIES_DB = {
           id: "marine-iguana",
           name: "Marine Iguana",
           image:
-            "https://upload.wikimedia.org/wikipedia/commons/9/9e/Marine_iguana_%28Amblyrhynchus_cristatus%29.jpg",
+            "https://images.pexels.com/photos/2289497/pexels-photo-2289497.jpeg",
           status: "Vulnerable",
           about:
             "Unique Galápagos lizard adapted to marine algae feeding; threatened by climate impacts and introduced predators.",
@@ -473,7 +473,7 @@ export const SPECIES_DB = {
           id: "yellow-bellied-sea-snake",
           name: "Yellow-bellied Sea Snake",
           image:
-            "https://upload.wikimedia.org/wikipedia/commons/6/6c/Hydrophis_platurus.jpg",
+            "https://images.pexels.com/photos/17554968/pexels-photo-17554968.jpeg",
           status: "Least Concern",
           about:
             "Highly pelagic sea snake found across tropical oceans; one of the most widespread sea snakes.",
@@ -482,7 +482,7 @@ export const SPECIES_DB = {
           id: "annulated-sea-snake",
           name: "Turtle-headed Sea Snake",
           image:
-            "https://upload.wikimedia.org/wikipedia/commons/a/a2/Emydocephalus_annulatus.jpg",
+            "https://images.pexels.com/photos/17843996/pexels-photo-17843996.jpeg",
           status: "Least Concern",
           about:
             "Reef-associated sea snake that feeds on fish eggs; commonly found in Indo-Pacific reefs.",
@@ -505,7 +505,7 @@ export const SPECIES_DB = {
           id: "tri-spine-horseshoe-crab",
           name: "Tri-spine Horseshoe Crab",
           image:
-            "https://upload.wikimedia.org/wikipedia/commons/1/1a/Tachypleus_tridentatus.jpg",
+            "https://media.gettyimages.com/id/1363866361/photo/close-up-of-horseshoe-crab-shell-on-the-beach.jpg?s=612x612&w=0&k=20&c=1YEiKdbrYrGB-Z8aI4rVxz5vxs3RfQ5L6d4suabeb-0=",
           status: "Endangered",
           about:
             "Ancient coastal arthropod declining due to habitat loss, pollution and overharvesting.",
@@ -520,7 +520,7 @@ export const SPECIES_DB = {
           id: "american-horseshoe-crab",
           name: "American Horseshoe Crab",
           image:
-            "https://upload.wikimedia.org/wikipedia/commons/3/33/Limulus_polyphemus.jpg",
+            "https://media.gettyimages.com/id/2252892994/photo/horseshoe-crab.jpg?s=612x612&w=0&k=20&c=GOvk-lzsaT-zIeYp1UkBfXd3UMQ7qTHGslY-OtlAx3o=",
           status: "Vulnerable",
           about:
             "Important coastal species threatened by harvest pressure and habitat degradation in parts of its range.",
@@ -529,7 +529,7 @@ export const SPECIES_DB = {
           id: "coconut-crab",
           name: "Coconut Crab",
           image:
-            "https://upload.wikimedia.org/wikipedia/commons/5/55/Birgus_latro.jpg",
+            "https://media.gettyimages.com/id/96932859/photo/coconut-crab.jpg?s=612x612&w=0&k=20&c=s42dfD3tWb-fxGDlHLxHNm3oW-OgZOsf30U9EkFpSn4=",
           status: "Vulnerable",
           about:
             "Largest terrestrial arthropod; vulnerable due to hunting/harvesting and habitat pressures on islands.",
@@ -538,7 +538,7 @@ export const SPECIES_DB = {
           id: "european-spiny-lobster",
           name: "European Spiny Lobster",
           image:
-            "https://upload.wikimedia.org/wikipedia/commons/2/25/Palinurus_elephas.jpg",
+            "https://media.gettyimages.com/id/2239633530/photo/close-up-of-a-spiny-lobster-on-a-rocky-seabed.jpg?s=612x612&w=0&k=20&c=MWpn36M1v2BBJt4j7Mguxofu9TmnEK2jlAKhDdx4gWg=",
           status: "Vulnerable",
           about:
             "Mediterranean & East Atlantic spiny lobster; threatened by overexploitation.",
@@ -553,7 +553,7 @@ export const SPECIES_DB = {
           id: "american-lobster",
           name: "American Lobster",
           image:
-            "https://upload.wikimedia.org/wikipedia/commons/6/67/Gadus_morhua_Cod-2b-Atlanterhavsparken-Norway.JPG",
+            "https://images.pexels.com/photos/32096100/pexels-photo-32096100.jpeg",
           status: "Least Concern",
           about:
             "Well-known North Atlantic lobster species; IUCN lists it as Least Concern globally.",
@@ -562,7 +562,7 @@ export const SPECIES_DB = {
           id: "antarctic-krill",
           name: "Antarctic Krill",
           image:
-            "https://upload.wikimedia.org/wikipedia/commons/7/77/Euphausia_superba2.jpg",
+            "https://media.gettyimages.com/id/528711192/photo/krill.jpg?s=612x612&w=0&k=20&c=XWfqXZLT7LpoQw89DjpxATXK-ATlrZF0YvyOrFiQ19U=",
           status: "Least Concern",
           about:
             "Key species in the Southern Ocean ecosystem; currently listed as Least Concern.",
@@ -571,7 +571,7 @@ export const SPECIES_DB = {
           id: "caribbean-spiny-lobster",
           name: "Caribbean Spiny Lobster",
           image:
-            "https://upload.wikimedia.org/wikipedia/commons/a/a5/Panulirus_argus_2.jpg",
+            "https://media.gettyimages.com/id/2188921466/photo/caribbean-spiny-lobster-at-night.jpg?s=612x612&w=0&k=20&c=YcFGq8iNmdqIwmOkmXLH6yii04yu8vkqOLImlN5WiB8=",
           status: "Data Deficient",
           about:
             "Major fishery species in the Caribbean; IUCN lists it as Data Deficient (not enough global data).",
@@ -778,7 +778,7 @@ export const SPECIES_DB = {
           id: "sandfish-sea-cucumber",
           name: "Sandfish Sea Cucumber",
           image:
-            "https://upload.wikimedia.org/wikipedia/commons/8/8c/Holothuria_scabra_%28sandfish%29.jpg",
+            "https://media.gettyimages.com/id/1316391936/photo/sea-cucumber-echinoderms-holothuroidea.jpg?s=612x612&w=0&k=20&c=3GmhqkuCZ9a2hhO-jkc2ltqSKMLllsIqklb9BpPDyBg=",
           status: "Endangered",
           about:
             "High-value sea cucumber harvested for bêche-de-mer; populations reduced heavily by overexploitation.",
@@ -787,7 +787,7 @@ export const SPECIES_DB = {
           id: "black-teatfish",
           name: "Black Teatfish",
           image:
-            "https://upload.wikimedia.org/wikipedia/commons/b/b7/Holothuria_nobilis.jpg",
+            "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQHAXl0kd5RbqsOAxu4JCYTPVpH-Xjn-dPqQFRGIejRp64z92xLr7Q8uViAOKTzxtxobPGL6wEChjyTMGpG6J9ZiT3vWvLhGqlU5Y7E3g&s=10",
           status: "Endangered",
           about:
             "Commercially targeted sea cucumber in the Indo-Pacific; threatened by intense fishing pressure.",
@@ -796,16 +796,13 @@ export const SPECIES_DB = {
           id: "brown-sea-cucumber",
           name: "Brown Sea Cucumber",
           image:
-            "https://upload.wikimedia.org/wikipedia/commons/1/1b/Isostichopus_fuscus.jpg",
+            "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ7Sa1eslF_vt_dOi1rrz60d7QJOcxQ86xcVw&s",
           status: "Endangered",
           about:
             "Eastern Pacific sea cucumber; overharvested and classified Endangered due to major population decline.",
         },
       ],
 
-      /* ----------------------------------------------------
-       * 2) THREATENED (Always show second)
-       * ---------------------------------------------------- */
       Threatened: [
         {
           id: "crown-of-thorns-starfish",

@@ -87,7 +87,7 @@ export default function FloatingActions() {
           Volunteer
         </div>
         <Link
-          to="/blog"
+          to="/careers#volunteer"
           className="h-12 w-12 rounded-full bg-blue-600 flex items-center justify-center
                      shadow-2xl transform-gpu
                      transition-transform duration-200 ease-out
