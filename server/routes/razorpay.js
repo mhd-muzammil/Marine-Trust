@@ -3,6 +3,8 @@ const router = express.Router();
 const crypto = require("crypto");
 const Razorpay = require("razorpay");
 
+const { sendDonationReceiptMail } = require("../utils/sendMail");
+
 // Razorpay instance
 const razorpay = new Razorpay({
   key_id: process.env.RAZORPAY_KEY_ID,
@@ -39,14 +41,18 @@ router.post("/razorpay/create-order", async (req, res) => {
   }
 });
 
-// ✅ POST /api/razorpay/verify
+// ✅ POST /api/razorpay/verify + SEND EMAIL RECEIPT
 router.post("/razorpay/verify", async (req, res) => {
   try {
     const {
       razorpay_order_id,
       razorpay_payment_id,
       razorpay_signature,
-      orderMeta,
+
+      // ✅ from FE (you must send these)
+      donorName,
+      donorEmail,
+      amountInr,
     } = req.body;
 
     if (!razorpay_order_id || !razorpay_payment_id || !razorpay_signature) {
@@ -69,10 +75,23 @@ router.post("/razorpay/verify", async (req, res) => {
       });
     }
 
+    // ✅ Extra safety (optional but recommended):
+    // Fetch payment details from Razorpay
+    const payment = await razorpay.payments.fetch(razorpay_payment_id);
+
+    // ✅ Send receipt mail to donor
+    await sendDonationReceiptMail({
+      to: donorEmail || payment?.email,
+      name: donorName || payment?.notes?.donorName,
+      amountInr: amountInr || Math.round((payment.amount || 0) / 100),
+      paymentId: razorpay_payment_id,
+      orderId: razorpay_order_id,
+    });
+
     return res.status(200).json({
       success: true,
-      message: "Payment verified ✅",
-      orderMeta,
+      message: "Payment verified ✅ Receipt sent to donor mail ✅",
+      payment,
     });
   } catch (err) {
     console.error("Razorpay verify error:", err);

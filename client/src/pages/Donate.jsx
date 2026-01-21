@@ -38,6 +38,11 @@ export default function Donate() {
   const [amount, setAmount] = useState("");
   const [coverFees, setCoverFees] = useState(true);
 
+  // ✅ NEW: donor inputs (so Razorpay can email the receipt)
+  const [donorName, setDonorName] = useState("");
+  const [donorEmail, setDonorEmail] = useState("");
+  const [donorPhone, setDonorPhone] = useState("");
+
   const [loading, setLoading] = useState(false);
   const [thanks, setThanks] = useState(false);
 
@@ -68,8 +73,20 @@ export default function Donate() {
       alert("Missing Razorpay key! Add VITE_RAZORPAY_KEY in frontend .env");
       return;
     }
+
     if (!inrAmount || inrAmount <= 0) {
       alert("Enter a valid amount!");
+      return;
+    }
+
+    // ✅ validate donor email & phone so razorpay receipt goes correctly
+    if (!donorEmail || !donorEmail.includes("@")) {
+      alert("Please enter a valid email to receive receipt.");
+      return;
+    }
+
+    if (!donorPhone || donorPhone.length < 10) {
+      alert("Please enter a valid phone number.");
       return;
     }
 
@@ -87,6 +104,9 @@ export default function Donate() {
             originalAmount: numericAmount,
             coverFees,
             source: "donate-page",
+            donorName,
+            donorEmail,
+            donorPhone,
           },
         }),
       });
@@ -112,12 +132,25 @@ export default function Donate() {
         notes: orderJson.order.notes || {},
         theme: { color: "#0077b6" },
 
+        // ✅ IMPORTANT: this makes Razorpay send receipt email like your screenshot
+        prefill: {
+          name: donorName || "Donor",
+          email: donorEmail,
+          contact: donorPhone,
+        },
+
         handler: async function (response) {
           // 3) verify payment
           const verifyRes = await fetch(`${API_BASE}/api/razorpay/verify`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(response),
+            body: JSON.stringify({
+              ...response,
+              donorName,
+              donorEmail,
+              donorPhone,
+              amountInr: inrAmount,
+            }),
           });
 
           const verifyJson = await verifyRes.json();
@@ -125,6 +158,9 @@ export default function Donate() {
           if (verifyRes.ok && verifyJson?.success) {
             setThanks(true);
             setAmount("");
+            setDonorName("");
+            setDonorEmail("");
+            setDonorPhone("");
           } else {
             console.error("Verify failed:", verifyJson);
             alert("Payment verification failed. Please contact support.");
@@ -188,6 +224,51 @@ export default function Donate() {
             </p>
 
             <div className="space-y-4">
+              {/* ✅ NEW donor fields */}
+              <div className="grid md:grid-cols-2 gap-3">
+                <div>
+                  <label className="block text-sm text-cyan-100 mb-1">
+                    Full Name
+                  </label>
+                  <input
+                    value={donorName}
+                    onChange={(e) => setDonorName(e.target.value)}
+                    placeholder="Your Name"
+                    className="w-full px-3 py-2.5 rounded-lg bg-transparent border border-white/15 text-white outline-none focus:border-cyan-400"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm text-cyan-100 mb-1">
+                    Phone
+                  </label>
+                  <input
+                    value={donorPhone}
+                    onChange={(e) =>
+                      setDonorPhone(
+                        e.target.value.replace(/\D/g, "").slice(0, 10),
+                      )
+                    }
+                    placeholder="9876543210"
+                    inputMode="numeric"
+                    className="w-full px-3 py-2.5 rounded-lg bg-transparent border border-white/15 text-white outline-none focus:border-cyan-400"
+                  />
+                </div>
+              </div>
+
+              <div>
+                <label className="block text-sm text-cyan-100 mb-1">
+                  Email (Receipt will be sent here)
+                </label>
+                <input
+                  value={donorEmail}
+                  onChange={(e) => setDonorEmail(e.target.value)}
+                  placeholder="yourmail@gmail.com"
+                  inputMode="email"
+                  className="w-full px-3 py-2.5 rounded-lg bg-transparent border border-white/15 text-white outline-none focus:border-cyan-400"
+                />
+              </div>
+
               <div>
                 <label className="block text-sm text-cyan-100 mb-1">
                   Currency
@@ -307,7 +388,7 @@ export default function Donate() {
         {thanks && (
           <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 px-4">
             <div className="w-full max-w-md rounded-2xl bg-white p-6 text-slate-900 shadow-2xl">
-              <h3 className="text-xl font-bold mb-2">Thank you, Ghost 💙</h3>
+              <h3 className="text-xl font-bold mb-2">Thank you</h3>
               <p className="text-sm text-slate-700 mb-5">
                 Your donation helps protect marine ecosystems and coastal
                 communities. We truly appreciate your support.
