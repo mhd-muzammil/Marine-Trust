@@ -18,17 +18,15 @@ async function sendDonationReceiptMail({
 }) {
   if (!to) return;
 
-  // ✅ Paths
+  // ✅ Logo path only
   const logoPath = path.join(__dirname, "../assets/logo.png");
-  const form12APath = path.join(__dirname, "../assets/12A.pdf");
-  const form80GPath = path.join(__dirname, "../assets/80G.pdf");
 
   const html = `
     <div style="font-family:Arial,sans-serif; line-height:1.6; padding: 10px;">
       
-      <!-- ✅ Logo + Title -->
+      <!-- Logo + Title -->
       <div style="display:flex; align-items:center; gap:12px; margin-bottom:12px;">
-        <img src="cid:marineLogo" alt="Marine Logo" style="height:60px; width:auto;" />
+        <img src="cid:marineLogo" alt="Marine Logo" style="height:60px;" />
         <div>
           <h2 style="color:#0077b6; margin:0;">Donation Receipt</h2>
           <p style="margin:0; font-size:13px; color:#555;">
@@ -39,13 +37,13 @@ async function sendDonationReceiptMail({
 
       <hr style="border:none; border-top:1px solid #eee; margin: 12px 0;" />
 
-      <h3 style="color:#0a3d62; margin-bottom: 6px;">✅ Donation Successful</h3>
+      <h3 style="color:#0a3d62; margin-bottom: 6px;">Donation Successful</h3>
 
-      <p style="margin-top:0;">Dear <b>${name || "Donor"}</b>,</p>
+      <p>Dear <b>${name || "Donor"}</b>,</p>
 
       <p>
         Thank you for supporting <b>Marine Biodiversity Conservation Trust</b>. 
-        Your contribution helps protect marine ecosystems 🌊🐢
+        Your generous contribution helps us protect and conserve marine ecosystems.
       </p>
 
       <div style="background:#f6fbff; border:1px solid #d9efff; padding:12px; border-radius:10px;">
@@ -54,13 +52,23 @@ async function sendDonationReceiptMail({
         <p style="margin:0;"><b>Order ID:</b> ${orderId}</p>
       </div>
 
+      <h4 style="margin-top:16px; color:#0a3d62;">Trust Registration Details</h4>
+
+      <div style="background:#fafafa; border:1px solid #eee; padding:12px; border-radius:8px;">
+        <p style="margin:0;"><b>12A Registration No:</b> AAKTM4562BE20251</p>
+        <p style="margin:0;"><b>80G Registration No:</b> AAKTM4562BF20261</p>
+      </div>
+
       <p style="font-size:13px; color:#555; margin-top:15px;">
-        Attached: <b>12A</b> and <b>80G</b> trust documents (PDF).
+        This donation may be eligible for tax exemption under applicable sections
+        of the Income Tax Act, subject to prevailing laws.
       </p>
 
       <p style="font-size:13px;color:#555;">
-        For support please contact:
-        <a href="mailto:worldmarinebiodiversity@gmail.com">worldmarinebiodiversity@gmail.com</a>
+        For support, contact:
+        <a href="mailto:worldmarinebiodiversity@gmail.com">
+          worldmarinebiodiversity@gmail.com
+        </a>
       </p>
 
       <p style="font-size:12px; color:#777;">
@@ -74,21 +82,11 @@ async function sendDonationReceiptMail({
     to,
     subject: "Donation Receipt - Marine Biodiversity Conservation Trust",
     html,
-
-    // ✅ Attach logo inline + PDFs
     attachments: [
       {
         filename: "logo.png",
         path: logoPath,
-        cid: "marineLogo", // must match cid in <img src="cid:marineLogo" />
-      },
-      {
-        filename: "MBCT_12A.pdf",
-        path: form12APath,
-      },
-      {
-        filename: "MBCT_80G.pdf",
-        path: form80GPath,
+        cid: "marineLogo",
       },
     ],
   });

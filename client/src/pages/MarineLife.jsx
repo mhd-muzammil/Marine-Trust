@@ -24,21 +24,21 @@ const marineLife = [
     title: "Reptiles",
     desc: "Marine reptiles such as sea turtles and marine iguanas adapted to coastal and ocean life, playing vital ecological roles.",
     image:
-      "https://images.unsplash.com/photo-1526481280698-84da2e7c9b3e?w=1200&q=60",
+      "https://media.gettyimages.com/id/1124685127/vector/illustration-of-an-archelon.jpg?s=612x612&w=0&k=20&c=aPPekEqPRfYJb1ZQs_BdQC6cPW6f5gQzz3N1etCzlgE=",
     link: "/marine-life/reptiles",
   },
   {
     title: "Crustaceans",
     desc: "Crabs, shrimps, lobsters and krill — important decomposers and a key food source across marine ecosystems.",
     image:
-      "https://images.unsplash.com/photo-1545239351-1141bd82e8a6?w=1200&q=60",
+      "https://media.gettyimages.com/id/541805170/photo/sally-lightfoot-crab-in-water.jpg?s=612x612&w=0&k=20&c=Bbs3DtjTVnrxcK9WXTgxTr7dS2yoq-42W5MIkwKq37k=",
     link: "/marine-life/crustaceans",
   },
   {
     title: "Mollusks",
     desc: "Octopus, squid, clams and oysters — diverse soft-bodied animals that shape habitats and filter water.",
     image:
-      "https://images.unsplash.com/photo-1515879218367-8466d910aaa4?w=1200&q=60",
+      "https://media.gettyimages.com/id/2222494887/photo/close-up-of-turtle-swimming-undersea-bonifacio-corse-france.jpg?s=612x612&w=0&k=20&c=NbOOQRgN1OT5DmUwizF6-y1DSjGGog_-tidC4YzmQKc=",
     link: "/marine-life/mollusks",
   },
   {
@@ -52,36 +52,36 @@ const marineLife = [
     title: "Echinoderms",
     desc: "Starfish, sea urchins and sea cucumbers — benthic organisms that help maintain seafloor balance and nutrient cycles.",
     image:
-      "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?w=1200&q=60",
+      "https://media.gettyimages.com/id/2191317955/photo/blue-tridacna-clam-or-giant-clam-embudu-or-embudhu-or-emboodhoo-island.jpg?s=612x612&w=0&k=20&c=Mkl_57qUnMga8JXg9FvoWWmChc04lKPSjGoite3xolw=",
     link: "/marine-life/echinoderms",
   },
   {
     title: "Plankton",
     desc: "Microscopic phytoplankton and zooplankton — the base of marine food webs and major drivers of ocean productivity.",
     image:
-      "https://images.unsplash.com/photo-1469474968028-56623f02e42e?w=1200&q=60",
+      "https://media.gettyimages.com/id/1403159097/photo/blue-light-bioluminescence-in-the-sea-at-night.jpg?s=612x612&w=0&k=20&c=xQu1CTPoWtJlpkIgLT-YtiJnMXfAdTDMZuDxP3J13fo=",
     link: "/marine-life/plankton",
   },
   {
     title: "Algae",
     desc: "Seaweeds and microscopic algae that produce oxygen and provide habitat and food for many marine species.",
     image:
-      "https://images.unsplash.com/photo-1502082553048-35a269479413?w=1200&q=60",
+      "https://media.gettyimages.com/id/2212172471/photo/kelpsunburst3oct25-24.jpg?s=612x612&w=0&k=20&c=xrPxriBblO9iDeIBxrx0mspliGdJwPOYx-FLQM5MvN0=",
     link: "/marine-life/algae",
   },
   {
     title: "Seagrass",
     desc: "Underwater flowering plants forming meadows that serve as nurseries for fish and store blue carbon.",
     image:
-      "https://images.unsplash.com/photo-1503264116251-35a269479413?w=1200&q=60",
+      "https://media.gettyimages.com/id/1080208362/photo/seagrass-posidonia-oceanica.jpg?s=612x612&w=0&k=20&c=zhU0vmPOLyflstwlXzz1HkRbTCzv_m6Nk8BX7vSjMeI=",
     link: "/marine-life/seagrass",
   },
-  
+
   {
     title: "Bryozoa",
     desc: "Colonial filter-feeders forming encrusting or branching structures that add complexity to hard-bottom habitats.",
     image:
-      "https://images.unsplash.com/photo-1502082553048-f009c37129b9?w=1200&q=60",
+      "https://media.gettyimages.com/id/1155145869/photo/gorgonian-coral-beauty-reef-with-amazing-biodiversity-raja-ampat-indonesia.jpg?s=612x612&w=0&k=20&c=2YQ0phy6Zic0_7oXjMeq5jXhJRoBO333D57A0r-0kRE=",
     link: "/marine-life/bryozoa",
   },
 ];
