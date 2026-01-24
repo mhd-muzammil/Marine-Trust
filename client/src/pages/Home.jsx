@@ -2,7 +2,7 @@ import { lazy, Suspense } from 'react';
 import React from 'react';
 const ObjectivesZigzag = lazy(() => import('../components/ObjectivesZigzag'));
 const Threats = lazy(() => import('../components/Threats'));
-import CTA from '../components/CTA';
+// import CTA from '../components/CTA';
 
 export default function Home() {
   return (
@@ -57,9 +57,9 @@ export default function Home() {
         </Suspense>
 
         {/* Call to Action */}
-        <section id="cta" className="bg-transparent py-20">
+        {/* <section id="cta" className="bg-transparent py-20">
           <CTA />
-        </section>
+        </section> */}
 
         {/* JOIN CTA */}
         <section id="join" className="bg-cyan-500">

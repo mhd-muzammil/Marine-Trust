@@ -29,11 +29,12 @@ export default function CountryDetail() {
 
       <main className="px-4 space-y-6">
         {/* Hero Image */}
-        <div className="rounded-3xl overflow-hidden shadow-lg">
+        {/* Hero Image (full image, no side cover) */}
+        <div className="rounded-3xl overflow-hidden shadow-lg h-48 md:h-64 bg-transparent">
           <img
             src={country.heroImage}
             alt={country.name}
-            className="w-full h-48 md:h-64 object-cover"
+            className="w-full h-full object-contain"
           />
         </div>
 
