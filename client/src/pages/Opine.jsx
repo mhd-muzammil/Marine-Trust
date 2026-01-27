@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 
-const API_BASE = "http://localhost:5173";
+const API_BASE = "https://back.marinebiodiversityconservation.com";
 
 axios.defaults.baseURL = API_BASE;
 axios.defaults.headers.post["Content-Type"] = "application/json";

@@ -1,7 +1,9 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { FaHandHoldingUsd, FaShieldAlt, FaGlobeAsia } from "react-icons/fa";
 
-const API_BASE = import.meta.env.VITE_API_BASE || "http://localhost:5000";
+const API_BASE =
+  import.meta.env.VITE_API_BASE ||
+  "https://back.marinebiodiversityconservation.com";
 const RAZORPAY_KEY = import.meta.env.VITE_RAZORPAY_KEY; // rzp_test_... or rzp_live_...
 
 const FX_RATES = {

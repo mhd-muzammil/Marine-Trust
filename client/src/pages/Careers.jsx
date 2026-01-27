@@ -174,7 +174,7 @@ export default function Careers() {
 
           <div className="max-w-md w-full ml-auto">
             <JoinVolunteerFormInline
-              apiBase="http://localhost:5173/api" // or your constant / proxy API
+              apiBase="https://back.marinebiodiversityconservation.com/api" 
               onSubmit={(data) =>
                 console.log("Volunteer from careers page:", data)
               }
@@ -183,10 +183,10 @@ export default function Careers() {
         </section>
       </div>
 
-      {/* Application form overlay */}
+      
       {activeRole && (
         <ApplicationForm
-          apiBase="http://localhost:5173/api" // match your backend base
+          apiBase="https://back.marinebiodiversityconservation.com/api" 
           roleId={activeRole.roleId}
           roleTitle={activeRole.roleTitle}
           defaultCategory={activeRole.category}

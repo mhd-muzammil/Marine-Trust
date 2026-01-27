@@ -9,7 +9,9 @@ export default function MarineNews() {
   useEffect(() => {
     const fetchNews = async () => {
       try {
-        const res = await axios.get("http://localhost:5173/api/all-news");
+        const res = await axios.get(
+          "https://back.marinebiodiversityconservation.com/api/all-news",
+        );
         setNews(res.data);
       } catch (err) {
         console.error(err);

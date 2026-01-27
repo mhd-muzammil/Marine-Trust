@@ -5,7 +5,7 @@ import { Player } from "@lottiefiles/react-lottie-player";
 import successAnim from "../animations/success.json";
 
 export default function JoinVolunteerFormInline({
-  apiBase = "http://localhost:5173/api",
+  apiBase = "https://back.marinebiodiversityconservation.com/api",
   onSubmit,
 }) {
   const [form, setForm] = useState({

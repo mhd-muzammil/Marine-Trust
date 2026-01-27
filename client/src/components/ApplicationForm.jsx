@@ -4,7 +4,7 @@ import axios from "axios";
 import { FaTimes, FaPaperclip } from "react-icons/fa";
 
 export default function ApplicationForm({
-  apiBase = "http://localhost:5000/api", // 👈 change to your constant if needed
+  apiBase = "https://back.marinebiodiversityconservation.com/api", // 👈 change to your constant if needed
   roleId = "",
   roleTitle = "",
   defaultCategory = "jobs", // "jobs" | "internships" | "trainee"
@@ -69,7 +69,7 @@ export default function ApplicationForm({
       }
     } catch (err) {
       setError(
-        err?.response?.data?.message || "Server error. Please try again later."
+        err?.response?.data?.message || "Server error. Please try again later.",
       );
     } finally {
       setBusy(false);

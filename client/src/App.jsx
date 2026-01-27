@@ -31,7 +31,7 @@ const SpeciesDetails = lazy(() => import("./pages/SpeciesDetails"));
 const MarineQuiz = lazy(() => import("./pages/MarineQuiz"));
 const OceanDive = lazy(() => import("./pages/OceanDrive"));
 
-const socket = io("http://localhost:5173");
+const socket = io("https://back.marinebiodiversityconservation.com");
 
 export default function App() {
   const [visitorCount, setVisitorCount] = useState(null);

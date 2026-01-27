@@ -32,15 +32,15 @@ export default function JoinVolunteerForm({
   open,
   onClose,
   onSubmit,
-  apiBase = 'http://localhost:5173/api',
+  apiBase = "https://back.marinebiodiversityconservation.com/api",
 }) {
   const [form, setForm] = useState({
-    fullName: '',
-    emailId: '',
-    phone: '',
-    location: '',
-    role: '',
-    availability: '',
+    fullName: "",
+    emailId: "",
+    phone: "",
+    location: "",
+    role: "",
+    availability: "",
     interestsCleanup: true,
     interestsRestoration: false,
     interestsEducation: false,
@@ -48,7 +48,7 @@ export default function JoinVolunteerForm({
   const [errors, setErrors] = useState({});
   const [busy, setBusy] = useState(false); // generic loader state
   const [done, setDone] = useState(false);
-  const [serverMsg, setServerMsg] = useState('');
+  const [serverMsg, setServerMsg] = useState("");
   const modalRef = useRef(null);
   const buttonRef = useRef(null);
   const confettiLayerRef = useRef(null);
@@ -58,19 +58,19 @@ export default function JoinVolunteerForm({
     else {
       // focus first input when opened
       setTimeout(() => {
-        modalRef.current?.querySelector('input, select, button')?.focus();
+        modalRef.current?.querySelector("input, select, button")?.focus();
       }, 80);
     }
   }, [open]);
 
   function reset() {
     setForm({
-      fullName: '',
-      emailId: '',
-      phone: '',
-      location: '',
-      role: '',
-      availability: '',
+      fullName: "",
+      emailId: "",
+      phone: "",
+      location: "",
+      role: "",
+      availability: "",
       interestsCleanup: true,
       interestsRestoration: false,
       interestsEducation: false,
@@ -78,23 +78,23 @@ export default function JoinVolunteerForm({
     setErrors({});
     setBusy(false);
     setDone(false);
-    setServerMsg('');
+    setServerMsg("");
   }
 
   const validate = () => {
     const e = {};
-    if (!form.fullName.trim()) e.name = 'Please enter your fullName';
+    if (!form.fullName.trim()) e.name = "Please enter your fullName";
     if (!form.emailId.trim() || !/^\S+@\S+\.\S+$/.test(form.emailId))
-      e.emailId = 'Please enter a valid email';
+      e.emailId = "Please enter a valid email";
     if (form.phone && !/^[\d +()-]{7,20}$/.test(form.phone))
-      e.phone = 'Phone looks invalid';
+      e.phone = "Phone looks invalid";
     // if (!form.role) e.role = 'Please select a volunteer role';
     return e;
   };
 
   const handleChange = (ev) => {
     const { name, value, type, checked } = ev.target;
-    if (type === 'checkbox') setForm((s) => ({ ...s, [name]: checked }));
+    if (type === "checkbox") setForm((s) => ({ ...s, [name]: checked }));
     else setForm((s) => ({ ...s, [name]: value }));
   };
 
@@ -103,33 +103,33 @@ export default function JoinVolunteerForm({
     const container = confettiLayerRef.current;
     if (!container) return;
     for (let i = 0; i < count; i++) {
-      const el = document.createElement('span');
-      el.className = 'cv-piece';
+      const el = document.createElement("span");
+      el.className = "cv-piece";
       const size = 6 + Math.round(Math.random() * 14);
       el.style.width = `${size}px`;
       el.style.height = `${Math.round(size * 0.6)}px`;
       el.style.left = `${x - size / 2}px`;
       el.style.top = `${y - size / 2}px`;
       const palette = [
-        '#00b4d8',
-        '#0077b6',
-        '#90e0ef',
-        '#ffd166',
-        '#06d6a0',
-        '#ff6b6b',
+        "#00b4d8",
+        "#0077b6",
+        "#90e0ef",
+        "#ffd166",
+        "#06d6a0",
+        "#ff6b6b",
       ];
       el.style.background = palette[Math.floor(Math.random() * palette.length)];
       el.style.setProperty(
-        '--dx',
-        `${Math.round((Math.random() - 0.5) * 700)}px`
+        "--dx",
+        `${Math.round((Math.random() - 0.5) * 700)}px`,
       );
       el.style.setProperty(
-        '--dy',
-        `${-(200 + Math.round(Math.random() * 700))}px`
+        "--dy",
+        `${-(200 + Math.round(Math.random() * 700))}px`,
       );
-      el.style.setProperty('--rot', `${Math.round(Math.random() * 720)}deg`);
+      el.style.setProperty("--rot", `${Math.round(Math.random() * 720)}deg`);
       container.appendChild(el);
-      el.addEventListener('animationend', () => el.remove(), { once: true });
+      el.addEventListener("animationend", () => el.remove(), { once: true });
     }
   }
   //new Handle submit
@@ -143,7 +143,7 @@ export default function JoinVolunteerForm({
       const { fullName, emailId, phone, availability, location } = form;
       setBusy(true);
       const response = await axios.post(
-        apiBase + '/volunteer',
+        apiBase + "/volunteer",
         {
           fullName,
           emailId,
@@ -153,7 +153,7 @@ export default function JoinVolunteerForm({
         },
         {
           withCredentials: true,
-        }
+        },
       );
       if (response.data) {
         setDone(true);
@@ -162,7 +162,7 @@ export default function JoinVolunteerForm({
           const rect = btn.getBoundingClientRect();
           spawnConfettiAt(
             rect.left + rect.width / 2,
-            rect.top + rect.height / 2
+            rect.top + rect.height / 2,
           );
         }
         if (onSubmit) {
@@ -171,7 +171,7 @@ export default function JoinVolunteerForm({
       }
     } catch (err) {
       setErrors({
-        Error: err?.response?.data?.message || 'An unexpected Error occured',
+        Error: err?.response?.data?.message || "An unexpected Error occured",
       });
     } finally {
       setBusy(false);
@@ -297,8 +297,8 @@ export default function JoinVolunteerForm({
                         placeholder="Jhon Doe"
                         className={`w-full pl-10 pr-3 py-2 rounded-lg bg-white/5 text-white placeholder:text-white/60 focus:outline-none ${
                           errors.fullName
-                            ? 'ring-2 ring-rose-400'
-                            : 'ring-1 ring-white/10'
+                            ? "ring-2 ring-rose-400"
+                            : "ring-1 ring-white/10"
                         }`}
                         required
                       />
@@ -319,8 +319,8 @@ export default function JoinVolunteerForm({
                         placeholder="Email"
                         className={`w-full pl-10 pr-3 py-2 rounded-lg bg-white/5 text-white placeholder:text-white/60 focus:outline-none ${
                           errors.emailId
-                            ? 'ring-2 ring-rose-400'
-                            : 'ring-1 ring-white/10'
+                            ? "ring-2 ring-rose-400"
+                            : "ring-1 ring-white/10"
                         }`}
                         required
                       />
@@ -371,8 +371,8 @@ export default function JoinVolunteerForm({
                         onChange={handleChange}
                         className={`w-full py-2 px-3 rounded-lg bg-white/5 text-white placeholder:text-white/60 focus:outline-none ${
                           errors.role
-                            ? 'ring-2 ring-rose-400'
-                            : 'ring-1 ring-white/10'
+                            ? "ring-2 ring-rose-400"
+                            : "ring-1 ring-white/10"
                         }`}
                         required
                       >
@@ -409,7 +409,7 @@ export default function JoinVolunteerForm({
                         checked={form.interestsCleanup}
                         onChange={handleChange}
                         className="accent-[#00b4d8] w-4 h-4"
-                      />{' '}
+                      />{" "}
                       Beach cleanup
                     </label>
                     <label className="inline-flex items-center gap-2 text-white/90">
@@ -419,7 +419,7 @@ export default function JoinVolunteerForm({
                         checked={form.interestsRestoration}
                         onChange={handleChange}
                         className="accent-[#00b4d8] w-4 h-4"
-                      />{' '}
+                      />{" "}
                       Reef restoration
                     </label>
                     <label className="inline-flex items-center gap-2 text-white/90">
@@ -429,7 +429,7 @@ export default function JoinVolunteerForm({
                         checked={form.interestsEducation}
                         onChange={handleChange}
                         className="accent-[#00b4d8] w-4 h-4"
-                      />{' '}
+                      />{" "}
                       Community education
                     </label>
                   </div>
@@ -442,15 +442,15 @@ export default function JoinVolunteerForm({
                       disabled={busy}
                       className={`relative w-full py-2 rounded-lg text-white font-semibold transition-transform transform ${
                         busy
-                          ? 'scale-95 opacity-90 pointer-events-none'
-                          : 'hover:scale-[1.02]'
+                          ? "scale-95 opacity-90 pointer-events-none"
+                          : "hover:scale-[1.02]"
                       } bg-gradient-to-r from-[#00b4d8] to-[#0077b6] flex items-center justify-center gap-3`}
                       aria-live="polite"
                       aria-busy={busy}
                     >
                       {busy && <span className="spinner" aria-hidden />}
                       <span className="btn-text">
-                        {busy ? 'Submitting...' : 'Submit'}
+                        {busy ? "Submitting..." : "Submit"}
                       </span>
                     </button>
                   </div>
