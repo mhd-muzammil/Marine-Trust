@@ -42,55 +42,75 @@ router.post("/razorpay/create-order", async (req, res) => {
 });
 
 // ✅ POST /api/razorpay/verify + SEND EMAIL RECEIPT
+// ✅ POST /api/razorpay/verify + SEND EMAIL RECEIPT
 router.post("/razorpay/verify", async (req, res) => {
   try {
     const {
       razorpay_order_id,
       razorpay_payment_id,
       razorpay_signature,
-
-      // ✅ from FE (you must send these)
+      // ✅ Data expected from Frontend
       donorName,
       donorEmail,
       amountInr,
     } = req.body;
 
+    // 🔍 DEBUG LOG 1: Check what the Frontend sent
+    console.log("🔍 Verify Route Hit. Payload:", {
+      razorpay_payment_id,
+      donorEmail, // <--- Is this undefined?
+      donorName
+    });
+
     if (!razorpay_order_id || !razorpay_payment_id || !razorpay_signature) {
-      return res
-        .status(400)
-        .json({ success: false, message: "Missing params" });
+      return res.status(400).json({ success: false, message: "Missing params" });
     }
 
     const body = `${razorpay_order_id}|${razorpay_payment_id}`;
-
     const expectedSignature = crypto
       .createHmac("sha256", process.env.RAZORPAY_KEY_SECRET)
       .update(body)
       .digest("hex");
 
     if (expectedSignature !== razorpay_signature) {
-      return res.status(400).json({
-        success: false,
-        message: "Invalid signature ❌",
-      });
+      return res.status(400).json({ success: false, message: "Invalid signature ❌" });
     }
 
-    // ✅ Extra safety (optional but recommended):
-    // Fetch payment details from Razorpay
+    // ✅ Fetch payment details from Razorpay to get the "Real" email if frontend missed it
     const payment = await razorpay.payments.fetch(razorpay_payment_id);
-
-    // ✅ Send receipt mail to donor
-    await sendDonationReceiptMail({
-      to: donorEmail || payment?.email,
-      name: donorName || payment?.notes?.donorName,
-      amountInr: amountInr || Math.round((payment.amount || 0) / 100),
-      paymentId: razorpay_payment_id,
-      orderId: razorpay_order_id,
+    
+    // 🔍 DEBUG LOG 2: Check what Razorpay has
+    console.log("🔍 Razorpay Payment Details:", {
+      email: payment.email, // <--- Does Razorpay have the email?
+      contact: payment.contact,
+      status: payment.status
     });
+
+    // ✅ Determine final email
+    const finalEmail = donorEmail || payment.email;
+
+    if (!finalEmail) {
+      console.error("❌ MAIL ERROR: No email found in Frontend payload OR Razorpay data. Receipt cannot be sent.");
+    } else {
+      console.log(`📧 Sending receipt to: ${finalEmail}`);
+      
+      try {
+        await sendDonationReceiptMail({
+          to: finalEmail,
+          name: donorName || payment?.notes?.donorName || "Supporter",
+          amountInr: amountInr || Math.round((payment.amount || 0) / 100),
+          paymentId: razorpay_payment_id,
+          orderId: razorpay_order_id,
+        });
+        console.log("✅ Mail function executed successfully.");
+      } catch (mailError) {
+        console.error("❌ Mailer crashed:", mailError.message);
+      }
+    }
 
     return res.status(200).json({
       success: true,
-      message: "Payment verified ✅ Receipt sent to donor mail ✅",
+      message: "Payment verified ✅",
       payment,
     });
   } catch (err) {
