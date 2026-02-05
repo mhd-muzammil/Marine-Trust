@@ -1,105 +1,51 @@
-// src/components/FloatingActions.jsx
 import React from "react";
 import { Link } from "react-router-dom";
-import { FaHeart, FaHandsHelping, FaQuestionCircle } from "react-icons/fa";
+// Using specific icons for Quiz, Donation, and Group
+import { MdQuiz } from "react-icons/md";
+import { BiDonateHeart } from "react-icons/bi";
+import { HiUsers } from "react-icons/hi2";
 
 export default function FloatingActions() {
+  const actions = [
+    {
+      to: "/marine-quiz",
+      label: "Marine Quiz",
+      icon: <MdQuiz />,
+      color: "bg-teal-500",
+    },
+    {
+      to: "/donate",
+      label: "Contribute Now",
+      icon: <BiDonateHeart />,
+      color: "bg-rose-500",
+    },
+    {
+      to: "/careers#volunteer",
+      label: "Volunteer",
+      icon: <HiUsers />,
+      color: "bg-blue-600",
+    },
+  ];
+
   return (
-    <div
-      className="
-        hidden md:flex               /* 🔹 hide on mobile, show from md+ */
-        fixed right-4 top-1/2 -translate-y-1/2
-        flex-col gap-4
-        z-40
-      "
-    >
-      {/* Marine Quiz */}
-      <div className="relative group flex items-center justify-end animate-bounce">
-        <div
-          className="absolute right-full mr-3 top-1/2 -translate-y-1/2
-               rounded-full bg-white text-slate-900 shadow-2xl
-               px-5 py-2 text-xs sm:text-sm font-semibold
-               opacity-0 translate-x-2
-               group-hover:opacity-100 group-hover:translate-x-0
-               group-hover:-translate-y-1
-               transition-all duration-200 ease-out
-               flex items-center"
-        >
-          Marine Quiz
-        </div>
-
+    <div className="fixed right-0 top-1/2 -translate-y-1/2 flex flex-col items-end z-50">
+      {actions.map((item, index) => (
         <Link
-          to="/marine-quiz"
-          className="h-12 w-12 rounded-full bg-teal-500 flex items-center justify-center
-               shadow-2xl transform-gpu
-               transition-transform duration-200 ease-out
-               group-hover:-translate-y-1
-               hover:brightness-110
-               focus-visible:outline-none focus-visible:ring-2
-               focus-visible:ring-offset-2 focus-visible:ring-teal-300 focus-visible:ring-offset-transparent"
-          aria-label="Marine Quiz"
+          key={index}
+          to={item.to}
+          className={`group relative flex items-center h-12 overflow-hidden transition-all duration-300 hover:w-52 w-12 ${item.color} text-white mb-[2px] rounded-l-md shadow-md`}
         >
-          <FaQuestionCircle className="text-white text-lg" />
-        </Link>
-      </div>
+          {/* Label */}
+          <span className="absolute left-4 whitespace-nowrap font-bold opacity-0 transition-all duration-300 group-hover:opacity-100">
+            {item.label}
+          </span>
 
-      {/* Donate */}
-      <div className="relative group flex items-center justify-end">
-        <div
-          className="absolute right-full mr-3 top-1/2 -translate-y-1/2
-                     rounded-full bg-white text-slate-900 shadow-2xl
-                     px-5 py-2 text-xs sm:text-sm font-semibold
-                     opacity-0 translate-x-2
-                     group-hover:opacity-100 group-hover:translate-x-0
-                     group-hover:-translate-y-1
-                     transition-all duration-200 ease-out
-                     flex items-center"
-        >
-          Contribute Now
-        </div>
-        <Link
-          to="/donate"
-          className="h-12 w-12 rounded-full bg-rose-500 flex items-center justify-center
-                     shadow-2xl transform-gpu
-                     transition-transform duration-200 ease-out
-                     group-hover:-translate-y-1
-                     hover:brightness-110
-                     focus-visible:outline-none focus-visible:ring-2
-                     focus-visible:ring-offset-2 focus-visible:ring-rose-300 focus-visible:ring-offset-transparent"
-          aria-label="Donate"
-        >
-          <FaHeart className="text-white text-lg" />
+          {/* Icon Box */}
+          <div className="absolute right-0 flex h-12 w-12 items-center justify-center text-2xl bg-inherit">
+            {item.icon}
+          </div>
         </Link>
-      </div>
-
-      {/* Volunteer */}
-      <div className="relative group flex items-center justify-end">
-        <div
-          className="absolute right-full mr-3 top-1/2 -translate-y-1/2
-                     rounded-full bg-white text-slate-900 shadow-2xl
-                     px-5 py-2 text-xs sm:text-sm font-semibold
-                     opacity-0 translate-x-2
-                     group-hover:opacity-100 group-hover:translate-x-0
-                     group-hover:-translate-y-1
-                     transition-all duration-200 ease-out
-                     flex items-center"
-        >
-          Volunteer
-        </div>
-        <Link
-          to="/careers#volunteer"
-          className="h-12 w-12 rounded-full bg-blue-600 flex items-center justify-center
-                     shadow-2xl transform-gpu
-                     transition-transform duration-200 ease-out
-                     group-hover:-translate-y-1
-                     hover:brightness-110
-                     focus-visible:outline-none focus-visible:ring-2
-                     focus-visible:ring-offset-2 focus-visible:ring-blue-300 focus-visible:ring-offset-transparent"
-          aria-label="Volunteer"
-        >
-          <FaHandsHelping className="text-white text-lg" />
-        </Link>
-      </div>
+      ))}
     </div>
   );
 }
