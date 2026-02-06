@@ -1,4 +1,4 @@
-// controllers/opineController.js
+
 const Post = require("../model/post");
 const crypto = require("crypto");
 
