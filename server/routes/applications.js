@@ -1,4 +1,3 @@
-// src/routes/applications.js
 const express = require("express");
 const Application = require("../model/Application");
 const { upload } = require("../middleware/upload");
@@ -6,7 +5,7 @@ const { sendApplicationEmail } = require("../utils/mailer");
 
 const router = express.Router();
 
-// Handle CORS preflight
+
 router.options("/apply", (_, res) => res.sendStatus(204));
 
 router.post("/apply", upload.single("resume"), async (req, res) => {
@@ -20,7 +19,7 @@ router.post("/apply", upload.single("resume"), async (req, res) => {
       category = "jobs",
     } = req.body || {};
 
-    // basic validation
+    
     if (!name?.trim() || !phone?.trim() || !email?.trim()) {
       return res
         .status(400)
@@ -33,7 +32,7 @@ router.post("/apply", upload.single("resume"), async (req, res) => {
         .json({ ok: false, message: "Resume file is required." });
     }
 
-    // 1) Save to Mongo
+    
     const appDoc = await Application.create({
       name: name.trim(),
       phone: phone.trim(),
@@ -48,7 +47,7 @@ router.post("/apply", upload.single("resume"), async (req, res) => {
       },
     });
 
-    // 2) Build TO list
+  
     const toList = [process.env.HR_EMAIL, process.env.CEO_EMAIL]
       .map((x) => (x || "").trim())
       .filter(Boolean);
@@ -92,7 +91,7 @@ router.post("/apply", upload.single("resume"), async (req, res) => {
         emailSent = true;
       } catch (mailErr) {
         console.error("[MAIL] Error while sending application email:", mailErr);
-        // DO NOT throw here – we still return 201 so frontend doesn’t see 500
+        
       }
     }
 
