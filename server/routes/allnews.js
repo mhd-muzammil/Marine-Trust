@@ -10,7 +10,7 @@ router.get("/all-news", async (req, res) => {
 
     const combined = [...rssRes.data, ...gnewsRes.data];
 
-    // Remove duplicates by URL
+  
     const unique = Array.from(
       new Map(combined.map((item) => [item.ogUrl, item])).values()
     );
