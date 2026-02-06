@@ -1,8 +1,8 @@
-// src/app.js
+
 const path = require("path");
 const cors = require("cors");
 
-// load .env BEFORE other imports
+
 require("dotenv").config({ path: path.resolve(__dirname, "../.env") });
 
 const express = require("express");
@@ -11,19 +11,19 @@ const http = require("http");
 const { Server } = require("socket.io");
 const connectDB = require("../config/database");
 
-// existing routers
+
 const volunteerRouter = require("../routes/volunteer");
 const visiterCountRouter = require("../routes/visitorCount");
 const opineRouter = require("../routes/opine");
 
-// ⭐ NEW: careers applications router
+
 const applicationsRouter = require("../routes/applications");
 
 const rssNewsRouter = require("../routes/rssNews");
 const gnewsRouter = require("../routes/gnews");
 const allNewsRouter = require("../routes/allnews");
 
-//razorpay
+
 
 const razorpayRouter = require("../routes/razorpay");
 
@@ -31,7 +31,7 @@ const razorpayRouter = require("../routes/razorpay");
 const { axios } = require("axios");
 const { InitializeSocket } = require("../utils/socket");
 
-// CORS (keep your current origin)
+
 app.use(
   cors({
     origin: "http://localhost:8173",

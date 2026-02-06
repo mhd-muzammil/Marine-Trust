@@ -8,7 +8,7 @@ async function runTest() {
   console.log("🚀 Initiating Test...");
 
   await sendDonationReceiptMail({
-    to: "zamil627810@gmail.com", // 👈 REPLACE with your email to check inbox
+    to: "zamil627810@gmail.com", 
     name: "Ghost (Test)",
     amountInr: 100,
     paymentId: "PAY_TEST_123456",

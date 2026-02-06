@@ -5,13 +5,13 @@ const Razorpay = require("razorpay");
 
 const { sendDonationReceiptMail } = require("../utils/sendMail");
 
-// Razorpay instance
+
 const razorpay = new Razorpay({
   key_id: process.env.RAZORPAY_KEY_ID,
   key_secret: process.env.RAZORPAY_KEY_SECRET,
 });
 
-// ✅ POST /api/razorpay/create-order
+
 router.post("/razorpay/create-order", async (req, res) => {
   try {
     const { amountInr, meta } = req.body;
@@ -21,7 +21,7 @@ router.post("/razorpay/create-order", async (req, res) => {
     }
 
     const order = await razorpay.orders.create({
-      amount: Math.round(Number(amountInr) * 100), // INR -> paise
+      amount: Math.round(Number(amountInr) * 100), 
       currency: "INR",
       receipt: `mbct_${Date.now()}`,
       notes: {
@@ -41,24 +41,23 @@ router.post("/razorpay/create-order", async (req, res) => {
   }
 });
 
-// ✅ POST /api/razorpay/verify + SEND EMAIL RECEIPT
-// ✅ POST /api/razorpay/verify + SEND EMAIL RECEIPT
+
 router.post("/razorpay/verify", async (req, res) => {
   try {
     const {
       razorpay_order_id,
       razorpay_payment_id,
       razorpay_signature,
-      // ✅ Data expected from Frontend
+      
       donorName,
       donorEmail,
       amountInr,
     } = req.body;
 
-    // 🔍 DEBUG LOG 1: Check what the Frontend sent
+   
     console.log("🔍 Verify Route Hit. Payload:", {
       razorpay_payment_id,
-      donorEmail, // <--- Is this undefined?
+      donorEmail, 
       donorName
     });
 
@@ -76,17 +75,17 @@ router.post("/razorpay/verify", async (req, res) => {
       return res.status(400).json({ success: false, message: "Invalid signature ❌" });
     }
 
-    // ✅ Fetch payment details from Razorpay to get the "Real" email if frontend missed it
+    
     const payment = await razorpay.payments.fetch(razorpay_payment_id);
     
-    // 🔍 DEBUG LOG 2: Check what Razorpay has
+    
     console.log("🔍 Razorpay Payment Details:", {
-      email: payment.email, // <--- Does Razorpay have the email?
+      email: payment.email, 
       contact: payment.contact,
       status: payment.status
     });
 
-    // ✅ Determine final email
+    
     const finalEmail = donorEmail || payment.email;
 
     if (!finalEmail) {

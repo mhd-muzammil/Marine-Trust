@@ -18,7 +18,7 @@ async function sendDonationReceiptMail({
 }) {
   if (!to) return;
 
-  // ✅ Logo path only
+  //  Logo path
   const logoPath = path.join(__dirname, "../assets/logo.png");
 
   const html = `
