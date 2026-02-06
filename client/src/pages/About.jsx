@@ -5,9 +5,10 @@ import CTA from "../components/CTA";
 import WhoWeAreCarousel from "../components/WhoWeAre";
 
 import { motion } from 'framer-motion';
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { useLazyLoad } from '../hooks/useLazyLoad';
 import { missionVisionData } from "../data/missionVisionData";
+import aboutHero from "../assets/About-Hero.jpg"
 
 
 const timelineData = [
@@ -45,6 +46,31 @@ const timelineData = [
 
 
 export default function About() {
+  useEffect(() => {
+    // Title
+    document.title = "Marine Biodiversity Conservation | About Our Mission";
+  
+    // Meta description
+    let meta = document.querySelector('meta[name="description"]');
+    if (!meta) {
+      meta = document.createElement("meta");
+      meta.name = "description";
+      document.head.appendChild(meta);
+    }
+    meta.setAttribute(
+      "content",
+      "Marine conservation and biodiversity focused on protecting marine life, species, coral, coastal and ecosystems for future generations and local communities",
+    );
+  
+    // ✅ Canonical
+    let canonical = document.querySelector("link[rel='canonical']");
+    if (!canonical) {
+      canonical = document.createElement("link");
+      canonical.rel = "canonical";
+      document.head.appendChild(canonical);
+    }
+    canonical.href = "https://www.marinebiodiversityconservation.com/about/";
+  }, []);
   const addElement = useLazyLoad();
 
 
@@ -52,7 +78,7 @@ export default function About() {
   return (
     <main className="bg-cyan-950 text-slate-900">
       {/* HERO */}
-      {/* Hero Section */}
+
       <section
         aria-label="About MBCT Hero"
         className="relative w-full h-[600px] flex items-center justify-center overflow-hidden"
@@ -60,8 +86,8 @@ export default function About() {
         {/* Background Image */}
         <img
           ref={addElement}
-          data-src="/src/assets/About-Hero.jpg"
-          src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" // Transparent pixel
+          data-src={aboutHero}
+          src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw=="
           alt="Ocean and coral reef"
           className="absolute inset-0 w-full h-full object-cover"
         />
@@ -187,7 +213,7 @@ export default function About() {
         </div>
       </section>
 
-      {/* === WHAT WE DO (Timeline Version) === */}
+      {/*  WHAT WE DO (Timeline Version) */}
       <section
         id="what-we-do"
         className="max-w-6xl mx-auto px-6 py-16 relative"
@@ -218,7 +244,7 @@ export default function About() {
                   transition: { duration: 0.8, ease: "easeOut" },
                 }}
                 viewport={{ once: true, amount: 0.3 }}
-                style={{ willChange: 'transform, opacity' }}
+                style={{ willChange: "transform, opacity" }}
               >
                 <div
                   className={`w-full md:w-[46%] bg-white border border-slate-100 rounded-xl shadow-sm hover:shadow-md transition p-6 ${
@@ -413,17 +439,13 @@ export default function About() {
                 </span>
               </p>
               <p>
-                <span className="font-semibold text-sky-300">12A Status:</span>{" "}
-                <span className="text-white">
-                  Application Submitted – Approval Pending
-                </span>
+                <span className="font-semibold text-sky-300">12A No:</span>{" "}
+                <span className="text-white">AAKTMXXXXBE20251</span>
               </p>
 
               <p>
-                <span className="font-semibold text-sky-300">80G Status:</span>{" "}
-                <span className="text-white">
-                  Application Submitted – Approval Pending
-                </span>
+                <span className="font-semibold text-sky-300">80G No:</span>{" "}
+                <span className="text-white">AAKTMXXXXBF20261</span>
               </p>
 
               <p className="md:col-span-2">
@@ -449,15 +471,15 @@ export default function About() {
             Join the Movement
           </h3>
           <p className="mt-3 text-slate-600 text-lg font-semibold max-w-2xl mx-auto">
-            We welcome everyone  students, educators, professionals and
-            citizens to join us as volunteers and ocean ambassadors. Together,
-            let’s protect marine life, promote sustainable habits and inspire
-            others to act for the ocean’s future.
+            We welcome everyone students, educators, professionals and citizens
+            to join us as volunteers and ocean ambassadors. Together, let’s
+            protect marine life, promote sustainable habits and inspire others
+            to act for the ocean’s future.
           </p>
 
           <div className="mt-6 flex items-center justify-center gap-4">
             <a
-              href="/blog"
+              href="/careers#volunteer"
               className="inline-block px-6 py-3 rounded-md bg-[#01607f] text-white font-medium hover:opacity-95 transition hover:bg-white hover:text-black"
             >
               Become a Volunteer

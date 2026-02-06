@@ -8,7 +8,8 @@ import {
   FaArrowRight,
 } from "react-icons/fa";
 import MarineMomentsSection from "../components/MarineMomentsSection";
-import CountriesPage from './CountriesPage'
+import OceanLifePage from "../components/OceanLife";
+
 
 const HERO_TEXT = "Join Us in Protecting the Blue Heart of our Planet";
 
@@ -143,7 +144,8 @@ export default function GetInvolved() {
         </div>
       </section>
       <MarineMomentsSection />
-      <CountriesPage />
+      <OceanLifePage />
+      
     </main>
   );
 }
