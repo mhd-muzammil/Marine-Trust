@@ -8,6 +8,8 @@ import io from "socket.io-client";
 import axios from "axios";
 import { BASE_URL } from "./utils/contants";
 import MarineNews from "./pages/MarineNews";
+import Threats from "./components/Threats";
+import { db } from './firebase';
 
 /* Lazy loaded pages */
 const About = lazy(() => import("./pages/About"));
@@ -37,6 +39,8 @@ export default function App() {
   const [visitorCount, setVisitorCount] = useState(null);
 
   useEffect(() => {
+// console.log("Ghost, Soap here. Firebase initialized:", db);
+
     const fetchAndIncrement = async () => {
       try {
         const res = await axios.get(`${BASE_URL}/stats/getVisitors`);
@@ -80,6 +84,7 @@ export default function App() {
               <Route path="/projects" element={<Project />} />
               <Route path="/contact" element={<Contact />} />
               <Route path="/donate" element={<Donation />} />
+              <Route path="/threats" element={<Threats />} />
 
               <Route path="/privacy-policy" element={<PrivacyPolicy />} />
               <Route
@@ -104,7 +109,11 @@ export default function App() {
               />
 
               <Route path="/countries" element={<CountriesPage />} />
-              <Route path="/countries/:id" element={<CountryDetail />} />
+              {/* ✅ FIXED: Changed :id to :countryName */}
+              <Route
+                path="/countries/:countryName"
+                element={<CountryDetail />}
+              />
 
               <Route path="/marine-quiz" element={<MarineQuiz />} />
               <Route path="/ocean-drive" element={<OceanDive />} />

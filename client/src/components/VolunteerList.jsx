@@ -1,81 +1,120 @@
-import React from 'react';
-import useGetVolunteers from '../hooks/useGetVolunteers';
+import React, { useEffect, useState } from "react";
+import { db } from "../firebase";
+import { collection, query, orderBy, onSnapshot } from "firebase/firestore";
 
-export default function VolunteerList({ open, onClose }) {
-  const { volunteers, loading, error } = useGetVolunteers(open);
+export default function VolunteerList() {
+  const [volunteers, setVolunteers] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [visibleCount, setVisibleCount] = useState(8);
 
-  if (!open) return null;
+  useEffect(() => {
+    const q = query(collection(db, "volunteers"), orderBy("createdAt", "desc"));
+    const unsubscribe = onSnapshot(q, (snapshot) => {
+      const list = snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
+      setVolunteers(list);
+      setLoading(false);
+    });
+    return () => unsubscribe();
+  }, []);
+
+  const showMore = () =>
+    setVisibleCount((prev) => Math.min(prev + 8, volunteers.length));
+  const showLess = () => setVisibleCount(8);
+
+  if (loading)
+    return (
+      <div className="flex flex-col items-center justify-center py-32 bg-[#000d11]">
+        <div className="w-16 h-1 w-32 bg-cyan-950 rounded-full overflow-hidden">
+          <div className="w-full h-full bg-cyan-400 animate-[loading_1.5s_infinite]"></div>
+        </div>
+        <p className="text-cyan-500/50 mt-4 text-[10px] font-black tracking-[0.5em] uppercase">
+          Synchronizing Data
+        </p>
+      </div>
+    );
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
-      {/* overlay */}
-      <div
-        className="absolute inset-0 bg-black/60 backdrop-blur-sm"
-        onClick={onClose}
-      />
-
-      {/* modal */}
-      <div className="relative z-10 w-full max-w-3xl bg-white/95 rounded-xl shadow-2xl overflow-hidden text-slate-900">
-        {/* header */}
-        <div className="flex justify-between items-center px-6 py-4 border-b">
-          <h2 className="text-xl font-bold">Our Volunteers 🌊</h2>
-          <button
-            onClick={onClose}
-            className="text-sm px-3 py-1 rounded border border-slate-200 hover:bg-slate-100"
-          >
-            Close
-          </button>
-        </div>
-
-        {/* content */}
-        <div className="p-6 max-h-[70vh] overflow-auto">
-          {loading ? (
-            <p className="text-center text-slate-500">Loading volunteers...</p>
-          ) : error ? (
-            <p className="text-center text-red-500">
-              Failed to load volunteers: {error}
+    <div className="w-full py-20 px-6 bg-[#000d11] relative">
+      <div className="max-w-7xl mx-auto relative z-10">
+        <header className="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-6">
+          <div>
+            <h2 className="text-4xl md:text-6xl font-black text-white tracking-tighter leading-none">
+              GLOBAL <span className="text-cyan-400">NETWORK</span>
+            </h2>
+            <p className="text-gray-500 mt-4 font-medium tracking-wide">
+              {volunteers.length} Active Operatives protecting marine
+              ecosystems.
             </p>
-          ) : volunteers.length === 0 ? (
-            <p className="text-center text-slate-500">No volunteers found.</p>
-          ) : (
-            <ul className="space-y-3">
-              {volunteers.map((v) => (
-                <li
-                  key={v._id || v.emailId}
-                  className="flex items-center justify-between bg-white/60 p-3 rounded-lg shadow-sm hover:bg-cyan-50 transition"
-                >
-                  <div className="flex items-center gap-3">
-                    {/* initials avatar */}
-                    <div className="w-10 h-10 bg-gradient-to-r from-[#00b4d8] to-[#0077b6] text-white flex items-center justify-center rounded-full font-semibold">
-                      {(v.fullName || 'U N')
-                        .split(' ')
-                        .map((s) => s[0])
-                        .slice(0, 2)
-                        .join('')}
-                    </div>
+          </div>
+          <div className="h-[2px] flex-grow mx-8 bg-gradient-to-r from-cyan-500/50 to-transparent hidden md:block mb-4"></div>
+        </header>
 
-                    {/* info */}
-                    <div>
-                      <h4 className="font-semibold">{v.fullName}</h4>
-                      <p className="text-sm text-slate-600">{v.phone}</p>
-                    </div>
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-8">
+          {volunteers.slice(0, visibleCount).map((vol) => (
+            <div
+              key={vol.id}
+              className="group relative h-[320px] rounded-2xl bg-[#01161d] border border-white/5 hover:border-cyan-500/40 transition-all duration-500 overflow-hidden shadow-2xl"
+            >
+              {/* Image Container */}
+              <div className="absolute inset-0 w-full h-full transform group-hover:scale-105 transition-transform duration-700">
+                {vol.imageUrl ? (
+                  <img
+                    src={vol.imageUrl}
+                    alt={vol.name}
+                    className="w-full h-full object-cover opacity-60 group-hover:opacity-100"
+                  />
+                ) : (
+                  <div className="w-full h-full bg-cyan-950/30 flex items-center justify-center text-5xl font-black text-white/5 uppercase">
+                    {vol.name?.charAt(0)}
                   </div>
+                )}
+                <div className="absolute inset-0 bg-gradient-to-t from-[#000d11] via-[#000d11]/20 to-transparent"></div>
+              </div>
 
-                  <div className="text-right text-xs text-slate-500">
-                    <div>{v.location}</div>
-                    {v.createdAt && (
-                      <div>{new Date(v.createdAt).toLocaleDateString()}</div>
-                    )}
-                  </div>
-                </li>
-              ))}
-            </ul>
-          )}
+              {/* Minimal Info */}
+              <div className="absolute inset-x-0 bottom-0 p-6 translate-y-2 group-hover:translate-y-0 transition-transform duration-500">
+                <div className="flex items-center gap-2 mb-2">
+                  <div className="w-1.5 h-1.5 rounded-full bg-cyan-400 shadow-[0_0_8px_#22d3ee]"></div>
+                  <span className="text-[10px] font-bold text-cyan-400 uppercase tracking-widest">
+                    {vol.role || "Guardian"}
+                  </span>
+                </div>
+                <h3 className="text-lg font-bold text-white truncate">
+                  {vol.name || "Anonymous"}
+                </h3>
+                <p className="text-gray-400 text-[10px] font-semibold tracking-wider mt-1">
+                  {vol.country || "Global Sector"}
+                </p>
+
+                <div className="mt-4 pt-4 border-t border-white/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+                  <p className="text-cyan-500/60 font-mono text-[9px]">
+                    ID // {vol.volunteerId || "VERIFIED"}
+                  </p>
+                </div>
+              </div>
+            </div>
+          ))}
         </div>
 
-        {/* footer */}
-        <div className="px-6 py-3 border-t text-sm text-center text-slate-500">
-          Showing {volunteers.length} active volunteers 🐚
+        {/* Action Controls */}
+        <div className="mt-16 flex flex-col sm:flex-row items-center justify-center gap-4">
+          {visibleCount < volunteers.length && (
+            <button
+              onClick={showMore}
+              className="w-full sm:w-auto px-10 py-4 bg-cyan-500 text-[#000d11] font-black text-xs tracking-[0.2em] rounded-xl hover:bg-white transition-all active:scale-95"
+            >
+              EXPAND ROSTER
+            </button>
+          )}
+
+          {visibleCount > 8 && (
+            <button
+              onClick={showLess}
+              className="w-full sm:w-auto px-10 py-4 bg-transparent border border-white/10 text-white font-black text-xs tracking-[0.2em] rounded-xl hover:bg-white/5 transition-all active:scale-95"
+            >
+              RETRACT
+            </button>
+          )}
         </div>
       </div>
     </div>
