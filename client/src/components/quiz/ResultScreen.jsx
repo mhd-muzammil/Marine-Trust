@@ -57,7 +57,7 @@ const ResultScreen = ({ answers, onRestart }) => {
 
       <div className="mt-6 px-6 py-3 rounded-full bg-[#0b3954]">{title}</div>
 
-      {/* 🎮 PLAY AGAIN */}
+      
       <button
         onClick={onRestart}
         className="mt-8 px-8 py-3 bg-cyan-500 rounded-full hover:brightness-110 transition"
@@ -65,12 +65,7 @@ const ResultScreen = ({ answers, onRestart }) => {
         Play Again
       </button>
 
-      {/* 🎓 CERTIFICATE ONLY IF PASSED */}
-      {isPassed && (
-        <button className="mt-4 px-8 py-3 bg-green-400 text-black rounded-full hover:brightness-110 transition">
-          Download Certificate
-        </button>
-      )}
+      
     </div>
   );
 };
