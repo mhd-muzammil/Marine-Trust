@@ -17,7 +17,7 @@ const OBJECTIVES = [
   {
     title: 'Research & Monitoring',
     desc: 'Effective marine conservation depends on science. By conducting regular surveys and ecosystem monitoring, researchers collect vital data on species populations, habitat conditions, and human impacts. From coral reef health checks to tagging sea turtles and measuring water quality, these studies reveal where action is most needed. The data not only supports restoration projects such as mangrove planting or coral rehabilitation but also guides governments in creating policies, protected areas, and sustainable fisheries. Research and monitoring ensure that conservation is based on evidence, not guesswork, making every effort more impactful.',
-    image: '../../public/tortoise (1).jpeg',
+    image: '/tortoise (1).jpeg',
     // cta: { text: 'View Research', href: '/research' },
   },
   {

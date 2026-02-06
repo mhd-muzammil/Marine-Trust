@@ -6,6 +6,8 @@ import {
   FaLinkedinIn,
   FaYoutube,
 } from "react-icons/fa";
+import mbctLogo from "../assets/MBCT-logo.png";
+import playStoreIcon from "../assets/play-store.png";
 // If you use react-router-dom, uncomment the next line and replace <a> with <Link>
 // import { Link } from "react-router-dom";
 
@@ -16,7 +18,7 @@ export default function Footer() {
         {/* LOGO + ABOUT */}
         <div>
           <img
-            src="/src/assets/MBCT-logo.png"
+            src={mbctLogo}
             alt="MBCT Logo"
             className="w-32 h-32 rounded-full object-cover"
           />
@@ -105,8 +107,8 @@ export default function Footer() {
               </a>
             </li>
             <li>
-              <a href="/opine" className="hover:text-white transition">
-                Opine
+              <a href="/blog" className="hover:text-white transition">
+                Get Involved
               </a>
             </li>
             <li>
@@ -182,12 +184,12 @@ export default function Footer() {
               Download our app
             </p>
             <a
-              href="https://play.google.com/store/apps/details?id=com.skiez.marine_trust&pcampaignid=web_share" // replace with your real app link
+              href="https://play.google.com/store/apps/details?id=com.skiez.marine_trust&pcampaignid=web_share" 
               target="_blank"
               rel="noreferrer"
             >
               <img
-                src="/src/assets/play-store.png"
+                src={playStoreIcon}
                 alt="Get it on Google Play"
                 className="h-20 w-40 hover:scale-105 transition-transform duration-200"
               />

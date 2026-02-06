@@ -1,6 +1,5 @@
 import React from "react";
 import { Link } from "react-router-dom";
-// Using specific icons for Quiz, Donation, and Group
 import { MdQuiz } from "react-icons/md";
 import { BiDonateHeart } from "react-icons/bi";
 import { HiUsers } from "react-icons/hi2";
@@ -8,22 +7,23 @@ import { HiUsers } from "react-icons/hi2";
 export default function FloatingActions() {
   const actions = [
     {
-      to: "/marine-quiz",
-      label: "Marine Quiz",
-      icon: <MdQuiz />,
-      color: "bg-teal-500",
-    },
-    {
       to: "/donate",
       label: "Contribute Now",
       icon: <BiDonateHeart />,
-      color: "bg-rose-500",
+      color: "bg-[#f43f5e]",
     },
+    {
+      to: "/marine-quiz",
+      label: "Marine Quiz",
+      icon: <MdQuiz />,
+      color: "bg-[#14b8a6]",
+    },
+
     {
       to: "/careers#volunteer",
       label: "Volunteer",
       icon: <HiUsers />,
-      color: "bg-blue-600",
+      color: "bg-[#2563eb]",
     },
   ];
 
@@ -33,15 +33,15 @@ export default function FloatingActions() {
         <Link
           key={index}
           to={item.to}
-          className={`group relative flex items-center h-12 overflow-hidden transition-all duration-300 hover:w-52 w-12 ${item.color} text-white mb-[2px] rounded-l-md shadow-md`}
+          className={`flex items-center justify-center h-12 w-12 md:w-auto ${item.color} text-white mb-[2px] rounded-l-lg shadow-lg transition-transform hover:-translate-x-1`}
         >
-          {/* Label */}
-          <span className="absolute left-4 whitespace-nowrap font-bold opacity-0 transition-all duration-300 group-hover:opacity-100">
+          {/* Text: Visible on Laptop/Desktop (md:), hidden on Mobile */}
+          <span className="hidden md:block px-6 whitespace-nowrap font-bold text-sm tracking-wide">
             {item.label}
           </span>
 
-          {/* Icon Box */}
-          <div className="absolute right-0 flex h-12 w-12 items-center justify-center text-2xl bg-inherit">
+          {/* Icon: Hidden on Laptop/Desktop (md:), visible on Mobile */}
+          <div className="flex md:hidden h-full w-full items-center justify-center text-2xl">
             {item.icon}
           </div>
         </Link>
