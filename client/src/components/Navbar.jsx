@@ -22,7 +22,7 @@ export default function Navbar({ visitorCount = 0 }) {
   const navLinks = [
     { to: "/", label: "Home" },
     { to: "/about", label: "About" },
-    { to: "/blog", label: "Get Involved" },
+    { to: "/getinvolved", label: "Get Involved" },
     { to: "/projects", label: "Admins Lounge" },
     // { to: "/careers", label: "Careers" },
     // { to: "/opine", label: "Opine" },

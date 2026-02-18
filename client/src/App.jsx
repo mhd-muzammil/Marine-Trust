@@ -10,10 +10,14 @@ import { BASE_URL } from "./utils/contants";
 import MarineNews from "./pages/MarineNews";
 import Threats from "./components/Threats";
 import { db } from './firebase';
+import VolunteerList from "./components/VolunteerList";
+import GetInvolved from "./pages/Blog";
+import AccountDeletion from "./pages/DeleteAccount";
+
 
 /* Lazy loaded pages */
 const About = lazy(() => import("./pages/About"));
-const Blog = lazy(() => import("./pages/Blog"));
+// const Blog = lazy(() => import("./pages/Blog"));
 const Opine = lazy(() => import("./pages/Opine"));
 const Contact = lazy(() => import("./pages/Contact"));
 const Donation = lazy(() => import("./pages/Donate"));
@@ -33,13 +37,15 @@ const SpeciesDetails = lazy(() => import("./pages/SpeciesDetails"));
 const MarineQuiz = lazy(() => import("./pages/MarineQuiz"));
 const OceanDive = lazy(() => import("./pages/OceanDrive"));
 
+
+
 const socket = io("https://back.marinebiodiversityconservation.com");
 
 export default function App() {
   const [visitorCount, setVisitorCount] = useState(null);
 
   useEffect(() => {
-// console.log("Ghost, Soap here. Firebase initialized:", db);
+
 
     const fetchAndIncrement = async () => {
       try {
@@ -77,7 +83,8 @@ export default function App() {
             <Routes>
               <Route path="/" element={<Body />} />
               <Route path="/about" element={<About />} />
-              <Route path="/blog" element={<Blog />} />
+              <Route path="/getinvolved" element={<GetInvolved />} />
+              {/* <Route path="/blog" element={<Blog />} /> */}
               <Route path="/opine" element={<Opine />} />
               <Route path="/careers" element={<Careers />} />
               <Route path="/fellowship" element={<FellowShip />} />
@@ -118,6 +125,9 @@ export default function App() {
               <Route path="/marine-quiz" element={<MarineQuiz />} />
               <Route path="/ocean-drive" element={<OceanDive />} />
               <Route path="/marine-news" element={<MarineNews />} />
+              <Route path="/heros" element={<VolunteerList />} />
+              <Route path="/deleteaccount" element={<AccountDeletion />} />
+              
             </Routes>
           </Suspense>
         </div>

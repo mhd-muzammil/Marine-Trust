@@ -4,7 +4,7 @@ import { useEffect } from "react";
 const ObjectivesZigzag = lazy(() => import("../components/ObjectivesZigzag"));
 const Threats = lazy(() => import("../components/Threats"));
 import { Link } from "react-router-dom";
-import VolunteerList from "../components/VolunteerList";
+
 
 // import CTA from '../components/CTA';
 
@@ -88,7 +88,7 @@ useEffect(() => {
           <section id="threats" className="bg-transparent overflow-hidden">
             <Threats />
           </section>
-          <VolunteerList />
+        
          
         </Suspense>
 
