@@ -22,18 +22,8 @@ const CURRENCIES = [
   { code: "AED", label: "د.إ AED – UAE Dirham" },
 ];
 
-function loadRazorpay() {
-  return new Promise((resolve, reject) => {
-    if (window.Razorpay) return resolve(true);
-
-    const script = document.createElement("script");
-    script.src = "https://checkout.razorpay.com/v1/checkout.js";
-    script.async = true;
-    script.onload = () => resolve(true);
-    script.onerror = () => reject(new Error("Razorpay SDK failed to load"));
-    document.body.appendChild(script);
-  });
-}
+import RazorpayLoader from "../components/RazorpayLoader";
+import SEO from "../components/SEO";
 
 export default function Donate() {
   const [currency, setCurrency] = useState("INR");
@@ -48,9 +38,8 @@ export default function Donate() {
   const [loading, setLoading] = useState(false);
   const [thanks, setThanks] = useState(false);
 
-  useEffect(() => {
-    loadRazorpay().catch(() => {});
-  }, []);
+  // Razorpay is loaded via the component below
+
 
   const numericAmount = useMemo(() => {
     const n = parseFloat(amount);
@@ -122,7 +111,10 @@ export default function Donate() {
       }
 
       // 2) open razorpay checkout
-      await loadRazorpay();
+      if (!window.Razorpay) {
+        alert("Razorpay SDK not loaded. Please refresh.");
+        return;
+      }
 
       const options = {
         key: RAZORPAY_KEY,
@@ -185,8 +177,16 @@ export default function Donate() {
     }
   }
 
+
+
   return (
     <main className="min-h-screen bg-gradient-to-b from-[#00121a] via-[#002b3a] to-[#00121a] text-sky-50 px-5 py-12">
+      <SEO 
+        title="Donate" 
+        description="Support Marine Biodiversity Conservation. Your donation helps protect oceans and marine life." 
+        canonical="https://www.marinebiodiversityconservation.com/donate"
+      />
+      <RazorpayLoader />
       <div className="max-w-5xl mx-auto space-y-10">
         {/* Header */}
         <section className="text-center space-y-3">

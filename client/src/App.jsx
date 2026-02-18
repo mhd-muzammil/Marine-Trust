@@ -13,6 +13,8 @@ import { db } from './firebase';
 import VolunteerList from "./components/VolunteerList";
 import GetInvolved from "./pages/Blog";
 import AccountDeletion from "./pages/DeleteAccount";
+import { pageview } from "./utils/analytics";
+import { useLocation } from "react-router-dom";
 
 
 /* Lazy loaded pages */
@@ -41,6 +43,14 @@ const OceanDive = lazy(() => import("./pages/OceanDrive"));
 
 const socket = io("https://back.marinebiodiversityconservation.com");
 
+const AnalyticsTracker = () => {
+  const location = useLocation();
+  useEffect(() => {
+    pageview(location.pathname + location.search);
+  }, [location]);
+  return null;
+};
+
 export default function App() {
   const [visitorCount, setVisitorCount] = useState(null);
 
@@ -66,8 +76,11 @@ export default function App() {
     return () => socket.off("visitorCount");
   }, []);
 
+
+
   return (
     <BrowserRouter>
+      <AnalyticsTracker />
       <div className="flex flex-col min-h-screen">
         <Navbar visitorCount={visitorCount} />
         <FloatingActions />

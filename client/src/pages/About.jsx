@@ -9,6 +9,7 @@ import { useState, useRef, useEffect } from "react";
 import { useLazyLoad } from '../hooks/useLazyLoad';
 import { missionVisionData } from "../data/missionVisionData";
 import aboutHero from "../assets/About-Hero.jpg"
+import SEO from "../components/SEO";
 
 
 const timelineData = [
@@ -46,37 +47,17 @@ const timelineData = [
 
 
 export default function About() {
-  useEffect(() => {
-    // Title
-    document.title = "Marine Biodiversity Conservation | About Our Mission";
-  
-    // Meta description
-    let meta = document.querySelector('meta[name="description"]');
-    if (!meta) {
-      meta = document.createElement("meta");
-      meta.name = "description";
-      document.head.appendChild(meta);
-    }
-    meta.setAttribute(
-      "content",
-      "Marine conservation and biodiversity focused on protecting marine life, species, coral, coastal and ecosystems for future generations and local communities",
-    );
-  
-    // ✅ Canonical
-    let canonical = document.querySelector("link[rel='canonical']");
-    if (!canonical) {
-      canonical = document.createElement("link");
-      canonical.rel = "canonical";
-      document.head.appendChild(canonical);
-    }
-    canonical.href = "https://www.marinebiodiversityconservation.com/about/";
-  }, []);
   const addElement = useLazyLoad();
 
 
 
   return (
     <main className="bg-cyan-950 text-slate-900">
+      <SEO 
+        title="About Us"
+        description="Learn about Marine Biodiversity Conservation Trust (MBCT), our mission, vision, and approach to protecting marine ecosystems."
+        canonical="https://www.marinebiodiversityconservation.com/about"
+      />
       {/* HERO */}
 
       <section

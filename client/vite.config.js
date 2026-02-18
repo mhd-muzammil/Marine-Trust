@@ -10,4 +10,16 @@ export default defineConfig({
       },
     }),
   ],
+  build: {
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          vendor: ['react', 'react-dom', 'react-router-dom', 'framer-motion'],
+          three: ['three', '@react-three/fiber', '@react-three/drei'],
+          lottie: ['lottie-react', '@lottiefiles/react-lottie-player']
+        },
+      },
+    },
+    chunkSizeWarningLimit: 1000,
+  },
 })

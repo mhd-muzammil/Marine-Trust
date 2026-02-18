@@ -4,40 +4,20 @@ import { useEffect } from "react";
 const ObjectivesZigzag = lazy(() => import("../components/ObjectivesZigzag"));
 const Threats = lazy(() => import("../components/Threats"));
 import { Link } from "react-router-dom";
+import SEO from "../components/SEO";
 
 
 // import CTA from '../components/CTA';
 
 export default function Home() {
-useEffect(() => {
-  // Title
-  document.title = "Marine Biodiversity Conservation | Protect Ocean Life";
-
-  // Meta description
-  let meta = document.querySelector('meta[name="description"]');
-  if (!meta) {
-    meta = document.createElement("meta");
-    meta.name = "description";
-    document.head.appendChild(meta);
-  }
-  meta.setAttribute(
-    "content",
-    "Marine conservation and biodiversity focused on protecting marine life, species, coral, coastal and ecosystems for future generations and local communities",
-  );
-
-  // ✅ Canonical
-  let canonical = document.querySelector("link[rel='canonical']");
-  if (!canonical) {
-    canonical = document.createElement("link");
-    canonical.rel = "canonical";
-    document.head.appendChild(canonical);
-  }
-  canonical.href = "https://www.marinebiodiversityconservation.com/";
-}, []);
-  
   return (
     /* 👇 1. Added a strict wrapper div to contain ALL overflow */
     <div className="w-full overflow-x-hidden relative">
+      <SEO 
+        title="Home"
+        description="Marine conservation and biodiversity focused on protecting marine life, species, coral, coastal and ecosystems for future generations and local communities"
+        canonical="https://www.marinebiodiversityconservation.com/"
+      />
       <main className="relative z-10 text-white">
         {/* Hero Section */}
         <section
