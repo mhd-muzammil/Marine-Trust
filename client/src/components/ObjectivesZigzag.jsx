@@ -5,19 +5,19 @@ const OBJECTIVES = [
   {
     title: 'Conservation & Protection',
     desc: 'Marine biodiversity is under threat, and protecting species, habitats, and ecosystems has never been more urgent. Coral reefs, often called the ‘rainforests of the sea,’ shelter thousands of species but are rapidly declining due to warming waters. Mangroves safeguard our coasts while serving as nurseries for young fish, yet they are being cleared for development. Endangered species such as sea turtles, sharks, and dugongs face extinction if action is not taken. By conserving these habitats and species, we secure food, oxygen, medicine, and a stable climate not only for ourselves but also for future generations.',
-    image: '/img-1.jpeg',
+    image: '/img-1.webp',
     // cta: { text: 'Learn More', href: 'https://www.marinebio.org' },
   },
   {
     title: 'Sustainable Use',
     desc: 'Healthy oceans are vital for people and planet, yet overfishing, unsustainable aquaculture, and poorly managed coastal development threaten their balance. Responsible fisheries ensure fish stocks remain for future generations, while eco-friendly aquaculture provides food without polluting waters. Proper coastal management protects mangroves and reefs that defend communities from storms and erosion. By promoting practices that meet human needs while safeguarding marine ecosystems, we can achieve true harmony between development and conservation.',
-    image: '/img-2.jpeg',
+    image: '/img-2.webp',
     // cta: { text: 'Our Practices', href: '/projects' },
   },
   {
     title: 'Research & Monitoring',
     desc: 'Effective marine conservation depends on science. By conducting regular surveys and ecosystem monitoring, researchers collect vital data on species populations, habitat conditions, and human impacts. From coral reef health checks to tagging sea turtles and measuring water quality, these studies reveal where action is most needed. The data not only supports restoration projects such as mangrove planting or coral rehabilitation but also guides governments in creating policies, protected areas, and sustainable fisheries. Research and monitoring ensure that conservation is based on evidence, not guesswork, making every effort more impactful.',
-    image: '/tortoise (1).jpeg',
+    image: '/tortoise (1).webp',
     // cta: { text: 'View Research', href: '/research' },
   },
   {

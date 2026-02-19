@@ -4,22 +4,13 @@ import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import Body from "./Body";
 import FloatingActions from "./components/FloatingActions";
-import io from "socket.io-client";
 import axios from "axios";
-import { BASE_URL } from "./utils/contants";
-import MarineNews from "./pages/MarineNews";
-import Threats from "./components/Threats";
-import { db } from './firebase';
-import VolunteerList from "./components/VolunteerList";
-import GetInvolved from "./pages/Blog";
-import AccountDeletion from "./pages/DeleteAccount";
+import { BASE_URL, SOCKET_URL } from "./utils/contants";
 import { pageview } from "./utils/analytics";
 import { useLocation } from "react-router-dom";
 
-
-/* Lazy loaded pages */
+/* Lazy loaded pages — ALL pages lazy for minimal initial bundle */
 const About = lazy(() => import("./pages/About"));
-// const Blog = lazy(() => import("./pages/Blog"));
 const Opine = lazy(() => import("./pages/Opine"));
 const Contact = lazy(() => import("./pages/Contact"));
 const Donation = lazy(() => import("./pages/Donate"));
@@ -38,10 +29,11 @@ const MarineGroupPage = lazy(() => import("./pages/MarineGroupPage"));
 const SpeciesDetails = lazy(() => import("./pages/SpeciesDetails"));
 const MarineQuiz = lazy(() => import("./pages/MarineQuiz"));
 const OceanDive = lazy(() => import("./pages/OceanDrive"));
-
-
-
-const socket = io("https://back.marinebiodiversityconservation.com");
+const MarineNews = lazy(() => import("./pages/MarineNews"));
+const Threats = lazy(() => import("./components/Threats"));
+const VolunteerList = lazy(() => import("./components/VolunteerList"));
+const GetInvolved = lazy(() => import("./pages/Blog"));
+const AccountDeletion = lazy(() => import("./pages/DeleteAccount"));
 
 const AnalyticsTracker = () => {
   const location = useLocation();
@@ -55,28 +47,53 @@ export default function App() {
   const [visitorCount, setVisitorCount] = useState(null);
 
   useEffect(() => {
+    // Dynamic import socket.io — keeps it out of the initial bundle
+    let socket = null;
 
+    const initSocket = async () => {
+      try {
+        const { io } = await import("socket.io-client");
+        socket = io(SOCKET_URL, {
+          reconnectionAttempts: 3,
+          timeout: 5000,
+          transports: ["websocket", "polling"],
+        });
+
+        socket.on("visitorCount", (count) => {
+          setVisitorCount(count);
+        });
+
+        socket.on("connect_error", () => {
+          // Silently handle — visitor count from REST is fallback
+        });
+      } catch {
+        // socket.io failed to load — not critical
+      }
+    };
 
     const fetchAndIncrement = async () => {
       try {
         const res = await axios.get(`${BASE_URL}/stats/getVisitors`);
         setVisitorCount(res.data.count);
         await axios.post(`${BASE_URL}/stats/increment`);
-      } catch (err) {
-        console.error("Visitor count error:", err);
+      } catch {
+        // Visitor count not available — non-critical
       }
     };
 
     fetchAndIncrement();
 
-    socket.on("visitorCount", (count) => {
-      setVisitorCount(count);
-    });
+    // Delay socket connection until after initial render
+    const timer = setTimeout(initSocket, 2000);
 
-    return () => socket.off("visitorCount");
+    return () => {
+      clearTimeout(timer);
+      if (socket) {
+        socket.off("visitorCount");
+        socket.disconnect();
+      }
+    };
   }, []);
-
-
 
   return (
     <BrowserRouter>
@@ -97,7 +114,6 @@ export default function App() {
               <Route path="/" element={<Body />} />
               <Route path="/about" element={<About />} />
               <Route path="/getinvolved" element={<GetInvolved />} />
-              {/* <Route path="/blog" element={<Blog />} /> */}
               <Route path="/opine" element={<Opine />} />
               <Route path="/careers" element={<Careers />} />
               <Route path="/fellowship" element={<FellowShip />} />
@@ -129,7 +145,6 @@ export default function App() {
               />
 
               <Route path="/countries" element={<CountriesPage />} />
-              {/* ✅ FIXED: Changed :id to :countryName */}
               <Route
                 path="/countries/:countryName"
                 element={<CountryDetail />}

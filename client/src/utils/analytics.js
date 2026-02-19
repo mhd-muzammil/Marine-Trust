@@ -1,5 +1,5 @@
 // Google Analytics 4
-export const GA_TRACKING_ID = 'G-XXXXXXXXXX'; // Replace with actual ID
+export const GA_TRACKING_ID = 'G-MGTPSRLENQ';
 
 // Facebook Pixel
 export const FB_PIXEL_ID = 'XXXXXXXXXXXXXXX'; // Replace with actual ID

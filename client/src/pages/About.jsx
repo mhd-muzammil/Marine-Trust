@@ -1,5 +1,5 @@
 import React from "react";
-import StoryBg from "../assets/UW-C BG.jpg";
+import StoryBg from "../assets/UW-C BG.webp";
 import ValuesCards from "../components/ValuesCards";
 import CTA from "../components/CTA";
 import WhoWeAreCarousel from "../components/WhoWeAre";
@@ -8,7 +8,7 @@ import { motion } from 'framer-motion';
 import { useState, useRef, useEffect } from "react";
 import { useLazyLoad } from '../hooks/useLazyLoad';
 import { missionVisionData } from "../data/missionVisionData";
-import aboutHero from "../assets/About-Hero.jpg"
+import aboutHero from "../assets/About-Hero.webp"
 import SEO from "../components/SEO";
 
 

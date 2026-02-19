@@ -67,28 +67,8 @@
   animation: bubble linear infinite;
 }
 
-
-/* FLOATING MOTION */
-@keyframes float {
-  0% { transform: translateY(0); }
-  50% { transform: translateY(-20px); }
-  100% { transform: translateY(0); }
-}
-
 .float {
   animation: float 6s ease-in-out infinite;
-}
-
-/* BUBBLES */
-@keyframes bubble {
-  from {
-    transform: translateY(0);
-    opacity: 0.3;
-  }
-  to {
-    transform: translateY(-120vh);
-    opacity: 0;
-  }
 }
 
 .bubble {
@@ -104,6 +84,4 @@
 .fade-in {
   animation: fadeIn 2.5s ease-out forwards;
 }
-
-
 

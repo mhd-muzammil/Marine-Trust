@@ -14,7 +14,7 @@ export default function Home() {
     /* 👇 1. Added a strict wrapper div to contain ALL overflow */
     <div className="w-full overflow-x-hidden relative">
       <SEO 
-        title="Home"
+        title="Protecting Marine Life & Ocean Ecosystems"
         description="Marine conservation and biodiversity focused on protecting marine life, species, coral, coastal and ecosystems for future generations and local communities"
         canonical="https://www.marinebiodiversityconservation.com/"
       />
@@ -23,7 +23,7 @@ export default function Home() {
         <section
           className="relative min-h-screen flex flex-col items-center justify-center text-center px-4 md:px-6
               bg-cover bg-center bg-no-repeat"
-          style={{ backgroundImage: "url('/img-1.jpeg')" }}
+          style={{ backgroundImage: "url('/img-1.webp')" }}
         >
           {/* Dark overlay for readability */}
           <div className="absolute inset-0 bg-black/45 pointer-events-none z-0" />
