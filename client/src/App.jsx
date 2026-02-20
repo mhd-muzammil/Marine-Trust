@@ -4,6 +4,7 @@ import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import Body from "./Body";
 import FloatingActions from "./components/FloatingActions";
+import OceanAI from "./components/OceanAI";
 import axios from "axios";
 import { BASE_URL, SOCKET_URL } from "./utils/contants";
 import { pageview } from "./utils/analytics";
@@ -101,6 +102,7 @@ export default function App() {
       <div className="flex flex-col min-h-screen">
         <Navbar visitorCount={visitorCount} />
         <FloatingActions />
+        <OceanAI />
 
         <div className="flex-1">
           <Suspense
