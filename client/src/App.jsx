@@ -35,6 +35,7 @@ const Threats = lazy(() => import("./components/Threats"));
 const VolunteerList = lazy(() => import("./components/VolunteerList"));
 const GetInvolved = lazy(() => import("./pages/Blog"));
 const AccountDeletion = lazy(() => import("./pages/DeleteAccount"));
+const GalleryPage = lazy(() => import("./pages/GalleryPage"));
 
 const AnalyticsTracker = () => {
   const location = useLocation();
@@ -157,6 +158,7 @@ export default function App() {
               <Route path="/marine-news" element={<MarineNews />} />
               <Route path="/heros" element={<VolunteerList />} />
               <Route path="/deleteaccount" element={<AccountDeletion />} />
+              <Route path="/gallery/:albumId" element={<GalleryPage />} />
               
             </Routes>
           </Suspense>
