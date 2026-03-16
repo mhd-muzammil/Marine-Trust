@@ -59,7 +59,6 @@ app.use("/api", razorpayRouter);
 
 
 
-// ⭐ NEW: exposes POST /api/apply
 app.use("/api", applicationsRouter);
 
 const aiRouter = require("../routes/ai");
