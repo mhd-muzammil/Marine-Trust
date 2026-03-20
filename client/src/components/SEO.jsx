@@ -14,7 +14,6 @@ const SEO = ({
   const siteUrl = 'https://www.marinebiodiversityconservation.com';
   const defaultImage = '/img-1.webp';
   
-  // Improved title: "Page — Marine Conservation Trust" (no "Home |" pattern)
   const fullTitle = title 
     ? `${title} — ${siteName}` 
     : 'Marine Conservation Trust — Protect Ocean Life & Reefs';
